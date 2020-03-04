@@ -1,0 +1,9 @@
+﻿<prism:PrismApplication x:Class="Prism.CommonDialogPack_Sample.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Prism.CommonDialogPack_Sample"
+             xmlns:prism="http://prismlibrary.com/" >
+    <Application.Resources>
+        <ResourceDictionary Source="/DialogStyles.xaml"/>
+    </Application.Resources>
+</prism:PrismApplication>
