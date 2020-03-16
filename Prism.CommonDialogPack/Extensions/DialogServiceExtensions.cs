@@ -11,32 +11,32 @@ namespace Prism.CommonDialogPack.Extensions
         {
             var param = new DialogParameters()
             {
-                { DialogParameterName.Message, message },
-                { DialogParameterName.Title, title },
+                { DialogParameterNames.Message, message },
+                { DialogParameterNames.Title, title },
             };
             if (!string.IsNullOrWhiteSpace(buttonText))
             {
-                param.Add(DialogParameterName.ButtonText, buttonText);
+                param.Add(DialogParameterNames.ButtonText, buttonText);
             }
-            dialogService.ShowDialog(DialogName.Notification, param, callBack);
+            dialogService.ShowDialog(DialogNames.Notification, param, callBack);
         }
 
         public static void ShowConfirmation(this IDialogService dialogService, string message, string title, Action<IDialogResult> callBack, string okButtonText = null, string cancelButtonText = null)
         {
             var param = new DialogParameters()
             {
-                { DialogParameterName.Message, message },
-                { DialogParameterName.Title, title },
+                { DialogParameterNames.Message, message },
+                { DialogParameterNames.Title, title },
             };
             if (!string.IsNullOrWhiteSpace(okButtonText))
             {
-                param.Add(DialogParameterName.OKButtonText, okButtonText);
+                param.Add(DialogParameterNames.OKButtonText, okButtonText);
             }
             if (!string.IsNullOrWhiteSpace(cancelButtonText))
             {
-                param.Add(DialogParameterName.CancelButtonText, cancelButtonText);
+                param.Add(DialogParameterNames.CancelButtonText, cancelButtonText);
             }
-            dialogService.ShowDialog(DialogName.Confirmation, param, callBack);
+            dialogService.ShowDialog(DialogNames.Confirmation, param, callBack);
         }
     }
 }

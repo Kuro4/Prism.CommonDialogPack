@@ -10,10 +10,10 @@ namespace Prism.CommonDialogPack.ViewModels
     public class ConfirmationDialogViewModel : DialogViewModelBase
     {
         private DelegateCommand okCommand;
-        public DelegateCommand OKCommand => okCommand ?? (okCommand = new DelegateCommand(OK));
+        public DelegateCommand OKCommand => this.okCommand ?? (this.okCommand = new DelegateCommand(this.OK));
 
         private DelegateCommand cancelCommand;
-        public DelegateCommand CancelCommand => cancelCommand ?? (cancelCommand = new DelegateCommand(Cancel));
+        public DelegateCommand CancelCommand => this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(this.Cancel));
 
         private string message;
         public string Message
@@ -29,7 +29,7 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.okButtonText, value); }
         }
 
-        public string cancelButtonText = "Cancel";
+        public string cancelButtonText = "キャンセル";
         public string CancelButtonText
         {
             get { return this.cancelButtonText; }
@@ -54,12 +54,12 @@ namespace Prism.CommonDialogPack.ViewModels
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             base.OnDialogOpened(parameters);
-            this.Message = parameters.GetValue<string>(DialogParameterName.Message);
-            if (parameters.TryGetValue(DialogParameterName.OKButtonText, out string okButtonText))
+            this.Message = parameters.GetValue<string>(DialogParameterNames.Message);
+            if (parameters.TryGetValue(DialogParameterNames.OKButtonText, out string okButtonText))
             {
                 this.OKButtonText = okButtonText;
             }
-            if (parameters.TryGetValue(DialogParameterName.CancelButtonText, out string cancelButtonText))
+            if (parameters.TryGetValue(DialogParameterNames.CancelButtonText, out string cancelButtonText))
             {
                 this.CancelButtonText = cancelButtonText;
             }
