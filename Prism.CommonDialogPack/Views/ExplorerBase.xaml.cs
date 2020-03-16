@@ -35,7 +35,6 @@ namespace Prism.CommonDialogPack.Views
             var context = (ObservableObject<object>)sender;
             var vm = (ExplorerBaseViewModel)this.DataContext;
             var regionContext = (ExplorerBaseRegionContext)context.Value;
-            vm.NewFolderText = regionContext.TextResource.NewFolder;
             vm.NameColumnText = regionContext.TextResource.FileName;
             vm.DateModifiedColumnText = regionContext.TextResource.FileDateModified;
             vm.TypeColumnText = regionContext.TextResource.FileType;
@@ -43,8 +42,13 @@ namespace Prism.CommonDialogPack.Views
             vm.DisplayTarget = regionContext.DisplayTarget;
             vm.SelectionTarget = regionContext.SelectionTarget;
             vm.CanMultiSelect = regionContext.CanMultiSelect;
-            vm.FileExtensions = regionContext.FileExtensions;
-            if (regionContext.RootFolders is null || !regionContext.RootFolders.Any()) return;
+            if ((vm.FileExtensions == null && regionContext.FileExtensions != null) || 
+                (vm.FileExtensions != null && regionContext.FileExtensions == null) ||
+                (vm.FileExtensions != null && regionContext.FileExtensions != null && !vm.FileExtensions.SequenceEqual(regionContext.FileExtensions)))
+            {
+                vm.FileExtensions = regionContext.FileExtensions;
+            }
+            if (regionContext.RootFolders is null || !regionContext.RootFolders.Any() || vm.RootFolders.Any()) return;
             vm.History.Clear();
             vm.RootFolders.Clear();
             vm.RootFolders.AddRange(regionContext.RootFolders.Select(x => new Folder(x)));

@@ -47,13 +47,6 @@ namespace Prism.CommonDialogPack.ViewModels
         public DelegateCommand SelectedItemChangedCommand => this.selectedItemChangedCommand ?? (this.selectedItemChangedCommand = new DelegateCommand(this.OnSelection));
         #endregion
         #region View Text
-        private string newFolderText;
-        public string NewFolderText
-        {
-            get { return this.newFolderText; }
-            set { SetProperty(ref this.newFolderText, value); }
-        }
-
         private string nameColumnText;
         public string NameColumnText
         {
@@ -131,36 +124,6 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.canGoUpperFolder, value); }
         }
 
-        private TargetFileType displayTarget = TargetFileType.FileAndFolder;
-        /// <summary>
-        /// 表示対象
-        /// </summary>
-        public TargetFileType DisplayTarget
-        {
-            get { return this.displayTarget; }
-            set { SetProperty(ref this.displayTarget, value); }
-        }
-
-        private TargetFileType selectionTarget = TargetFileType.FileOnly;
-        /// <summary>
-        /// 選択対象
-        /// </summary>
-        public TargetFileType SelectionTarget
-        {
-            get { return this.selectionTarget; }
-            set { SetProperty(ref this.selectionTarget, value); }
-        }
-
-        private IEnumerable<string> fileExtensions;
-        /// <summary>
-        /// 検索するファイルの拡張子
-        /// </summary>
-        public IEnumerable<string> FileExtensions
-        {
-            get { return this.fileExtensions; }
-            set { SetProperty(ref this.fileExtensions, value); }
-        }
-
         private bool canMultiSelect = false;
         /// <summary>
         /// 複数選択可能かどうか
@@ -171,6 +134,28 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.canMultiSelect, value); }
         }
 
+        /// <summary>
+        /// 表示対象
+        /// </summary>
+        public TargetFileType DisplayTarget { get; set; } = TargetFileType.FileAndFolder;
+        /// <summary>
+        /// 選択対象
+        /// </summary>
+        public TargetFileType SelectionTarget { get; set; } = TargetFileType.FileOnly;
+
+        private IEnumerable<string> fileExtensions;
+        /// <summary>
+        /// 検索するファイルの拡張子
+        /// </summary>
+        public IEnumerable<string> FileExtensions 
+        {
+            get { return this.fileExtensions; }
+            set 
+            {
+                this.fileExtensions = value;
+                this.UpdateDisplayFiles();
+            } 
+        }
         /// <summary>
         /// フォルダーの移動履歴
         /// </summary>
@@ -213,6 +198,7 @@ namespace Prism.CommonDialogPack.ViewModels
 
         private void UpdateDisplayFiles()
         {
+            if (this.SelectedFolder == null) return;
             this.displayFiles.Clear();
             try
             {

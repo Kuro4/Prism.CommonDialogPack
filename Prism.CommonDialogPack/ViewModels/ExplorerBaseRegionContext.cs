@@ -33,6 +33,20 @@ namespace Prism.CommonDialogPack.ViewModels
         /// </summary>
         public IEnumerable<string> RootFolders { get; set; }
 
+        public ExplorerBaseRegionContext()
+        {
+        }
+
+        public ExplorerBaseRegionContext(ExplorerBaseRegionContext source)
+        {            
+            this.TextResource = source.TextResource;
+            this.DisplayTarget = source.DisplayTarget;
+            this.SelectionTarget = source.SelectionTarget;
+            this.CanMultiSelect = source.CanMultiSelect;
+            this.FileExtensions = source.FileExtensions;
+            this.RootFolders = source.RootFolders;
+        }
+
         public static ExplorerBaseRegionContext CreateForSingleFolderSelect()
         {
             return new ExplorerBaseRegionContext()

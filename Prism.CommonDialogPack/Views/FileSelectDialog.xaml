@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Prism.CommonDialogPack.Views.FolderSelectDialog"
+﻿<UserControl x:Class="Prism.CommonDialogPack.Views.FileSelectDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
@@ -18,16 +18,25 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding FolderText}"
+                <TextBlock Text="{Binding FileText}"
                            TextAlignment="Right"
                            VerticalAlignment="Center"
                            Width="100"/>
-                <TextBox x:Name="SelectedFolderPathTextBox"
+                <TextBox x:Name="SelectedFilePathTextBox"
                          Grid.Column="1"
-                         Text="{Binding SelectedFolderPath, Mode=TwoWay}"
-                         GotFocus="SelectedFolderPathTextBox_GotFocus"
-                         PreviewMouseDown="SelectedFolderPathTextBox_PreviewMouseDown"/>
+                         Text="{Binding SelectedFilePath, Mode=TwoWay}"
+                         GotFocus="SelectedFilePathTextBox_GotFocus"
+                         PreviewMouseDown="SelectedFilePathTextBox_PreviewMouseDown"/>
+                <ComboBox Grid.Column="2"
+                          Width="200"
+                          Margin="10, 0, 0, 0"
+                          ItemsSource="{Binding Filters}"
+                          SelectedItem="{Binding SelectedFilter}"
+                          SelectedIndex="0"
+                          DisplayMemberPath="Text">
+                </ComboBox>
             </Grid>
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"

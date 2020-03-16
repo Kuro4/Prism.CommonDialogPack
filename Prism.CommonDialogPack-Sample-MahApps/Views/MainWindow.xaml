@@ -21,6 +21,8 @@
                     Content="Show Confirmation Dialog"/>
             <Button Command="{Binding ShowFolderSelectDialog}"
                     Content="Show FolderSelect Dialog"/>
+            <Button Command="{Binding ShowFileSelectDialog}"
+                    Content="Show FileSelect Dialog"/>
         </StackPanel>
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">
