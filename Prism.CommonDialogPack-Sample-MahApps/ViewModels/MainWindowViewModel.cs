@@ -5,8 +5,9 @@ using Prism.Services.Dialogs;
 using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace Prism.CommonDialogPack_Sample.ViewModels
+namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
@@ -34,7 +35,6 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     { DialogParameterNames.Message, "Notification Called" },
                     { DialogParameterNames.Title, "Hoge" },
-                    //{ DialogParameterName.WindowStyle, (System.Windows.Style)App.Current.FindResource("dialogStyle") },
                 };
                 this.dialogService.ShowDialog(DialogNames.Notification, param, res =>
                 {
@@ -64,7 +64,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 var param = new DialogParameters
                 {
                     { DialogParameterNames.Title, "Hoge" },
-                    //{ DialogParameterNames.CanMultiSelect, true },
+                    { DialogParameterNames.CanMultiSelect, true },
                 };
                 this.dialogService.ShowDialog("FolderSelectDialog", param, res =>
                 {

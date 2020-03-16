@@ -6,6 +6,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Document_16x.png" />
+    <None Remove="Resources\FolderClosed_16x.png" />
+    <None Remove="Resources\FolderOpened_16x.png" />
+    <None Remove="Resources\Next_grey_16x.png" />
+    <None Remove="Resources\Previous_grey_16x.png" />
+    <None Remove="Resources\Refresh_grey_16x.png" />
+    <None Remove="Resources\Upload_gray_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Document_16x.png" />
+    <Resource Include="Resources\FolderClosed_16x.png" />
+    <Resource Include="Resources\FolderOpened_16x.png" />
+    <Resource Include="Resources\Next_grey_16x.png" />
+    <Resource Include="Resources\Previous_grey_16x.png" />
+    <Resource Include="Resources\Refresh_grey_16x.png" />
+    <Resource Include="Resources\Upload_gray_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />
   </ItemGroup>
 

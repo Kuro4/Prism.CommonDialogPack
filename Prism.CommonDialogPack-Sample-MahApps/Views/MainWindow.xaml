@@ -1,9 +1,14 @@
-﻿<Window x:Class="Prism.CommonDialogPack_Sample.Views.MainWindow"
+﻿<metro:MetroWindow x:Class="Prism.CommonDialogPack_Sample_MahApps.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Prism.CommonDialogPack_Sample_MahApps"
+        mc:Ignorable="d"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="350" Width="525" >
+        xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"
+        Title="{Binding Title}" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -24,4 +29,4 @@
                        Foreground="White"/>
         </ScrollViewer>
     </Grid>
-</Window>
+</metro:MetroWindow>

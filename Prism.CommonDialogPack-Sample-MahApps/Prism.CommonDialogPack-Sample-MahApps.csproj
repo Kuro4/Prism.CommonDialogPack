@@ -1,16 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Prism.CommonDialogPack_Sample_MahApps</RootNamespace>
     <UseWPF>true</UseWPF>
-    <AssemblyName>Prism.CommonDialogPack_Sample</AssemblyName>
-    <RootNamespace>Prism.CommonDialogPack_Sample</RootNamespace>
+    <AssemblyName>Prism.CommonDialogPack_Sample_MahApps</AssemblyName>
   </PropertyGroup>
+
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="ReactiveProperty" Version="6.2.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Prism.CommonDialogPack\Prism.CommonDialogPack.csproj" />
   </ItemGroup>
+
 </Project>
