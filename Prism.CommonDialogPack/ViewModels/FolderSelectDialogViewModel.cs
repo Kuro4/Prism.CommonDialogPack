@@ -52,7 +52,12 @@ namespace Prism.CommonDialogPack.ViewModels
         public string SelectedFolderName
         {
             get { return this.selectedFolderName; }
-            set { SetProperty(ref this.selectedFolderName, value); }
+            set 
+            {
+                var invalidFileNameChars = Path.GetInvalidFileNameChars();
+                string filteredValue = string.Join(string.Empty, value.Where(x => !invalidFileNameChars.Contains(x)));
+                SetProperty(ref this.selectedFolderName, filteredValue);
+            }
         }
 
         private string DisplayFolderPath { get; set; }

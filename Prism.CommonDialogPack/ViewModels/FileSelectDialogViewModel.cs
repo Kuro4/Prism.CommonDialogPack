@@ -52,7 +52,12 @@ namespace Prism.CommonDialogPack.ViewModels
         public string SelectedFileName
         {
             get { return this.selectedFileName; }
-            set { SetProperty(ref this.selectedFileName, value); }
+            set 
+            {
+                var invalidFileNameChars = Path.GetInvalidFileNameChars();
+                string filteredValue = string.Join(string.Empty, value.Where(x => !invalidFileNameChars.Contains(x)));
+                SetProperty(ref this.selectedFileName, filteredValue); 
+            }
         }
 
         private readonly ObservableCollection<FileFilter> filters = new ObservableCollection<FileFilter>();

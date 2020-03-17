@@ -25,7 +25,7 @@
                            Width="100"/>
                 <TextBox x:Name="SelectedFolderNameTextBox"
                          Grid.Column="1"
-                         Text="{Binding SelectedFolderName, Mode=TwoWay}"
+                         Text="{Binding SelectedFolderName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          GotFocus="SelectedFolderNameTextBox_GotFocus"
                          PreviewMouseDown="SelectedFolderNameTextBox_PreviewMouseDown"/>
             </Grid>

@@ -26,7 +26,7 @@
                            Width="100"/>
                 <TextBox x:Name="SelectedFileNameTextBox"
                          Grid.Column="1"
-                         Text="{Binding SelectedFileName, Mode=TwoWay}"
+                         Text="{Binding SelectedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          GotFocus="SelectedFileNameTextBox_GotFocus"
                          PreviewMouseDown="SelectedFileNameTextBox_PreviewMouseDown"/>
                 <ComboBox Grid.Column="2"
