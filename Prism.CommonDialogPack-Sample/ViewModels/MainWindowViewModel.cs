@@ -114,8 +114,8 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 var filters = new[]
                 {
                     new FileFilter("すべてのファイル (*.*)"),
-                    new FileFilter("テキストファイル (*.txt; *.csv)", new[] { ".txt", ".csv" }),
-                    new FileFilter("エクセルファイル (*.xlsx; *.xlsm; *.xls)", ".xlsx", ".xlsm", ".xls"),
+                    new FileFilter("テキストファイル (*.txt)", ".txt"),
+                    new FileFilter("csvファイル (*.csv)",".csv"),
                 };
                 var param = new DialogParameters
                 {
@@ -127,8 +127,8 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogParameterNames.SelectedPaths);
-                        this.ResultMessage.Value = $"Save File:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", selectedPaths)}";
+                        var saveFilePath = res.Parameters.GetValue<string>(DialogParameterNames.SaveFilePath);
+                        this.ResultMessage.Value = $"Save File Path: {saveFilePath}";
                     }
                     else
                     {

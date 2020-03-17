@@ -14,8 +14,8 @@ namespace Prism.CommonDialogPack.ViewModels
 {
     public class FileSaveDialogViewModel : ExplorerDialogViewModelBase
     {
-        private DelegateCommand selectCommand;
-        public DelegateCommand SelectCommand => this.selectCommand ?? (this.selectCommand = new DelegateCommand(this.Select));
+        private DelegateCommand saveCommand;
+        public DelegateCommand SaveCommand => this.saveCommand ?? (this.saveCommand = new DelegateCommand(this.Save, () => this.CanSave)).ObservesCanExecute(() => this.CanSave);
 
         private DelegateCommand cancelCommand;
         public DelegateCommand CancelCommand => this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(this.Cancel));
@@ -34,11 +34,11 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.fileTypeText, value); }
         }
 
-        private string selectButtonText = "選択";
-        public string SelectButtonText
+        private string saveButtonText = "保存";
+        public string SaveButtonText
         {
-            get { return this.selectButtonText; }
-            set { SetProperty(ref this.selectButtonText, value); }
+            get { return this.saveButtonText; }
+            set { SetProperty(ref this.saveButtonText, value); }
         }
 
         private string cancelButtonText = "キャンセル";
@@ -55,14 +55,21 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.regionContext, value); }
         }
 
-        private string selectedFileName;
+        private string selectedFileName = string.Empty;
         public string SelectedFileName
         {
             get { return this.selectedFileName; }
-            set { SetProperty(ref this.selectedFileName, value); }
+            set 
+            {
+                // TODO: FileSelectDialog, FolderSelectDialog にもフィルター処理を追加する
+                var invalidFileNameChars = Path.GetInvalidFileNameChars();
+                string filteredValue = string.Join(string.Empty, value.Where(x => !invalidFileNameChars.Contains(x)));
+                SetProperty(ref this.selectedFileName, filteredValue);
+                CanSave = !string.IsNullOrEmpty(filteredValue);
+            }
         }
 
-        private ObservableCollection<FileFilter> filters = new ObservableCollection<FileFilter>();
+        private readonly ObservableCollection<FileFilter> filters = new ObservableCollection<FileFilter>();
         public ReadOnlyObservableCollection<FileFilter> Filters { get; }
 
         private FileFilter selectedFilter;
@@ -71,36 +78,46 @@ namespace Prism.CommonDialogPack.ViewModels
             get { return this.selectedFilter; }
             set
             {
-                if (this.selectButtonText.Equals(value)) return;
+                if (this.saveButtonText.Equals(value)) return;
                 SetProperty(ref this.selectedFilter, value);
                 var context = new ExplorerBaseRegionContext(this.RegionContext)
                 {
                     FileExtensions = value.Extensions
                 };
                 this.RegionContext = context;
-                this.SelectedFileName = string.Empty;
+                if (value.Extensions != null && value.Extensions.Any())
+                {
+                    this.SelectedFileName = Path.ChangeExtension(this.SelectedFileName, value.Extensions.First());
+                }
             }
         }
 
-        private string DisplayFolderPath { get; set; }
-        private readonly IEventAggregator eventAggregator;
+        private bool canSave = false;
+        public bool CanSave
+        {
+            get { return this.canSave; }
+            private set { SetProperty(ref this.canSave, value); }
+        }
 
-        public FileSaveDialogViewModel(IEventAggregator eventAggregator)
+        private string DisplayFolderPath { get; set; }
+        private string OverwriteConfirmationTitle { get; set; }
+        private Func<string, string> OverwriteConfirmationMessageFunc { get; set; } = x => $"{Path.GetFileName(x)}は既に存在します。{Environment.NewLine}上書きしますか?";
+        private string OverwriteConfirmationOKButtonText { get; set; } = "はい";
+        private string OverwriteConfirmationCancelButtonText { get; set; } = "いいえ";
+        private readonly IEventAggregator eventAggregator;
+        private readonly IDialogService dialogService;
+
+        public FileSaveDialogViewModel(IEventAggregator eventAggregator, IDialogService dialogService)
         {
             this.Filters = new ReadOnlyObservableCollection<FileFilter>(this.filters);
 
             this.eventAggregator = eventAggregator;
-            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(x =>
-            {
-                if (x.Paths.Count() <= 1)
-                {
-                    this.SelectedFileName = Path.GetFileName(x.Paths.First());
-                    return;
-                }
-                this.SelectedFileName = string.Join(' ', x.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
-            }, ThreadOption.UIThread);
+            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(x => this.SelectedFileName = Path.GetFileName(x.Paths.First()), ThreadOption.UIThread);
             this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x => this.DisplayFolderPath = x.Path);
-            this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(x => this.Select());
+            this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(x => this.Save());
+            
+            this.dialogService = dialogService;
+            this.Title = "名前を付けて保存";
         }
 
         public override void OnDialogOpened(IDialogParameters parameters)
@@ -110,8 +127,8 @@ namespace Prism.CommonDialogPack.ViewModels
                 this.FileNameText = fileNameText;
             if (parameters.TryGetValue(DialogParameterNames.FileTypeText, out string fileTypeText))
                 this.FileTypeText = fileTypeText;
-            if (parameters.TryGetValue(DialogParameterNames.SelectButtonText, out string selectButtonText))
-                this.SelectButtonText = selectButtonText;
+            if (parameters.TryGetValue(DialogParameterNames.SaveButtonText, out string saveButtonText))
+                this.SaveButtonText = saveButtonText;
             if (parameters.TryGetValue(DialogParameterNames.CancelButtonText, out string cancelButtonText))
                 this.CancelButtonText = cancelButtonText;
             if (parameters.TryGetValue(DialogParameterNames.Filters, out IEnumerable<FileFilter> filters))
@@ -127,6 +144,16 @@ namespace Prism.CommonDialogPack.ViewModels
                     defaultAllFilesFilterText = temp;
                 this.filters.Add(new FileFilter(defaultAllFilesFilterText));
             }
+            if (parameters.TryGetValue(DialogParameterNames.OverwriteConfirmationTitle, out string overwriteConfirmationTitle))
+                this.OverwriteConfirmationTitle = overwriteConfirmationTitle;
+            else
+                this.OverwriteConfirmationTitle = $"{this.Title}の確認";
+            if (parameters.TryGetValue(DialogParameterNames.OverwriteConfirmationMessageFunc, out Func<string, string> overwriteConfirmationMessageFunc))
+                this.OverwriteConfirmationMessageFunc = overwriteConfirmationMessageFunc;
+            if (parameters.TryGetValue(DialogParameterNames.OverwriteConfirmationOKButtonText, out string overwriteConfirmationOKButtonText))
+                this.OverwriteConfirmationOKButtonText = overwriteConfirmationOKButtonText;
+            if (parameters.TryGetValue(DialogParameterNames.OverwriteConfirmationCancelButtonText, out string overwriteConfirmationCancelButtonText))
+                this.OverwriteConfirmationCancelButtonText = overwriteConfirmationCancelButtonText;
             var regionContext = ExplorerBaseRegionContext.CreateForSingleFileSelect();
             if (parameters.TryGetValue(DialogParameterNames.TextResource, out ExplorerBaseTextResource textResource))
                 regionContext.TextResource = textResource;
@@ -135,12 +162,25 @@ namespace Prism.CommonDialogPack.ViewModels
             this.RegionContext = regionContext;
         }
 
-        private void Select()
+        private void Save()
         {
-            string res = Path.HasExtension(this.SelectedFileName) ? this.SelectedFileName : Path.ChangeExtension(this.SelectedFileName, "");
+            string res = Path.Combine(this.DisplayFolderPath, this.SelectedFileName);
+            if (this.SelectedFilter.Extensions != null && this.SelectedFilter.Extensions.Any() && !Path.HasExtension(res))
+                res = Path.ChangeExtension(res, this.SelectedFilter.Extensions.First());
+            if (File.Exists(res))
+            {
+                bool confirmed = false;
+                this.dialogService.ShowConfirmation(
+                    this.OverwriteConfirmationMessageFunc?.Invoke(res),
+                    this.OverwriteConfirmationTitle,
+                    res => confirmed = res.Result == ButtonResult.OK,
+                    this.OverwriteConfirmationOKButtonText,
+                    this.OverwriteConfirmationCancelButtonText);
+                if (!confirmed) return;
+            }
             var param = new DialogParameters
             {
-                { DialogParameterNames.SaveFileName, Path.Combine(this.DisplayFolderPath, res) }
+                { DialogParameterNames.SaveFilePath, res }
             };
             this.RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }

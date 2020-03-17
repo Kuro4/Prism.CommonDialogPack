@@ -55,7 +55,7 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.selectedFileName, value); }
         }
 
-        private ObservableCollection<FileFilter> filters = new ObservableCollection<FileFilter>();
+        private readonly ObservableCollection<FileFilter> filters = new ObservableCollection<FileFilter>();
         public ReadOnlyObservableCollection<FileFilter> Filters { get; }
 
         private FileFilter selectedFilter;
