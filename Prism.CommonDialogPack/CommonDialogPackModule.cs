@@ -26,6 +26,7 @@ namespace Prism.CommonDialogPack
             containerRegistry.RegisterDialog<ConfirmationDialog, ConfirmationDialogViewModel>();
             containerRegistry.RegisterDialog<FolderSelectDialog, FolderSelectDialogViewModel>();
             containerRegistry.RegisterDialog<FileSelectDialog, FileSelectDialogViewModel>();
+            containerRegistry.RegisterDialog<FileSaveDialog, FileSaveDialogViewModel>();
         }
 
         public static void RegisterRequiredTypes(IContainerRegistry containerRegistry)

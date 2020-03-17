@@ -20,15 +20,15 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding FileText}"
+                <TextBlock Text="{Binding FileNameText}"
                            TextAlignment="Right"
                            VerticalAlignment="Center"
                            Width="100"/>
-                <TextBox x:Name="SelectedFilePathTextBox"
+                <TextBox x:Name="SelectedFileNameTextBox"
                          Grid.Column="1"
-                         Text="{Binding SelectedFilePath, Mode=TwoWay}"
-                         GotFocus="SelectedFilePathTextBox_GotFocus"
-                         PreviewMouseDown="SelectedFilePathTextBox_PreviewMouseDown"/>
+                         Text="{Binding SelectedFileName, Mode=TwoWay}"
+                         GotFocus="SelectedFileNameTextBox_GotFocus"
+                         PreviewMouseDown="SelectedFileNameTextBox_PreviewMouseDown"/>
                 <ComboBox Grid.Column="2"
                           Width="200"
                           Margin="10, 0, 0, 0"

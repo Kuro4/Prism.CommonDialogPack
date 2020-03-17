@@ -24,6 +24,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         public ReactiveCommand ShowConfirmationDialog { get; } = new ReactiveCommand();
         public ReactiveCommand ShowFolderSelectDialog { get; } = new ReactiveCommand();
         public ReactiveCommand ShowFileSelectDialog { get; } = new ReactiveCommand();
+        public ReactiveCommand ShowFileSaveDialog { get; } = new ReactiveCommand();
 
         private readonly IDialogService dialogService;
 
@@ -105,6 +106,33 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     else
                     {
                         this.ResultMessage.Value = "File Select Cancel!";
+                    }
+                });
+            });
+            this.ShowFileSaveDialog.Subscribe(() =>
+            {
+                var filters = new[]
+                {
+                    new FileFilter("すべてのファイル (*.*)"),
+                    new FileFilter("テキストファイル (*.txt; *.csv)", new[] { ".txt", ".csv" }),
+                    new FileFilter("エクセルファイル (*.xlsx; *.xlsm; *.xls)", ".xlsx", ".xlsm", ".xls"),
+                };
+                var param = new DialogParameters
+                {
+                    { DialogParameterNames.Title, "Hoge" },
+                    { DialogParameterNames.CanMultiSelect, true },
+                    { DialogParameterNames.Filters, filters },
+                };
+                this.dialogService.ShowDialog("FileSaveDialog", param, res =>
+                {
+                    if (res.Result == ButtonResult.OK)
+                    {
+                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogParameterNames.SelectedPaths);
+                        this.ResultMessage.Value = $"Save File:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", selectedPaths)}";
+                    }
+                    else
+                    {
+                        this.ResultMessage.Value = "File Save Cancel!";
                     }
                 });
             });

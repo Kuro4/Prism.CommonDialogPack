@@ -20,11 +20,11 @@ namespace Prism.CommonDialogPack.ViewModels
         private DelegateCommand cancelCommand;
         public DelegateCommand CancelCommand => this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(this.Cancel));
 
-        private string folderText ="フォルダー：";
-        public string FolderText
+        private string folderNameText ="フォルダー：";
+        public string FolderNameText
         {
-            get { return this.folderText; }
-            set { SetProperty(ref this.folderText, value); }
+            get { return this.folderNameText; }
+            set { SetProperty(ref this.folderNameText, value); }
         }
 
         private string selectButtonText = "選択";
@@ -48,11 +48,11 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.regionContext, value); }
         }
 
-        private string selectedFolderPath;
-        public string SelectedFolderPath
+        private string selectedFolderName;
+        public string SelectedFolderName
         {
-            get { return this.selectedFolderPath; }
-            set { SetProperty(ref this.selectedFolderPath, value); }
+            get { return this.selectedFolderName; }
+            set { SetProperty(ref this.selectedFolderName, value); }
         }
 
         private string DisplayFolderPath { get; set; }
@@ -65,10 +65,10 @@ namespace Prism.CommonDialogPack.ViewModels
             {
                 if (x.Paths.Count() <= 1)
                 {
-                    this.SelectedFolderPath = Path.GetFileName(x.Paths.First());
+                    this.SelectedFolderName = Path.GetFileName(x.Paths.First());
                     return;
                 }
-                this.SelectedFolderPath = string.Join(' ', x.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
+                this.SelectedFolderName = string.Join(' ', x.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
             }, ThreadOption.UIThread);
             this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x => this.DisplayFolderPath = x.Path);
         }
@@ -76,8 +76,8 @@ namespace Prism.CommonDialogPack.ViewModels
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             base.OnDialogOpened(parameters);
-            if (parameters.TryGetValue(DialogParameterNames.FolderText, out string folderText))
-                this.FolderText = folderText;
+            if (parameters.TryGetValue(DialogParameterNames.FolderNameText, out string folderNameText))
+                this.FolderNameText = folderNameText;
             if (parameters.TryGetValue(DialogParameterNames.SelectButtonText, out string selectButtonText))
                 this.SelectButtonText = selectButtonText;
             if (parameters.TryGetValue(DialogParameterNames.CancelButtonText, out string cancelButtonText))
@@ -95,12 +95,12 @@ namespace Prism.CommonDialogPack.ViewModels
         private void Select()
         {
             IEnumerable<string> res;
-            if (string.IsNullOrEmpty(this.SelectedFolderPath))
+            if (string.IsNullOrEmpty(this.SelectedFolderName))
                 res = new string[] { this.DisplayFolderPath };
-            else if (!this.SelectedFolderPath.Contains('\"'))
-                res = new string[] { Path.Combine(this.DisplayFolderPath, this.SelectedFolderPath) };
+            else if (!this.SelectedFolderName.Contains('\"'))
+                res = new string[] { Path.Combine(this.DisplayFolderPath, this.SelectedFolderName) };
             else
-                res = this.SelectedFolderPath.Unwind('\"').Select(x => Path.Combine(this.DisplayFolderPath, x));
+                res = this.SelectedFolderName.Unwind('\"').Select(x => Path.Combine(this.DisplayFolderPath, x));
             var param = new DialogParameters
             {
                 { DialogParameterNames.SelectedPaths, res }

@@ -18,6 +18,8 @@
                     Content="Show FolderSelect Dialog"/>
             <Button Command="{Binding ShowFileSelectDialog}"
                     Content="Show FileSelect Dialog"/>
+            <Button Command="{Binding ShowFileSaveDialog}"
+                    Content="Show FileSave Dialog"/>
         </StackPanel>
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">

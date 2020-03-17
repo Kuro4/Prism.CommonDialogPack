@@ -12,13 +12,13 @@ namespace Prism.CommonDialogPack.Views
             InitializeComponent();
         }
 
-        private void SelectedFilePathTextBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void SelectedFileNameTextBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!(sender is TextBox textBox)) return;
             textBox.SelectAll();
         }
 
-        private void SelectedFilePathTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SelectedFileNameTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (!(sender is TextBox textBox)) return;
             if (!textBox.IsFocused)
