@@ -9,6 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Backwards_16x.png" />
+    <None Remove="Resources\Forwards_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MahApps.Metro" Version="2.0.0-alpha0660" />
     <PackageReference Include="Prism.Unity" Version="7.2.0.1422" />
     <PackageReference Include="ReactiveProperty" Version="6.2.0" />
@@ -16,6 +21,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Prism.CommonDialogPack\Prism.CommonDialogPack.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Backwards_16x.png" />
+    <Resource Include="Resources\Forwards_16x.png" />
   </ItemGroup>
 
 </Project>

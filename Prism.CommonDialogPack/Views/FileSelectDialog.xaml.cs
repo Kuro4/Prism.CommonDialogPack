@@ -3,22 +3,22 @@
 namespace Prism.CommonDialogPack.Views
 {
     /// <summary>
-    /// Interaction logic for FolderSelectDialog
+    /// Interaction logic for FileSelectDialog
     /// </summary>
-    public partial class FolderSelectDialog : UserControl
+    public partial class FileSelectDialog : UserControl
     {
-        public FolderSelectDialog()
+        public FileSelectDialog()
         {
             InitializeComponent();
         }
 
-        private void SelectedFolderNameTextBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
+        private void SelectedFileNameTextBox_GotFocus(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!(sender is TextBox textBox)) return;
             textBox.SelectAll();
         }
 
-        private void SelectedFolderNameTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SelectedFileNameTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (!(sender is TextBox textBox)) return;
             if (!textBox.IsFocused)
