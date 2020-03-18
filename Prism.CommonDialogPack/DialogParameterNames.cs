@@ -22,8 +22,6 @@ namespace Prism.CommonDialogPack
         public static readonly string TextResource = "TextResource";
         public static readonly string CanMultiSelect = "CanMultiSelect";
         public static readonly string RootFolders = "RootFolders";
-        public static readonly string SelectedPaths = "SelectedPaths";
-        public static readonly string SaveFilePath = "SaveFilePath";
         public static readonly string Filters = "Filters";
         public static readonly string DefaultAllFilesFilterText = "DefaultAllFilesFilterText";
         public static readonly string OverwriteConfirmationTitle = "OverwriteConfirmationTitle";
@@ -31,5 +29,6 @@ namespace Prism.CommonDialogPack
         public static readonly string OverwriteConfirmationOKButtonText = "OverwriteConfirmationOKButtonText";
         public static readonly string OverwriteConfirmationCancelButtonText = "OverwriteConfirmationCancelButtonText";
         public static readonly string ExplorerIcons = "ExplorerIcons";
+        public static readonly string InitialSaveFileName = "InitialSaveFileName";
     }
 }

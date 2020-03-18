@@ -67,7 +67,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var selectedPath = res.Parameters.GetValue<IEnumerable<string>>(DialogParameterNames.SelectedPaths).First();
+                        var selectedPath = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths).First();
                         this.ResultMessage.Value = $"Selected Folder: {selectedPath}";
                     }
                     else
@@ -82,7 +82,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogParameterNames.SelectedPaths);
+                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths);
                         this.ResultMessage.Value = $"Selected Folders:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", selectedPaths)}";
                     }
                     else
@@ -97,7 +97,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogParameterNames.SelectedPaths);
+                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths);
                         if (selectedPaths != null && selectedPaths.Any())
                             this.ResultMessage.Value = $"Selected File: {selectedPaths.First()}";
                         else
@@ -121,7 +121,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogParameterNames.SelectedPaths);
+                        var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths);
                         if (selectedPaths != null && selectedPaths.Any())
                             this.ResultMessage.Value = $"Selected Files:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", selectedPaths)}";
                         else
@@ -141,7 +141,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var saveFilePath = res.Parameters.GetValue<string>(DialogParameterNames.SaveFilePath);
+                        var saveFilePath = res.Parameters.GetValue<string>(DialogResultParameterNames.SaveFilePath);
                         this.ResultMessage.Value = $"Save File Path: {saveFilePath}";
                     }
                     else
@@ -174,6 +174,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 var param = new DialogParameters
                 {
                     { DialogParameterNames.Title, "FileSave" },
+                    { DialogParameterNames.InitialSaveFileName, "Sample.txt" },
                     { DialogParameterNames.FileNameText, "File name:" },
                     { DialogParameterNames.FileTypeText, "Save as type:" },
                     { DialogParameterNames.SaveButtonText, "Save" },
@@ -191,7 +192,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 {
                     if (res.Result == ButtonResult.OK)
                     {
-                        var saveFilePath = res.Parameters.GetValue<string>(DialogParameterNames.SaveFilePath);
+                        var saveFilePath = res.Parameters.GetValue<string>(DialogResultParameterNames.SaveFilePath);
                         this.ResultMessage.Value = $"Save File Path: {saveFilePath}";
                     }
                     else

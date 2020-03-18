@@ -55,13 +55,13 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.regionContext, value); }
         }
 
-        private string selectedFileName = string.Empty;
-        public string SelectedFileName
+        private string saveFileName = string.Empty;
+        public string SaveFileName
         {
-            get { return this.selectedFileName; }
+            get { return this.saveFileName; }
             set 
             {
-                SetProperty(ref this.selectedFileName, value);
+                SetProperty(ref this.saveFileName, value);
                 CanSave = !string.IsNullOrEmpty(value);
             }
         }
@@ -84,7 +84,7 @@ namespace Prism.CommonDialogPack.ViewModels
                 this.RegionContext = context;
                 if (value.Extensions != null && value.Extensions.Any())
                 {
-                    this.SelectedFileName = Path.ChangeExtension(this.SelectedFileName, value.Extensions.First());
+                    this.SaveFileName = Path.ChangeExtension(this.SaveFileName, value.Extensions.First());
                 }
             }
         }
@@ -109,7 +109,7 @@ namespace Prism.CommonDialogPack.ViewModels
             this.Filters = new ReadOnlyObservableCollection<FileFilter>(this.filters);
 
             this.eventAggregator = eventAggregator;
-            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(x => this.SelectedFileName = Path.GetFileName(x.Paths.First()), ThreadOption.UIThread);
+            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(x => this.SaveFileName = Path.GetFileName(x.Paths.First()), ThreadOption.UIThread);
             this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x => this.DisplayFolderPath = x.Path);
             this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(x => this.Save());
             
@@ -128,6 +128,8 @@ namespace Prism.CommonDialogPack.ViewModels
                 this.SaveButtonText = saveButtonText;
             if (parameters.TryGetValue(DialogParameterNames.CancelButtonText, out string cancelButtonText))
                 this.CancelButtonText = cancelButtonText;
+            if (parameters.TryGetValue(DialogParameterNames.InitialSaveFileName, out string initialSaveFileName))
+                this.SaveFileName = initialSaveFileName;
             if (parameters.TryGetValue(DialogParameterNames.Filters, out IEnumerable<FileFilter> filters))
             {
                 this.filters.Clear();
@@ -161,7 +163,7 @@ namespace Prism.CommonDialogPack.ViewModels
 
         private void Save()
         {
-            string res = Path.Combine(this.DisplayFolderPath, this.SelectedFileName);
+            string res = Path.Combine(this.DisplayFolderPath, this.SaveFileName);
             if (this.SelectedFilter.Extensions != null && this.SelectedFilter.Extensions.Any() && !Path.HasExtension(res))
                 res = Path.ChangeExtension(res, this.SelectedFilter.Extensions.First());
             if (File.Exists(res))
@@ -177,7 +179,7 @@ namespace Prism.CommonDialogPack.ViewModels
             }
             var param = new DialogParameters
             {
-                { DialogParameterNames.SaveFilePath, res }
+                { DialogResultParameterNames.SaveFilePath, res }
             };
             this.RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }

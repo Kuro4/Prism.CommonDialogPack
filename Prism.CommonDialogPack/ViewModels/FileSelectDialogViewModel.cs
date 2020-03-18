@@ -143,7 +143,7 @@ namespace Prism.CommonDialogPack.ViewModels
                 res = this.SelectedFileName.Unwind('\"').Select(x => Path.Combine(this.DisplayFolderPath, x));
             var param = new DialogParameters
             {
-                { DialogParameterNames.SelectedPaths, res }
+                { DialogResultParameterNames.SelectedPaths, res }
             };
             this.RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }

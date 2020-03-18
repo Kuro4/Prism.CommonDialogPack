@@ -23,13 +23,13 @@
                            TextAlignment="Right"
                            VerticalAlignment="Center"
                            Width="100"/>
-                <TextBox x:Name="SelectedFileNameTextBox"
+                <TextBox x:Name="SaveFileNameTextBox"
                          Grid.Column="1"
-                         Text="{Binding SelectedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Text="{Binding SaveFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Padding="3"
                          VerticalContentAlignment="Center"
-                         GotFocus="SelectedFileNameTextBox_GotFocus"
-                         PreviewMouseDown="SelectedFileNameTextBox_PreviewMouseDown"/>
+                         GotFocus="SaveFileNameTextBox_GotFocus"
+                         PreviewMouseDown="SaveFileNameTextBox_PreviewMouseDown"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
