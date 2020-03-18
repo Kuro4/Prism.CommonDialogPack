@@ -109,10 +109,7 @@ namespace Prism.CommonDialogPack.ViewModels
             this.Filters = new ReadOnlyObservableCollection<FileFilter>(this.filters);
 
             this.eventAggregator = eventAggregator;
-            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(x => this.SaveFileName = Path.GetFileName(x.Paths.First()), ThreadOption.UIThread);
-            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x => this.DisplayFolderPath = x.Path);
-            this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(x => this.Save());
-            
+
             this.dialogService = dialogService;
             this.Title = "名前を付けて保存";
         }
@@ -120,6 +117,9 @@ namespace Prism.CommonDialogPack.ViewModels
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             base.OnDialogOpened(parameters);
+            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(this.OnFileSelection);
+            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(this.OnMoveDisplayFolder);
+            this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(this.OnFileEnter);
             if (parameters.TryGetValue(DialogParameterNames.FileNameText, out string fileNameText))
                 this.FileNameText = fileNameText;
             if (parameters.TryGetValue(DialogParameterNames.FileTypeText, out string fileTypeText))
@@ -159,6 +159,29 @@ namespace Prism.CommonDialogPack.ViewModels
             if (parameters.TryGetValue(DialogParameterNames.RootFolders, out IEnumerable<string> rootFolders))
                 regionContext.RootFolders = rootFolders;
             this.RegionContext = regionContext;
+        }
+
+        public override void OnDialogClosed()
+        {
+            base.OnDialogClosed();
+            this.eventAggregator.GetEvent<FileSelectionEvent>().Unsubscribe(this.OnFileSelection);
+            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Unsubscribe(this.OnMoveDisplayFolder);
+            this.eventAggregator.GetEvent<FileEnterEvent>().Unsubscribe(this.OnFileEnter);
+        }
+
+        public void OnFileSelection(FileSelectionEventValue value)
+        {
+            this.SaveFileName = Path.GetFileName(value.Paths.First());
+        }
+
+        public void OnMoveDisplayFolder(MoveDisplayFolderEventValue value)
+        {
+            this.DisplayFolderPath = value.Path;
+        }
+
+        public void OnFileEnter(FileEnterEventValue value)
+        {
+            this.Save();
         }
 
         private void Save()
