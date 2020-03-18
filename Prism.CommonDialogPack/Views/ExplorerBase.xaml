@@ -1,0 +1,178 @@
+﻿<UserControl x:Class="Prism.CommonDialogPack.Views.ExplorerBase"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"          
+             xmlns:models="clr-namespace:Prism.CommonDialogPack.Models"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:behaviors="clr-namespace:Prism.CommonDialogPack.Behaviors"
+             xmlns:Converters="clr-namespace:Prism.CommonDialogPack.Converters"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Converters:BoolToDataGridSelectionModeConverter x:Key="BoolToDataGridSelectionModeConverter"/>
+        <Converters:ByteSizeConverter x:Key="ByteSizeConverter"/>
+        <Converters:DateTimeConverter x:Key="DateTimeConverter"/>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style TargetType="{x:Type Image}">
+            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding GoBackwardCommand}">
+                <Image Source="{Binding DataContext.BackWardIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+            </Button>
+            <Button Grid.Column="1" Command="{Binding GoForwardCommand}">
+                <Image Source="{Binding DataContext.ForwardIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+            </Button>
+            <Button Grid.Column="2" Command="{Binding GoUpperFolderCommand}">
+                <Image Source="{Binding DataContext.UpIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+            </Button>
+            <Grid Grid.Column="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="DisplayFolderPathTextBox"
+                         VerticalContentAlignment="Center"
+                         Text="{Binding DisplayFolderPath, Mode=TwoWay}"
+                         Padding="5,0"
+                         KeyDown="DisplayFolderPathTextBox_KeyDown"
+                         GotFocus="DisplayFolderPathTextBox_GotFocus"
+                         PreviewMouseDown="DisplayFolderPathTextBox_PreviewMouseDown"/>
+                <Button Grid.Column="1"
+                        Command="{Binding ReloadCommand}"
+                        BorderThickness="0,1,1,1"
+                        BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+                    <Image Source="{Binding DataContext.ReloadIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+                </Button>
+            </Grid>
+        </Grid>
+        <Border Grid.Row="1"
+                BorderThickness="0,1"
+                BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"
+                                      MinWidth="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="3*"
+                                      MinWidth="200"/>
+                </Grid.ColumnDefinitions>
+                <TreeView x:Name="FolderTree"
+                          ItemsSource="{Binding RootFolders}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate DataType="models:IFolder" ItemsSource="{Binding Children}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image x:Name="FolderIcon"/>
+                                <TextBlock Text="{Binding Name}"
+                                        VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <HierarchicalDataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}" Value="false">
+                                    <Setter Property="Source" TargetName="FolderIcon" Value="{Binding DataContext.FolderClosedIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}" Value="true">
+                                    <Setter Property="Source" TargetName="FolderIcon" Value="{Binding DataContext.FolderOpenedIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+                                </DataTrigger>
+                            </HierarchicalDataTemplate.Triggers>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                            <Setter Property="behaviors:BringableTreeViewItemBehavior.IsBringTreeViewItem" Value="True"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+                    <i:Interaction.Behaviors>
+                        <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder, Mode=TwoWay}"/>
+                    </i:Interaction.Behaviors>
+                </TreeView>
+                <GridSplitter Grid.Column="1"
+                          Width="3"
+                          HorizontalAlignment="Stretch"/>
+                <DataGrid x:Name="FilesDataGrid"
+                          Grid.Column="2"
+                          Background="{x:Null}"
+                          ItemsSource="{Binding DisplayFiles}"
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="None"
+                          IsReadOnly="True"
+                          VirtualizingPanel.VirtualizationMode="Standard"
+                          SelectionMode="{Binding CanMultiSelect, Converter={StaticResource BoolToDataGridSelectionModeConverter}}"
+                          SelectionChanged="FilesDataGrid_SelectionChanged">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn SortMemberPath="Name"
+                                                Width="250"
+                                                ClipboardContentBinding="{Binding Name}">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{Binding DataContext.NameColumnText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image x:Name="DataGridItemIcon"/>
+                                        <TextBlock Text="{Binding Name}"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding FileType}" Value="{x:Static models:FileType.File}">
+                                            <Setter Property="Source" TargetName="DataGridItemIcon" Value="{Binding DataContext.FileIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding FileType}" Value="{x:Static models:FileType.Folder}">
+                                            <Setter Property="Source" TargetName="DataGridItemIcon" Value="{Binding DataContext.FolderClosedIcon, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}}"/>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding LastWriteTime, Converter={StaticResource DateTimeConverter}}"
+                                            Width="140">
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{Binding DataContext.DateModifiedColumnText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Binding="{Binding Extension}"
+                                            Width="60">
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{Binding DataContext.TypeColumnText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Width="60">
+                            <DataGridTemplateColumn.Header>
+                                <TextBlock Text="{Binding DataContext.SizeColumnText, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"/>
+                            </DataGridTemplateColumn.Header>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Length, Converter={StaticResource ByteSizeConverter}}"
+                                               TextAlignment="Right"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

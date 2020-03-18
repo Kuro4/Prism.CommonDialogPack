@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Prism.CommonDialogPack.Views.FileSelectDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Width="{Binding ContentWidth}"
+             Height="{Binding ContentHeight}">
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ContentControl prism:RegionManager.RegionName="ExplorerBase"
+                        prism:RegionManager.RegionContext="{Binding RegionContext}"/>
+        <StackPanel Grid.Row="1"
+                    Margin="10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding FileNameText}"
+                           TextAlignment="Right"
+                           VerticalAlignment="Center"
+                           Width="100"/>
+                <TextBox x:Name="SelectedFileNameTextBox"
+                         Grid.Column="1"
+                         Text="{Binding SelectedFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         GotFocus="SelectedFileNameTextBox_GotFocus"
+                         PreviewMouseDown="SelectedFileNameTextBox_PreviewMouseDown"/>
+                <ComboBox Grid.Column="2"
+                          Width="200"
+                          Margin="10, 0, 0, 0"
+                          ItemsSource="{Binding Filters}"
+                          SelectedItem="{Binding SelectedFilter}"
+                          SelectedIndex="0"
+                          DisplayMemberPath="Text">
+                </ComboBox>
+            </Grid>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0, 10, 0, 0">
+                <Button Content="{Binding SelectButtonText}"
+                        Command="{Binding SelectCommand}"
+                        Padding="5"
+                        MinWidth="64"/>
+                <Button Content="{Binding CancelButtonText}"
+                        Command="{Binding CancelCommand}"
+                        Padding="5"
+                        Margin="10, 0, 0, 0"
+                        MinWidth="64"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

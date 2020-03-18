@@ -1,0 +1,9 @@
+﻿<prism:PrismApplication x:Class="Prism.CommonDialogPack_Sample_MahApps.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Prism.CommonDialogPack_Sample_MahApps"
+             xmlns:prism="http://prismlibrary.com/">
+    <Application.Resources>
+        <ResourceDictionary Source="/MahAppsStyle.xaml"/>
+    </Application.Resources>
+</prism:PrismApplication>

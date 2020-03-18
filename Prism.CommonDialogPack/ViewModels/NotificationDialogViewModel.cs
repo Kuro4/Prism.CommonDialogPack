@@ -11,7 +11,7 @@ namespace Prism.CommonDialogPack.ViewModels
     public class NotificationDialogViewModel : DialogViewModelBase
     {
         private DelegateCommand closeDialogCommand;
-        public DelegateCommand CloseDialogCommand => closeDialogCommand ?? (closeDialogCommand = new DelegateCommand(CloseDialog));
+        public DelegateCommand CloseDialogCommand => this.closeDialogCommand ?? (this.closeDialogCommand = new DelegateCommand(this.CloseDialog));
 
         private string message;
         public string Message
@@ -40,11 +40,10 @@ namespace Prism.CommonDialogPack.ViewModels
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             base.OnDialogOpened(parameters);
-            this.Message = parameters.GetValue<string>(DialogParameterName.Message);
-            if (parameters.TryGetValue(DialogParameterName.ButtonText, out string buttonText))
-            {
+            this.Message = parameters.GetValue<string>(DialogParameterNames.Message);
+            if (parameters.TryGetValue(DialogParameterNames.ButtonText, out string buttonText))
                 this.ButtonText = buttonText;
-            }
+            
         }
     }
 }

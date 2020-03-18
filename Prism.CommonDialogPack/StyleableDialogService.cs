@@ -111,6 +111,8 @@ namespace Prism.CommonDialogPack
             if (window is Window hostWindow && viewModel is IStyleableDialogAware styleableVM)
             {
                 hostWindow.SetBinding(Window.StyleProperty, new Binding("WindowStyle"));
+                hostWindow.Width = styleableVM.Width;
+                hostWindow.Height = styleableVM.Height;
             }
             else if (windowStyle != null)
                 window.Style = windowStyle;

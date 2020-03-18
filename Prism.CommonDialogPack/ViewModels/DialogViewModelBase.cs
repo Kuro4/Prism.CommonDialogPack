@@ -16,25 +16,29 @@ namespace Prism.CommonDialogPack.ViewModels
             set { SetProperty(ref this.title, value); }
         }
 
-        private double width = 300;
-        public double Width
-        {
-            get { return this.width; }
-            set { SetProperty(ref this.width, value); }
-        }
-
-        private double height = 150;
-        public double Height
-        {
-            get { return this.height; }
-            set { SetProperty(ref this.height, value); }
-        }
-
         private Style windowStyle = DialogStyles.CommonDialogStyle;
         public Style WindowStyle
         {
             get { return this.windowStyle; }
             set { SetProperty(ref this.windowStyle, value); }
+        }
+
+        public double Width { get; set; } = 300;
+
+        public double Height { get; set; } = 150;
+
+        private double contentWidth = double.NaN;
+        public double ContentWidth
+        {
+            get { return this.contentWidth; }
+            set { SetProperty(ref this.contentWidth, value); }
+        }
+
+        private double contentHeight = double.NaN;
+        public double ContentHeight
+        {
+            get { return this.contentHeight; }
+            set { SetProperty(ref this.contentHeight, value); }
         }
 
         public event Action<IDialogResult> RequestClose;
@@ -55,19 +59,19 @@ namespace Prism.CommonDialogPack.ViewModels
 
         public virtual void OnDialogOpened(IDialogParameters parameters)
         {
-            if (parameters.TryGetValue(DialogParameterName.Title, out string title))
+            if (parameters.TryGetValue(DialogParameterNames.Title, out string title))
             {
                 this.Title = title;
             }
-            if (parameters.TryGetValue(DialogParameterName.Width, out double width))
+            if (parameters.TryGetValue(DialogParameterNames.Width, out double width))
             {
                 this.Width = width;
             }
-            if (parameters.TryGetValue(DialogParameterName.Height, out double height))
+            if (parameters.TryGetValue(DialogParameterNames.Height, out double height))
             {
                 this.Height = height;
             }
-            if (parameters.TryGetValue(DialogParameterName.WindowStyle, out Style windowStyle))
+            if (parameters.TryGetValue(DialogParameterNames.WindowStyle, out Style windowStyle))
             {
                 this.WindowStyle = windowStyle;
             }

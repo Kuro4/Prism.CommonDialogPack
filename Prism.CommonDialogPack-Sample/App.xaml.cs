@@ -2,6 +2,7 @@
 using Prism.CommonDialogPack_Sample.Views;
 using System.Windows;
 using Prism.CommonDialogPack;
+using Prism.Modularity;
 
 namespace Prism.CommonDialogPack_Sample
 {
@@ -15,15 +16,20 @@ namespace Prism.CommonDialogPack_Sample
             return Container.Resolve<MainWindow>();
         }
 
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            base.ConfigureModuleCatalog(moduleCatalog);
+            moduleCatalog.AddModule<CommonDialogPackModule>();
+        }
+
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             base.RegisterRequiredTypes(containerRegistry);
-            Bridge.RegisterRequiredTypes(containerRegistry);
-        }
-
-        protected override void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            Bridge.RegisterDialogs(containerRegistry);
+            CommonDialogPackModule.RegisterRequiredTypes(containerRegistry);
         }
     }
 }
