@@ -83,26 +83,14 @@ namespace Prism.CommonDialogPack.ViewModels
             this.Filters = new ReadOnlyObservableCollection<FileFilter>(this.filters);
 
             this.eventAggregator = eventAggregator;
-            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(x =>
-            {
-                if (x.Paths.Count() <= 1)
-                {
-                    this.SelectedFileName = Path.GetFileName(x.Paths.First());
-                    return;
-                }
-                this.SelectedFileName = string.Join(' ', x.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
-            }, ThreadOption.UIThread);
-            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x =>
-            {
-                this.DisplayFolderPath = x.Path;
-                this.SelectedFileName = string.Empty;
-            });
-            this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(x => this.Select());            
         }
 
         public override void OnDialogOpened(IDialogParameters parameters)
         {
             base.OnDialogOpened(parameters);
+            this.eventAggregator.GetEvent<FileSelectionEvent>().Subscribe(this.OnFileSelection);
+            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(this.OnMoveDisplayFolder);
+            this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(this.OnFileEnter);
             if (parameters.TryGetValue(DialogParameterNames.FileNameText, out string fileNameText))
                 this.FileNameText = fileNameText;
             if (parameters.TryGetValue(DialogParameterNames.SelectButtonText, out string selectButtonText))
@@ -130,6 +118,35 @@ namespace Prism.CommonDialogPack.ViewModels
             if (parameters.TryGetValue(DialogParameterNames.RootFolders, out IEnumerable<string> rootFolders))
                 regionContext.RootFolders = rootFolders;
             this.RegionContext = regionContext;
+        }
+
+        public override void OnDialogClosed()
+        {
+            base.OnDialogClosed();
+            this.eventAggregator.GetEvent<FileSelectionEvent>().Unsubscribe(this.OnFileSelection);
+            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Unsubscribe(this.OnMoveDisplayFolder);
+            this.eventAggregator.GetEvent<FileEnterEvent>().Unsubscribe(this.OnFileEnter);
+        }
+
+        public void OnFileSelection(FileSelectionEventValue value)
+        {
+            if (value.Paths.Count() <= 1)
+            {
+                this.SelectedFileName = Path.GetFileName(value.Paths.First());
+                return;
+            }
+            this.SelectedFileName = string.Join(' ', value.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
+        }
+
+        public void OnMoveDisplayFolder(MoveDisplayFolderEventValue value) 
+        {
+            this.DisplayFolderPath = value.Path;
+            this.SelectedFileName = string.Empty;
+        }
+
+        public void OnFileEnter(FileEnterEventValue value)
+        {
+            this.Select();
         }
 
         private void Select()
