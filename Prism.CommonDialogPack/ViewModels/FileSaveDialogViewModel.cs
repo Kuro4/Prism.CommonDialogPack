@@ -61,11 +61,8 @@ namespace Prism.CommonDialogPack.ViewModels
             get { return this.selectedFileName; }
             set 
             {
-                // TODO: FileSelectDialog, FolderSelectDialog にもフィルター処理を追加する
-                var invalidFileNameChars = Path.GetInvalidFileNameChars();
-                string filteredValue = string.Join(string.Empty, value.Where(x => !invalidFileNameChars.Contains(x)));
-                SetProperty(ref this.selectedFileName, filteredValue);
-                CanSave = !string.IsNullOrEmpty(filteredValue);
+                SetProperty(ref this.selectedFileName, value);
+                CanSave = !string.IsNullOrEmpty(value);
             }
         }
 

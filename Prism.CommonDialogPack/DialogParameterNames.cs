@@ -30,5 +30,6 @@ namespace Prism.CommonDialogPack
         public static readonly string OverwriteConfirmationMessageFunc = "OverwriteConfirmationMessageFunc";
         public static readonly string OverwriteConfirmationOKButtonText = "OverwriteConfirmationOKButtonText";
         public static readonly string OverwriteConfirmationCancelButtonText = "OverwriteConfirmationCancelButtonText";
+        public static readonly string ExplorerIcons = "ExplorerIcons";
     }
 }

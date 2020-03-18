@@ -52,12 +52,7 @@ namespace Prism.CommonDialogPack.ViewModels
         public string SelectedFileName
         {
             get { return this.selectedFileName; }
-            set 
-            {
-                var invalidFileNameChars = Path.GetInvalidFileNameChars();
-                string filteredValue = string.Join(string.Empty, value.Where(x => !invalidFileNameChars.Contains(x)));
-                SetProperty(ref this.selectedFileName, filteredValue); 
-            }
+            set { SetProperty(ref this.selectedFileName, value); }
         }
 
         private readonly ObservableCollection<FileFilter> filters = new ObservableCollection<FileFilter>();
@@ -97,7 +92,11 @@ namespace Prism.CommonDialogPack.ViewModels
                 }
                 this.SelectedFileName = string.Join(' ', x.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
             }, ThreadOption.UIThread);
-            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x => this.DisplayFolderPath = x.Path);
+            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x =>
+            {
+                this.DisplayFolderPath = x.Path;
+                this.SelectedFileName = string.Empty;
+            });
             this.eventAggregator.GetEvent<FileEnterEvent>().Subscribe(x => this.Select());            
         }
 

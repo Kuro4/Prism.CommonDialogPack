@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
@@ -62,6 +63,26 @@ namespace Prism.CommonDialogPack.ViewModels
             this.WindowStyle = DialogStyles.ExplorerDialogStyle;
             this.Width = 800;
             this.Height = 450;
+        }
+
+        public override void OnDialogOpened(IDialogParameters parameters)
+        {
+            base.OnDialogOpened(parameters);
+            if (!parameters.TryGetValue(DialogParameterNames.ExplorerIcons, out ExplorerIcons explorerIcons)) return;
+            if (explorerIcons.BackWardIcon != null)
+                this.BackWardIcon = explorerIcons.BackWardIcon;
+            if (explorerIcons.ForwardIcon != null)
+                this.ForwardIcon = explorerIcons.ForwardIcon;
+            if (explorerIcons.UpIcon != null)
+                this.UpIcon = explorerIcons.UpIcon;
+            if (explorerIcons.ReloadIcon != null)
+                this.ReloadIcon = explorerIcons.ReloadIcon;
+            if (explorerIcons.FolderClosedIcon != null)
+                this.FolderClosedIcon = explorerIcons.FolderClosedIcon;
+            if (explorerIcons.FolderOpenedIcon != null)
+                this.FolderOpenedIcon = explorerIcons.FolderOpenedIcon;
+            if (explorerIcons.FileIcon != null)
+                this.FileIcon = explorerIcons.FileIcon;
         }
     }
 }

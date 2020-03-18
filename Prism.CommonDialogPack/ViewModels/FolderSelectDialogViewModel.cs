@@ -52,12 +52,7 @@ namespace Prism.CommonDialogPack.ViewModels
         public string SelectedFolderName
         {
             get { return this.selectedFolderName; }
-            set 
-            {
-                var invalidFileNameChars = Path.GetInvalidFileNameChars();
-                string filteredValue = string.Join(string.Empty, value.Where(x => !invalidFileNameChars.Contains(x)));
-                SetProperty(ref this.selectedFolderName, filteredValue);
-            }
+            set { SetProperty(ref this.selectedFolderName, value); }
         }
 
         private string DisplayFolderPath { get; set; }
@@ -75,7 +70,11 @@ namespace Prism.CommonDialogPack.ViewModels
                 }
                 this.SelectedFolderName = string.Join(' ', x.Paths.Select(p => $"\"{Path.GetFileName(p)}\""));
             }, ThreadOption.UIThread);
-            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x => this.DisplayFolderPath = x.Path);
+            this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Subscribe(x =>
+            {
+                this.DisplayFolderPath = x.Path;
+                this.SelectedFolderName = string.Empty;
+            });
         }
 
         public override void OnDialogOpened(IDialogParameters parameters)
