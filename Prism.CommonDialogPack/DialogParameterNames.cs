@@ -10,6 +10,8 @@ namespace Prism.CommonDialogPack
         public static readonly string WindowStyle = "WindowStyle";
         public static readonly string Width = "Width";
         public static readonly string Height = "Height";
+        public static readonly string ContentWidth = "ContentWidth";
+        public static readonly string ContentHeight = "ContentHeight";
         public static readonly string Message = "Message";
         public static readonly string ButtonText = "ButtonText";
         public static readonly string OKButtonText = "OkButtonText";

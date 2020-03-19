@@ -71,6 +71,14 @@ namespace Prism.CommonDialogPack.ViewModels
             {
                 this.Height = height;
             }
+            if (parameters.TryGetValue(DialogParameterNames.ContentWidth, out double contentWidth))
+            {
+                this.ContentWidth = contentWidth;
+            }
+            if (parameters.TryGetValue(DialogParameterNames.ContentHeight, out double contentHeight))
+            {
+                this.ContentHeight = contentHeight;
+            }
             if (parameters.TryGetValue(DialogParameterNames.WindowStyle, out Style windowStyle))
             {
                 this.WindowStyle = windowStyle;
