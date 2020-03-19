@@ -118,6 +118,8 @@ namespace Prism.CommonDialogPack.Extensions
                 param.Add(DialogParameterNames.FileTypeText, fileTypeText);
             if (!string.IsNullOrEmpty(saveButtonText))
                 param.Add(DialogParameterNames.SaveButtonText, saveButtonText);
+            if (!string.IsNullOrEmpty(cancelButtonText))
+                param.Add(DialogParameterNames.CancelButtonText, cancelButtonText);
             if (textResource != null)
                 param.Add(DialogParameterNames.TextResource, textResource);
             if (filters != null)
