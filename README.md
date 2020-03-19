@@ -34,4 +34,4 @@ PrismのDialogServiceを利用した汎用的なダイアログを提供する�
 
 # 使い方
 
-詳しくは[ココ]()
+詳しくは[ココ](https://qiita.com/kuro4/items/fdfbc130b3b10ea64b38)
