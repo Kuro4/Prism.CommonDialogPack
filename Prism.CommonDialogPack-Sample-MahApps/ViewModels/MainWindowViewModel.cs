@@ -114,8 +114,8 @@ namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
             {
                 var filters = new[]
                 {
-                    new FileFilter("All Files (*.*)"),
                     new FileFilter("Text File (*.txt; *.csv)", new[] { ".txt", ".csv" }),
+                    new FileFilter("All Files (*.*)"),
                     new FileFilter("Excel File (*.xlsx; *.xlsm; *.xls)", ".xlsx", ".xlsm", ".xls"),
                 };
                 this.dialogService.ShowFileSelectDialog("MultiFileSelect", true, res =>
