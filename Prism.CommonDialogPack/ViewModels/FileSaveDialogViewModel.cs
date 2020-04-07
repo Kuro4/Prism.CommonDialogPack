@@ -143,6 +143,7 @@ namespace Prism.CommonDialogPack.ViewModels
                     defaultAllFilesFilterText = temp;
                 this.filters.Add(new FileFilter(defaultAllFilesFilterText));
             }
+            this.SelectedFilter = this.Filters.First();
             if (parameters.TryGetValue(DialogParameterNames.OverwriteConfirmationTitle, out string overwriteConfirmationTitle))
                 this.OverwriteConfirmationTitle = overwriteConfirmationTitle;
             else

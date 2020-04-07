@@ -110,6 +110,7 @@ namespace Prism.CommonDialogPack.ViewModels
                     defaultAllFilesFilterText = temp;
                 this.filters.Add(new FileFilter(defaultAllFilesFilterText));
             }
+            this.SelectedFilter = this.Filters.First();
             var regionContext = ExplorerBaseRegionContext.CreateForSingleFileSelect();
             if (parameters.TryGetValue(DialogParameterNames.TextResource, out ExplorerBaseTextResource textResource))
                 regionContext.TextResource = textResource;
