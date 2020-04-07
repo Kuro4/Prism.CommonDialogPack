@@ -143,7 +143,7 @@ namespace Prism.CommonDialogPack.ViewModels
                     defaultAllFilesFilterText = temp;
                 this.filters.Add(new FileFilter(defaultAllFilesFilterText));
             }
-            this.SelectedFilter = this.Filters.First();
+            this.selectedFilter = this.Filters.First();
             if (parameters.TryGetValue(DialogParameterNames.OverwriteConfirmationTitle, out string overwriteConfirmationTitle))
                 this.OverwriteConfirmationTitle = overwriteConfirmationTitle;
             else
@@ -159,6 +159,7 @@ namespace Prism.CommonDialogPack.ViewModels
                 regionContext.TextResource = textResource;
             if (parameters.TryGetValue(DialogParameterNames.RootFolders, out IEnumerable<string> rootFolders))
                 regionContext.RootFolders = rootFolders;
+            regionContext.FileExtensions = this.Filters.First().Extensions;
             this.RegionContext = regionContext;
         }
 
