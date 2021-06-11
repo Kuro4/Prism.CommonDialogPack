@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"          
              xmlns:models="clr-namespace:Prism.CommonDialogPack.Models"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:Prism.CommonDialogPack.Behaviors"
              xmlns:Converters="clr-namespace:Prism.CommonDialogPack.Converters"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -99,9 +99,9 @@
                             <Setter Property="behaviors:BringableTreeViewItemBehavior.IsBringTreeViewItem" Value="True"/>
                         </Style>
                     </TreeView.ItemContainerStyle>
-                    <i:Interaction.Behaviors>
+                    <bh:Interaction.Behaviors>
                         <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder, Mode=TwoWay}"/>
-                    </i:Interaction.Behaviors>
+                    </bh:Interaction.Behaviors>
                 </TreeView>
                 <GridSplitter Grid.Column="1"
                           Width="3"
@@ -117,11 +117,11 @@
                           VirtualizingPanel.VirtualizationMode="Standard"
                           SelectionMode="{Binding CanMultiSelect, Converter={StaticResource BoolToDataGridSelectionModeConverter}}"
                           SelectionChanged="FilesDataGrid_SelectionChanged">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <bh:Interaction.Triggers>
+                        <bh:EventTrigger>
+                            <bh:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
+                        </bh:EventTrigger>
+                    </bh:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn SortMemberPath="Name"
                                                 Width="250"
