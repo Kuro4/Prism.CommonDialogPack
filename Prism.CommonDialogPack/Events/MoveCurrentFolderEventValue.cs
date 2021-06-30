@@ -4,15 +4,15 @@ using System.Text;
 
 namespace Prism.CommonDialogPack.Events
 {
-    public class MoveDisplayFolderEventValue
+    public class MoveCurrentFolderEventValue
     {
         public string Path { get; set; }
 
-        public MoveDisplayFolderEventValue()
+        public MoveCurrentFolderEventValue()
         {
         }
 
-        public MoveDisplayFolderEventValue(string path)
+        public MoveCurrentFolderEventValue(string path)
         {
             this.Path = path;
         }

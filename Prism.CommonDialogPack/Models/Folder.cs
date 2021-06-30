@@ -12,6 +12,9 @@ namespace Prism.CommonDialogPack.Models
     public class Folder : BindableBase, IFolder
     {
         private string path;
+        /// <summary>
+        /// Folder path.
+        /// </summary>
         public string Path
         {
             get { return this.path; }
@@ -19,6 +22,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private string name;
+        /// <summary>
+        /// Folder name.
+        /// </summary>
         public string Name
         {
             get { return this.name; }
@@ -26,6 +32,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private bool hasError = true;
+        /// <summary>
+        /// Has folder error.
+        /// </summary>
         public bool HasError
         {
             get { return this.hasError; }
@@ -33,6 +42,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private bool isExpanded = false;
+        /// <summary>
+        /// Is folder expanded.
+        /// </summary>
         public bool IsExpanded
         {
             get { return this.isExpanded; }
@@ -44,6 +56,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private bool hasExpanded = false;
+        /// <summary>
+        /// Has folder expanded even once.
+        /// </summary>
         public bool HasExpanded
         {
             get { return this.hasExpanded; }
@@ -51,6 +66,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private bool isSelected = false;
+        /// <summary>
+        /// Is folder selected.
+        /// </summary>
         public bool IsSelected
         {
             get { return this.isSelected; }
@@ -58,10 +76,20 @@ namespace Prism.CommonDialogPack.Models
         }
 
         protected readonly ObservableCollection<IFolder> children = new ObservableCollection<IFolder>();
+        /// <summary>
+        /// Children folders.
+        /// </summary>
         public ReadOnlyObservableCollection<IFolder> Children { get; }
 
+        /// <summary>
+        /// Directory.
+        /// </summary>
         protected DirectoryInfo Directory { get; }
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="Folder"/> class width the specified path.
+        /// </summary>
+        /// <param name="path"></param>
         public Folder(string path)
         {
             this.Children = new ReadOnlyObservableCollection<IFolder>(this.children);
@@ -70,7 +98,10 @@ namespace Prism.CommonDialogPack.Models
             this.Directory = new DirectoryInfo(path);
             this.Initialize();
         }
-
+        /// <summary>
+        /// Initialize a new instance of the <see cref="Folder"/> class width the specified <see cref="DirectoryInfo"/>.
+        /// </summary>
+        /// <param name="dir"></param>
         public Folder(DirectoryInfo dir)
         {
             this.Children = new ReadOnlyObservableCollection<IFolder>(this.children);
@@ -79,7 +110,9 @@ namespace Prism.CommonDialogPack.Models
             if (!dir.Exists) return;
             this.Initialize();
         }
-
+        /// <summary>
+        /// Initialize folder.
+        /// </summary>
         protected virtual void Initialize()
         {
             this.Name = this.Directory.Name;
@@ -96,7 +129,9 @@ namespace Prism.CommonDialogPack.Models
                 Debug.WriteLine(e.Message);
             }
         }
-
+        /// <summary>
+        /// Expand folder.
+        /// </summary>
         public virtual void Expand()
         {
             if (this.IsExpanded) return;
@@ -106,14 +141,18 @@ namespace Prism.CommonDialogPack.Models
             this.HasExpanded = true;
             Reload();
         }
-
+        /// <summary>
+        /// Collapse folder.
+        /// </summary>
         public virtual void Collapse()
         {
             if (!this.IsExpanded) return;
             this.isExpanded = false;
             RaisePropertyChanged(nameof(this.IsExpanded));
         }
-
+        /// <summary>
+        /// Reload folder.
+        /// </summary>
         public virtual void Reload()
         {
             this.children.Clear();

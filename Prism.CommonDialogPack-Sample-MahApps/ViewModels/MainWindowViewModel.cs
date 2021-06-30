@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
 {
+    // TODO: ※ 注意事項) Dialog の Width, Height は Style で Window 側に設定しているため、 Dialog にする View には Width, Height は設定してはいけない
     public class MainWindowViewModel : BindableBase
     {
         private string _title = "Prism.CommonDialogPack-Sample";
@@ -175,9 +176,9 @@ namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
                 var param = new DialogParameters
                 {
                     { DialogParameterNames.Title, "FileSave" },
-                    { DialogParameterNames.InitialSaveFileName, "Sample.txt" },
-                    { DialogParameterNames.FileNameText, "File name:" },
-                    { DialogParameterNames.FileTypeText, "Save as type:" },
+                    { DialogParameterNames.DefaultSaveFileName, "Sample.txt" },
+                    { DialogParameterNames.FileNamePrefixText, "File name:" },
+                    { DialogParameterNames.FileTypePrefixText, "Save as type:" },
                     { DialogParameterNames.SaveButtonText, "Save" },
                     { DialogParameterNames.CancelButtonText, "Cancel" },
                     { DialogParameterNames.TextResource, textResource },

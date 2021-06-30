@@ -9,6 +9,9 @@ namespace Prism.CommonDialogPack.Models
     public class CommonFileSystemInfo : BindableBase, ICommonFileSystemInfo
     {
         private string path;
+        /// <summary>
+        /// File path.
+        /// </summary>
         public string Path
         {
             get { return this.path; }
@@ -16,6 +19,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private string name;
+        /// <summary>
+        /// FileName
+        /// </summary>
         public string Name
         {
             get { return this.name; }
@@ -23,6 +29,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private DateTime lastWriteTime;
+        /// <summary>
+        /// File last write time.
+        /// </summary>
         public DateTime LastWriteTime
         {
             get { return lastWriteTime; }
@@ -30,6 +39,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private string extension = string.Empty;
+        /// <summary>
+        /// File extension.
+        /// </summary>
         public string Extension
         {
             get { return extension; }
@@ -37,6 +49,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private long? length = null;
+        /// <summary>
+        /// File size.
+        /// </summary>
         public long? Length
         {
             get { return length; }
@@ -44,6 +59,9 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private bool hasError = true;
+        /// <summary>
+        /// Has error.
+        /// </summary>
         public bool HasError
         {
             get { return this.hasError; }
@@ -51,14 +69,22 @@ namespace Prism.CommonDialogPack.Models
         }
 
         private bool isSelected = false;
+        /// <summary>
+        /// Is selected.
+        /// </summary>
         public bool IsSelected
         {
             get { return this.isSelected; }
             set { SetProperty(ref this.isSelected, value); }
         }
 
+        /// <summary>
+        /// File type.
+        /// </summary>
         public FileType FileType { get; } = FileType.Unknown;
-
+        /// <summary>
+        /// File info.
+        /// </summary>
         protected FileSystemInfo Info { get; }
 
         public CommonFileSystemInfo(string path)

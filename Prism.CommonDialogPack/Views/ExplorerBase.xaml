@@ -47,13 +47,13 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="DisplayFolderPathTextBox"
+                <TextBox x:Name="CurrentFolderPathTextBox"
                          VerticalContentAlignment="Center"
-                         Text="{Binding DisplayFolderPath, Mode=TwoWay}"
+                         Text="{Binding CurrentFolderPath, Mode=TwoWay}"
                          Padding="5,0"
-                         KeyDown="DisplayFolderPathTextBox_KeyDown"
-                         GotFocus="DisplayFolderPathTextBox_GotFocus"
-                         PreviewMouseDown="DisplayFolderPathTextBox_PreviewMouseDown"/>
+                         KeyDown="CurrentFolderPathTextBox_KeyDown"
+                         GotFocus="CurrentFolderPathTextBox_GotFocus"
+                         PreviewMouseDown="CurrentFolderPathTextBox_PreviewMouseDown"/>
                 <Button Grid.Column="1"
                         Command="{Binding ReloadCommand}"
                         BorderThickness="0,1,1,1"
@@ -109,7 +109,7 @@
                 <DataGrid x:Name="FilesDataGrid"
                           Grid.Column="2"
                           Background="{x:Null}"
-                          ItemsSource="{Binding DisplayFiles}"
+                          ItemsSource="{Binding CurrentFileSystems}"
                           AutoGenerateColumns="False"
                           HeadersVisibility="Column"
                           GridLinesVisibility="None"
@@ -117,9 +117,16 @@
                           VirtualizingPanel.VirtualizationMode="Standard"
                           SelectionMode="{Binding CanMultiSelect, Converter={StaticResource BoolToDataGridSelectionModeConverter}}"
                           SelectionChanged="FilesDataGrid_SelectionChanged">
+                    <bh:Interaction.Behaviors>
+                        <behaviors:DataGridBehavior EnterKeyCommand="{Binding EnterCommand}"
+                                                    BackKeyCommand="{Binding GoBackwardCommand}"
+                                                    XButton1Command="{Binding GoBackwardCommand}"
+                                                    XButton2Command="{Binding GoForwardCommand}"
+                                                    DoubleClickCommand="{Binding EnterCommand}"/>
+                    </bh:Interaction.Behaviors>
                     <bh:Interaction.Triggers>
-                        <bh:EventTrigger>
-                            <bh:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
+                        <bh:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
                         </bh:EventTrigger>
                     </bh:Interaction.Triggers>
                     <DataGrid.Columns>

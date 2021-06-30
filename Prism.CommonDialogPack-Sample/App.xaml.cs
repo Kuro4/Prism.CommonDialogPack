@@ -29,7 +29,8 @@ namespace Prism.CommonDialogPack_Sample
         protected override void RegisterRequiredTypes(IContainerRegistry containerRegistry)
         {
             base.RegisterRequiredTypes(containerRegistry);
-            CommonDialogPackModule.RegisterRequiredTypes(containerRegistry);
+            containerRegistry.RegisterSingleton<Services.Dialogs.IDialogService, StyleableDialogService>();
+            //CommonDialogPackModule.RegisterRequiredTypes(containerRegistry);
         }
     }
 }

@@ -1,44 +1,46 @@
-﻿using Prism.Mvvm;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Prism.CommonDialogPack.ViewModels
 {
     public class ExplorerBaseRegionContext
     {
         /// <summary>
-        /// 表示するテキスト
+        /// Text resource for <see cref="ExplorerBaseViewModel"/>
         /// </summary>
         public ExplorerBaseTextResource TextResource { get; set; } = new ExplorerBaseTextResource();
         /// <summary>
-        /// 表示対象
+        /// File type to be display.
         /// </summary>
         public TargetFileType DisplayTarget { get; set; } = TargetFileType.FileAndFolder;
         /// <summary>
-        /// 選択対象
+        /// File type to be selected.
         /// </summary>
         public TargetFileType SelectionTarget { get; set; } = TargetFileType.FileOnly;
         /// <summary>
-        /// 複数選択可能かどうか
+        /// Can multi select.
         /// </summary>
         public bool CanMultiSelect { get; set; } = false;
         /// <summary>
-        /// 検索するファイルの拡張子
+        /// File extensions to be search target.
         /// </summary>
         public IEnumerable<string> FileExtensions { get; set; }
         /// <summary>
-        /// ルートに設定するフォルダのパス
+        /// Root folders.
         /// </summary>
         public IEnumerable<string> RootFolders { get; set; }
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="ExplorerBaseRegionContext"/> class.
+        /// </summary>
         public ExplorerBaseRegionContext()
         {
         }
-
+        /// <summary>
+        /// Initialize a new instance of the <see cref="ExplorerBaseRegionContext"/> class with the same as <paramref name="source"/>.
+        /// </summary>
+        /// <param name="source"></param>
         public ExplorerBaseRegionContext(ExplorerBaseRegionContext source)
-        {            
+        {
             this.TextResource = source.TextResource;
             this.DisplayTarget = source.DisplayTarget;
             this.SelectionTarget = source.SelectionTarget;
@@ -46,7 +48,10 @@ namespace Prism.CommonDialogPack.ViewModels
             this.FileExtensions = source.FileExtensions;
             this.RootFolders = source.RootFolders;
         }
-
+        /// <summary>
+        /// Create <see cref="ExplorerBaseRegionContext"/> for single folder select.
+        /// </summary>
+        /// <returns></returns>
         public static ExplorerBaseRegionContext CreateForSingleFolderSelect()
         {
             return new ExplorerBaseRegionContext()
@@ -55,7 +60,10 @@ namespace Prism.CommonDialogPack.ViewModels
                 SelectionTarget = TargetFileType.FolderOnly,
             };
         }
-
+        /// <summary>
+        /// Create <see cref="ExplorerBaseRegionContext"/> for multi folder select.
+        /// </summary>
+        /// <returns></returns>
         public static ExplorerBaseRegionContext CreateForMultiFolderSelect()
         {
             return new ExplorerBaseRegionContext()
@@ -65,7 +73,10 @@ namespace Prism.CommonDialogPack.ViewModels
                 CanMultiSelect = true,
             };
         }
-
+        /// <summary>
+        /// Create <see cref="ExplorerBaseRegionContext"/> for single file select.
+        /// </summary>
+        /// <returns></returns>
         public static ExplorerBaseRegionContext CreateForSingleFileSelect()
         {
             return new ExplorerBaseRegionContext()
@@ -74,7 +85,10 @@ namespace Prism.CommonDialogPack.ViewModels
                 SelectionTarget = TargetFileType.FileOnly,
             };
         }
-
+        /// <summary>
+        /// Create <see cref="ExplorerBaseRegionContext"/> for multi file select.
+        /// </summary>
+        /// <returns></returns>
         public static ExplorerBaseRegionContext CreateForMultiFileSelect()
         {
             return new ExplorerBaseRegionContext()

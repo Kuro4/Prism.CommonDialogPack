@@ -10,7 +10,7 @@ namespace Prism.CommonDialogPack.Models
     {
         private T current;
         /// <summary>
-        /// 現在の値
+        /// Current value.
         /// </summary>
         public T Current
         {
@@ -18,54 +18,59 @@ namespace Prism.CommonDialogPack.Models
             private set 
             {
                 SetProperty(ref this.current, value);
-                this.CanGoForward = this.Backward.Any();
-                this.CanGoBackward = this.Forward.Any();
+                this.CanRedo = this.After.Any();
+                this.CanUndo = this.Before.Any();
             }
         }
 
-        private bool canGoForward = false;
+        private bool canRedo = false;
         /// <summary>
-        /// 前進可能かどうか
+        /// Can redo.
         /// </summary>
-        public bool CanGoForward
+        public bool CanRedo
         {
-            get { return this.canGoForward; }
-            private set { SetProperty(ref this.canGoForward, value); }
+            get { return this.canRedo; }
+            private set { SetProperty(ref this.canRedo, value); }
         }
 
-        private bool canGoBackward = false;
+        private bool canUndo = false;
         /// <summary>
-        /// 後退可能かどうか
+        /// Can undo.
         /// </summary>
-        public bool CanGoBackward
+        public bool CanUndo
         {
-            get { return this.canGoBackward; }
-            private set { SetProperty(ref this.canGoBackward, value); }
+            get { return this.canUndo; }
+            private set { SetProperty(ref this.canUndo, value); }
         }
 
         /// <summary>
-        /// 前進履歴
+        /// Before.
         /// </summary>
-        private Stack<T> Forward { get; }
+        private Stack<T> Before { get; }
         /// <summary>
-        /// 後退履歴
+        /// After.
         /// </summary>
-        private Stack<T> Backward { get; }
+        private Stack<T> After { get; }
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="History{T}"/> class that is empty and has the default initial capacity.
+        /// </summary>
         public History()
         {
-            this.Forward = new Stack<T>();
-            this.Backward = new Stack<T>();
+            this.Before = new Stack<T>();
+            this.After = new Stack<T>();
         }
-
+        /// <summary>
+        /// Initialize a new instance of the <see cref="History{T}"/> class that is empty has the specified initial capacity or the default initial capacity, whichever is greater.
+        /// </summary>
+        /// <param name="capacity"></param>
         public History(int capacity)
         {
-            this.Forward = new Stack<T>(capacity);
-            this.Backward = new Stack<T>(capacity);
+            this.Before = new Stack<T>(capacity);
+            this.After = new Stack<T>(capacity);
         }
-
         /// <summary>
-        /// 履歴に登録する
+        /// Add to history.
         /// </summary>
         /// <param name="value"></param>
         public void Entry(T value)
@@ -75,43 +80,57 @@ namespace Prism.CommonDialogPack.Models
                 this.Current = value;
                 return;
             }
-            this.Forward.Push(this.Current);
-            // 後退履歴を消去
-            if (this.Backward.Any())
+            this.Before.Push(this.Current);
+            if (this.After.Any())
             {
-                this.Backward.Clear();
+                this.After.Clear();
             }
             this.Current = value;
         }
         /// <summary>
-        /// 後退する
+        /// Returns the next undo value.
         /// </summary>
-        public void GoBackward()
+        /// <returns></returns>
+        public T PeekUndo()
         {
-            if (!this.CanGoBackward) return;
-            this.Backward.Push(this.Current);
-            var value = this.Forward.Pop();
+            return this.Before.Peek();
+        }
+        /// <summary>
+        /// Returns the next redo value.
+        /// </summary>
+        /// <returns></returns>
+        public T PeekRedo()
+        {
+            return this.After.Peek();
+        }
+        /// <summary>
+        /// Undo.
+        /// </summary>
+        public void Undo()
+        {
+            if (!this.CanUndo) return;
+            this.After.Push(this.Current);
+            var value = this.Before.Pop();
             this.Current = value;
         }
         /// <summary>
-        /// 前進する
+        /// Redo.
         /// </summary>
-        public void GoForward()
+        public void Redo()
         {
-            if (!this.CanGoForward) return;
-            this.Forward.Push(this.Current);
-            var value = this.Backward.Pop();
+            if (!this.CanRedo) return;
+            this.Before.Push(this.Current);
+            var value = this.After.Pop();
             this.Current = value;
         }
         /// <summary>
-        /// 履歴をクリアする
+        /// Clear history.
         /// </summary>
         public void Clear()
         {
-            this.Forward.Clear();
-            this.Backward.Clear();
+            this.Before.Clear();
+            this.After.Clear();
             this.Current = default;
         }
-
     }
 }
