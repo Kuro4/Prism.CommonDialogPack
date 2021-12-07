@@ -1,5 +1,9 @@
 # Prism.CommonDialogPack
 PrismのDialogServiceを利用した汎用的なダイアログを提供するライブラリ
+
+# [Install](https://www.nuget.org/packages/PrismCommonDialogPack/)
+nuget パッケージマネージャーコンソールで ```Install-Package PrismCommonDialogPack``` と入力する
+
 # 機能
 
 ## 通知ダイアログ
