@@ -20,7 +20,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding FileNameText}"
+                <TextBlock Text="{Binding FileNamePrefixText}"
                            TextAlignment="Right"
                            VerticalAlignment="Center"
                            Width="100"/>

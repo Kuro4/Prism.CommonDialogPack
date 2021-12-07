@@ -6,31 +6,34 @@ namespace Prism.CommonDialogPack
 {
     public class DialogParameterNames
     {
-        public static readonly string Title = "Title";
-        public static readonly string WindowStyle = "WindowStyle";
-        public static readonly string Width = "Width";
-        public static readonly string Height = "Height";
-        public static readonly string ContentWidth = "ContentWidth";
-        public static readonly string ContentHeight = "ContentHeight";
-        public static readonly string Message = "Message";
-        public static readonly string ButtonText = "ButtonText";
-        public static readonly string OKButtonText = "OkButtonText";
-        public static readonly string CancelButtonText = "CancelButtonText";
-        public static readonly string SelectButtonText = "SelectButtonText";
-        public static readonly string SaveButtonText = "SaveButtonText";
-        public static readonly string FolderNameText = "FolderNameText";
-        public static readonly string FileNameText = "FileNameText";
-        public static readonly string FileTypeText = "FileTypeText";
-        public static readonly string TextResource = "TextResource";
-        public static readonly string CanMultiSelect = "CanMultiSelect";
-        public static readonly string RootFolders = "RootFolders";
-        public static readonly string Filters = "Filters";
-        public static readonly string DefaultAllFilesFilterText = "DefaultAllFilesFilterText";
-        public static readonly string OverwriteConfirmationTitle = "OverwriteConfirmationTitle";
-        public static readonly string OverwriteConfirmationMessageFunc = "OverwriteConfirmationMessageFunc";
-        public static readonly string OverwriteConfirmationOKButtonText = "OverwriteConfirmationOKButtonText";
-        public static readonly string OverwriteConfirmationCancelButtonText = "OverwriteConfirmationCancelButtonText";
-        public static readonly string ExplorerIcons = "ExplorerIcons";
-        public static readonly string InitialSaveFileName = "InitialSaveFileName";
+        public static readonly string Title = nameof(Title);
+        public static readonly string StartupLoaction = nameof(StartupLoaction);
+        public static readonly string ResizeMode = nameof(ResizeMode);
+        public static readonly string SizeToContent = nameof(SizeToContent);
+        public static readonly string WindowStyle = nameof(WindowStyle);
+        public static readonly string Width = nameof(Width);
+        public static readonly string Height = nameof(Height);
+        public static readonly string ContentWidth = nameof(ContentWidth);
+        public static readonly string ContentHeight = nameof(ContentHeight);
+        public static readonly string Message = nameof(Message);
+        public static readonly string ButtonText = nameof(ButtonText);
+        public static readonly string OKButtonText = nameof(OKButtonText);
+        public static readonly string CancelButtonText = nameof(CancelButtonText);
+        public static readonly string SelectButtonText = nameof(SelectButtonText);
+        public static readonly string SaveButtonText = nameof(SaveButtonText);
+        public static readonly string FolderNamePrefixText = nameof(FolderNamePrefixText);
+        public static readonly string FileNamePrefixText = nameof(FileNamePrefixText);
+        public static readonly string FileTypePrefixText = nameof(FileTypePrefixText);
+        public static readonly string TextResource = nameof(TextResource);
+        public static readonly string CanMultiSelect = nameof(CanMultiSelect);
+        public static readonly string RootFolders = nameof(RootFolders);
+        public static readonly string Filters = nameof(Filters);
+        public static readonly string DefaultAllFilesFilterText = nameof(DefaultAllFilesFilterText);
+        public static readonly string OverwriteConfirmationTitle = nameof(OverwriteConfirmationTitle);
+        public static readonly string OverwriteConfirmationMessageFunc = nameof(OverwriteConfirmationMessageFunc);
+        public static readonly string OverwriteConfirmationOKButtonText = nameof(OverwriteConfirmationOKButtonText);
+        public static readonly string OverwriteConfirmationCancelButtonText = nameof(OverwriteConfirmationCancelButtonText);
+        public static readonly string ExplorerIcons = nameof(ExplorerIcons);
+        public static readonly string DefaultSaveFileName = nameof(DefaultSaveFileName);
     }
 }

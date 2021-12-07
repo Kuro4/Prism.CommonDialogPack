@@ -1,8 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.1.0</Version>
+    <Authors>Kuro</Authors>
+    <PackageProjectUrl>https://github.com/Kuro4/Prism.CommonDialogPack</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kuro4/Prism.CommonDialogPack</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>prism wpf</PackageTags>
+    <Description>A library that provides generic dialogs using DialogService from  Prism.</Description>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright (c) 2020 Kuro</Copyright>
+    <PackageId>PrismCommonDialogPack</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+    <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
 
 </Project>

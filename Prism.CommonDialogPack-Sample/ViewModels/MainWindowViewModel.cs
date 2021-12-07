@@ -35,7 +35,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         public MainWindowViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
-            this.ShowNotificationDialog.Subscribe(() =>
+            this.ShowNotificationDialog.Subscribe(_ =>
             {
                 // Standard
                 //var param = new DialogParameters
@@ -49,7 +49,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 // Extensions
                 this.dialogService.ShowNotification("Notification", "Notification", res => this.ResultMessage.Value = "Notification");
             });
-            this.ShowConfirmationDialog.Subscribe(() =>
+            this.ShowConfirmationDialog.Subscribe(_ =>
             {
                 this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
                 {
@@ -58,10 +58,10 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     else if (res.Result == ButtonResult.Cancel)
                         this.ResultMessage.Value = "Confirmed Cancel";
                     else
-                        this.ResultMessage.Value = $"Confirmed {res.Result.ToString()}";
+                        this.ResultMessage.Value = $"Confirmed {res.Result}";
                 });
             });
-            this.ShowSingleFolderSelectDialog.Subscribe(() =>
+            this.ShowSingleFolderSelectDialog.Subscribe(_ =>
             {
                 this.dialogService.ShowFolderSelectDialog("SingleFolderSelect", false, res =>
                 {
@@ -76,7 +76,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     }
                 });
             });
-            this.ShowMultiFolderSelectDialog.Subscribe(() =>
+            this.ShowMultiFolderSelectDialog.Subscribe(_ =>
             {
                 this.dialogService.ShowFolderSelectDialog("MultiFolderSelect", true, res =>
                 {
@@ -91,7 +91,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     }
                 });
             });
-            this.ShowSingleFileSelectDialog.Subscribe(() =>
+            this.ShowSingleFileSelectDialog.Subscribe(_ =>
             {
                 this.dialogService.ShowFileSelectDialog("SingleFileSelect", false, res =>
                 {
@@ -109,7 +109,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     }
                 });
             });
-            this.ShowMultiFileSelectDialog.Subscribe(() =>
+            this.ShowMultiFileSelectDialog.Subscribe(_ =>
             {
                 var filters = new[]
                 {
@@ -135,7 +135,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 // Add File Filters
                 filters: filters);
             });
-            this.ShowFileSaveDialog.Subscribe(() =>
+            this.ShowFileSaveDialog.Subscribe(_ =>
             {
                 this.dialogService.ShowFileSaveDialog("FileSave", res =>
                 {
@@ -150,7 +150,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     }
                 });
             });
-            this.ShowCustomizedFileSaveDialog.Subscribe(() =>
+            this.ShowCustomizedFileSaveDialog.Subscribe(_ =>
             {
                 var textResource = new ExplorerBaseTextResource()
                 {
@@ -174,9 +174,9 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 var param = new DialogParameters
                 {
                     { DialogParameterNames.Title, "FileSave" },
-                    { DialogParameterNames.InitialSaveFileName, "Sample.txt" },
-                    { DialogParameterNames.FileNameText, "File name:" },
-                    { DialogParameterNames.FileTypeText, "Save as type:" },
+                    { DialogParameterNames.DefaultSaveFileName, "Sample.txt" },
+                    { DialogParameterNames.FileNamePrefixText, "File name:" },
+                    { DialogParameterNames.FileTypePrefixText, "Save as type:" },
                     { DialogParameterNames.SaveButtonText, "Save" },
                     { DialogParameterNames.CancelButtonText, "Cancel" },
                     { DialogParameterNames.TextResource, textResource },
