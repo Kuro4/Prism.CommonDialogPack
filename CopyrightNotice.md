@@ -3,6 +3,7 @@
 ## Prism.CommonDialogPack
 
 * [Prism-Copyright (c) .NET Foundation](https://github.com/PrismLibrary/Prism/blob/master/LICENSE)
+* [XamlBehaviorsWpf-Copyright (c) 2015 Microsoft](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
 
 ## Prism.CommonDialogPack-Sample
 
