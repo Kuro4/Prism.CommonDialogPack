@@ -17,7 +17,7 @@ namespace Prism.CommonDialogPack.Extensions
         public static IEnumerable<string> Unwind(this string source, char encloseChar)
         {
             bool isRange = false;
-            var res = new List<char>();
+            var res = new StringBuilder();
             foreach (var c in source)
             {
                 if (!isRange)
@@ -27,10 +27,12 @@ namespace Prism.CommonDialogPack.Extensions
                 }
                 isRange = !c.Equals(encloseChar);
                 if (isRange)
-                    res.Add(c);
+                {
+                    res.Append(c);
+                }
                 else
                 {
-                    yield return string.Join(null, res);
+                    yield return res.ToString();
                     res.Clear();
                 }
             }

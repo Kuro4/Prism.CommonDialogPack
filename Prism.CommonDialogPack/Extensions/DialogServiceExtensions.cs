@@ -8,6 +8,7 @@ namespace Prism.CommonDialogPack.Extensions
 {
     public static class DialogServiceExtensions
     {
+        // TODO: ダイアログのモーダル非モーダルを切り替えれるようにする
         public static void ShowNotification(this IDialogService dialogService, string message, string title, Action<IDialogResult> callBack, string buttonText = null)
         {
             var param = new DialogParameters()
@@ -50,7 +51,7 @@ namespace Prism.CommonDialogPack.Extensions
                 { DialogParameterNames.CanMultiSelect, canMultiSelect },
             };
             if (!string.IsNullOrEmpty(folderNameText))
-                param.Add(DialogParameterNames.FolderNameText, folderNameText);
+                param.Add(DialogParameterNames.FolderNamePrefixText, folderNameText);
             if (!string.IsNullOrEmpty(selectButtonText))
                 param.Add(DialogParameterNames.SelectButtonText, selectButtonText);
             if (!string.IsNullOrEmpty(cancelButtonText))
@@ -79,7 +80,7 @@ namespace Prism.CommonDialogPack.Extensions
                 { DialogParameterNames.CanMultiSelect, canMultiSelect },
             };
             if (!string.IsNullOrEmpty(fileNameText))
-                param.Add(DialogParameterNames.FileNameText, fileNameText);
+                param.Add(DialogParameterNames.FileNamePrefixText, fileNameText);
             if (!string.IsNullOrEmpty(selectButtonText))
                 param.Add(DialogParameterNames.SelectButtonText, selectButtonText);
             if (!string.IsNullOrEmpty(cancelButtonText))
@@ -113,9 +114,9 @@ namespace Prism.CommonDialogPack.Extensions
                 { DialogParameterNames.Title, title }
             };
             if (!string.IsNullOrEmpty(fileNameText))
-                param.Add(DialogParameterNames.FileNameText, fileNameText);
+                param.Add(DialogParameterNames.FileNamePrefixText, fileNameText);
             if (!string.IsNullOrEmpty(fileTypeText))
-                param.Add(DialogParameterNames.FileTypeText, fileTypeText);
+                param.Add(DialogParameterNames.FileTypePrefixText, fileTypeText);
             if (!string.IsNullOrEmpty(saveButtonText))
                 param.Add(DialogParameterNames.SaveButtonText, saveButtonText);
             if (!string.IsNullOrEmpty(cancelButtonText))

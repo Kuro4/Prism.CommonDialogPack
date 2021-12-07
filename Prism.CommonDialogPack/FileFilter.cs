@@ -7,16 +7,19 @@ namespace Prism.CommonDialogPack
 {
     public class FileFilter
     {
+        // TODO: Write DocString
+        public static string DefaultAllFilesFilterText { get; set; } = "すべてのファイル (*.*)";
+
         /// <summary>
         /// テキスト
         /// </summary>
         public string Text { get; set; }
 
-        private List<string> extensions { get; } = new List<string>();
+        private readonly List<string> extensions = new List<string>();
         /// <summary>
         /// 拡張子リスト
         /// </summary>
-        public IEnumerable<string> Extensions => this.extensions;
+        public IEnumerable<string> Extensions => this.extensions.AsEnumerable();
 
         public FileFilter(string text)
         {
@@ -50,6 +53,11 @@ namespace Prism.CommonDialogPack
         public void Clear()
         {
             this.extensions.Clear();
+        }
+
+        public static FileFilter CreateDefault()
+        {
+            return new FileFilter(DefaultAllFilesFilterText);
         }
     }
 }

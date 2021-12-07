@@ -28,10 +28,5 @@ namespace Prism.CommonDialogPack
             containerRegistry.RegisterDialog<FileSelectDialog, FileSelectDialogViewModel>();
             containerRegistry.RegisterDialog<FileSaveDialog, FileSaveDialogViewModel>();
         }
-
-        public static void RegisterRequiredTypes(IContainerRegistry containerRegistry)
-        {
-            containerRegistry.RegisterSingleton<IDialogService, StyleableDialogService>();
-        }
     }
 }

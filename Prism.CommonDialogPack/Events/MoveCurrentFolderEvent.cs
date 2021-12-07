@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Prism.CommonDialogPack.Events
 {
-    public class MoveDisplayFolderEvent : PubSubEvent<MoveDisplayFolderEventValue>
+    public class MoveCurrentFolderEvent : PubSubEvent<MoveCurrentFolderEventValue>
     {
     }
 }

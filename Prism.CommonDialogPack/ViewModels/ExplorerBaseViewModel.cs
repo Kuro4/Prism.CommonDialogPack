@@ -15,39 +15,46 @@ namespace Prism.CommonDialogPack.ViewModels
 {
     public class ExplorerBaseViewModel : BindableBase
     {
-        #region Command
         private DelegateCommand goBackwardCommand;
         /// <summary>
-        /// 進むコマンド
+        /// Go backward command.
         /// </summary>
-        public DelegateCommand GoBackwardCommand => this.goBackwardCommand ?? (this.goBackwardCommand = new DelegateCommand(this.GoBackward).ObservesCanExecute(() => this.History.CanGoBackward));
+        public DelegateCommand GoBackwardCommand => this.goBackwardCommand ??= new DelegateCommand(this.GoBackward).ObservesCanExecute(() => this.History.CanUndo);
 
         private DelegateCommand goForwardCommand;
         /// <summary>
-        /// 戻るコマンド
+        /// Go forward command.
         /// </summary>
-        public DelegateCommand GoForwardCommand => this.goForwardCommand ?? (this.goForwardCommand = new DelegateCommand(this.GoForward).ObservesCanExecute(() => this.History.CanGoForward));
+        public DelegateCommand GoForwardCommand => this.goForwardCommand ??= new DelegateCommand(this.GoForward).ObservesCanExecute(() => this.History.CanRedo);
 
         private DelegateCommand goUpperFolderCommand;
         /// <summary>
-        /// 上の階層に戻るコマンド
+        /// Go upper folder command.
         /// </summary>
-        public DelegateCommand GoUpperFolderCommand => this.goUpperFolderCommand ?? (this.goUpperFolderCommand = new DelegateCommand(this.GoUpperFolder).ObservesCanExecute(() => this.CanGoUpperFolder));
+        public DelegateCommand GoUpperFolderCommand => this.goUpperFolderCommand ??= new DelegateCommand(this.GoUpperFolder).ObservesCanExecute(() => this.CanGoUpperFolder);
 
         private DelegateCommand reloadCommand;
         /// <summary>
-        /// リロードコマンド
+        /// Reload command.
         /// </summary>
-        public DelegateCommand ReloadCommand => this.reloadCommand ?? (this.reloadCommand = new DelegateCommand(this.Reload));
+        public DelegateCommand ReloadCommand => this.reloadCommand ??= new DelegateCommand(this.Reload);
 
         private DelegateCommand selectedItemChangedCommand;
         /// <summary>
-        /// 選択アイテム変更時のコマンド
+        /// Selected item changed command.
         /// </summary>
-        public DelegateCommand SelectedItemChangedCommand => this.selectedItemChangedCommand ?? (this.selectedItemChangedCommand = new DelegateCommand(this.OnSelection));
-        #endregion
-        #region View Text
+        public DelegateCommand SelectedItemChangedCommand => this.selectedItemChangedCommand ??= new DelegateCommand(this.OnSelection);
+
+        private DelegateCommand<object> enterCommande;
+        /// <summary>
+        /// Enter command.
+        /// </summary>
+        public DelegateCommand<object> EnterCommand => this.enterCommande ??= new DelegateCommand<object>(this.OnEnter);
+
         private string nameColumnText;
+        /// <summary>
+        /// Name column text.
+        /// </summary>
         public string NameColumnText
         {
             get { return this.nameColumnText; }
@@ -55,6 +62,9 @@ namespace Prism.CommonDialogPack.ViewModels
         }
 
         private string dateModifiedColumnText;
+        /// <summary>
+        /// Date modified column text.
+        /// </summary>
         public string DateModifiedColumnText
         {
             get { return this.dateModifiedColumnText; }
@@ -62,6 +72,9 @@ namespace Prism.CommonDialogPack.ViewModels
         }
 
         private string typeColumnText;
+        /// <summary>
+        /// Type column text.
+        /// </summary>
         public string TypeColumnText
         {
             get { return this.typeColumnText; }
@@ -69,19 +82,24 @@ namespace Prism.CommonDialogPack.ViewModels
         }
 
         private string sizeColumnText;
+        /// <summary>
+        /// Size column text.
+        /// </summary>
         public string SizeColumnText
         {
             get { return this.sizeColumnText; }
             set { SetProperty(ref this.sizeColumnText, value); }
         }
-        #endregion
-        private string displayFolderPath;
+
+        private string currentFolderPath;
         /// <summary>
-        /// 表示中のフォルダのパス
+        /// Current folder path.
+        /// <para>If a file path is entered, a <see cref="FileEnterEvent"/> will be published.</para>
+        /// <para>If a folder path is entered, a <see cref="MoveCurrentFolderEvent"/> will be published.</para>
         /// </summary>
-        public string DisplayFolderPath
+        public string CurrentFolderPath
         {
-            get { return displayFolderPath; }
+            get { return currentFolderPath; }
             set 
             {
                 if (File.Exists(value)) 
@@ -89,18 +107,24 @@ namespace Prism.CommonDialogPack.ViewModels
                     this.eventAggregator.GetEvent<FileEnterEvent>().Publish(new FileEnterEventValue(value));
                     return;
                 }
-                if (!Directory.Exists(value)) return;
-                if (!string.IsNullOrEmpty(this.displayFolderPath) && this.displayFolderPath.Equals(value)) return;
-                SetProperty(ref this.displayFolderPath, value);
+                if (!Directory.Exists(value))
+                {
+                    return;
+                }
+                if (!string.IsNullOrEmpty(this.currentFolderPath) && this.currentFolderPath.Equals(value))
+                {
+                    return;
+                }
+                SetProperty(ref this.currentFolderPath, value);
                 this.SelectFolder(value);
                 this.CanGoUpperFolder = !this.RootFolders.Any(f => f.Path.Equals(value));
-                this.eventAggregator.GetEvent<MoveDisplayFolderEvent>().Publish(new MoveDisplayFolderEventValue(value));
+                this.eventAggregator.GetEvent<MoveCurrentFolderEvent>().Publish(new MoveCurrentFolderEventValue(value));
             }
         }
 
         private IFolder selectedFolder;
         /// <summary>
-        /// TreeView で選択しているフォルダ
+        /// Selected folder in TreeView.
         /// </summary>
         public IFolder SelectedFolder
         {
@@ -108,15 +132,18 @@ namespace Prism.CommonDialogPack.ViewModels
             set 
             {
                 SetProperty(ref this.selectedFolder, value);
-                this.DisplayFolderPath = value.Path;
-                this.UpdateDisplayFiles();
-                if (this.CanEntry) this.History.Entry(value);
+                this.CurrentFolderPath = value.Path;
+                this.UpdateCurrentFileSystems();
+                if (this.CanEntry)
+                {
+                    this.History.Entry(value);
+                }
             }
         }
 
         private bool canGoUpperFolder = false;
         /// <summary>
-        /// 上の階層へ移動できるかどうか
+        /// Can go upper folder.
         /// </summary>
         public bool CanGoUpperFolder
         {
@@ -126,7 +153,8 @@ namespace Prism.CommonDialogPack.ViewModels
 
         private bool canMultiSelect = false;
         /// <summary>
-        /// 複数選択可能かどうか
+        /// Can multi select.
+        /// <para>Default: false</para>
         /// </summary>
         public bool CanMultiSelect
         {
@@ -135,17 +163,17 @@ namespace Prism.CommonDialogPack.ViewModels
         }
 
         /// <summary>
-        /// 表示対象
+        /// File type to be display.
         /// </summary>
         public TargetFileType DisplayTarget { get; set; } = TargetFileType.FileAndFolder;
         /// <summary>
-        /// 選択対象
+        /// File type to be selected.
         /// </summary>
         public TargetFileType SelectionTarget { get; set; } = TargetFileType.FileOnly;
 
         private IEnumerable<string> fileExtensions;
         /// <summary>
-        /// 検索するファイルの拡張子
+        /// File extensions to be search target.
         /// </summary>
         public IEnumerable<string> FileExtensions 
         {
@@ -153,53 +181,96 @@ namespace Prism.CommonDialogPack.ViewModels
             set 
             {
                 this.fileExtensions = value;
-                this.UpdateDisplayFiles();
+                this.UpdateCurrentFileSystems();
             } 
         }
+
         /// <summary>
-        /// フォルダーの移動履歴
+        /// Folder move history.
         /// </summary>
         public History<IFolder> History { get; } = new History<IFolder>(10);
 
+        private readonly ObservableCollection<IFolder> rootFolders = new ObservableCollection<IFolder>();
         /// <summary>
-        /// ルートフォルダー
+        /// Root folders.
         /// </summary>
-        public ObservableCollection<IFolder> RootFolders { get; } = new ObservableCollection<IFolder>();
+        public ReadOnlyObservableCollection<IFolder> RootFolders { get; }
 
-        private readonly ObservableCollection<CommonFileSystemInfo> displayFiles = new ObservableCollection<CommonFileSystemInfo>();
+        private readonly ObservableCollection<CommonFileSystemInfo> currentFileSystems = new ObservableCollection<CommonFileSystemInfo>();
         /// <summary>
-        /// 表示中のファイル
+        /// Current <see cref="CommonFileSystemInfo"/> collection.
         /// </summary>
-        public ReadOnlyObservableCollection<CommonFileSystemInfo> DisplayFiles { get; }
+        public ReadOnlyObservableCollection<CommonFileSystemInfo> CurrentFileSystems { get; }
 
         /// <summary>
-        /// 履歴の登録が可能かどうか
+        /// Can add to history.
         /// </summary>
         private bool CanEntry { get; set; } = true;
-
+        /// <summary>
+        /// Event aggregator.
+        /// </summary>
         private readonly IEventAggregator eventAggregator;
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="ExplorerBaseViewModel"/> class.
+        /// </summary>
+        /// <param name="eventAggregator"></param>
         public ExplorerBaseViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-            this.DisplayFiles = new ReadOnlyObservableCollection<CommonFileSystemInfo>(this.displayFiles);
+            this.RootFolders = new ReadOnlyObservableCollection<IFolder>(this.rootFolders);
+            this.CurrentFileSystems = new ReadOnlyObservableCollection<CommonFileSystemInfo>(this.currentFileSystems);
+            this.InitializeRootFolders();
+        }
+        /// <summary>
+        /// Initialize root folders with available drives.
+        /// </summary>
+        public void InitializeRootFolders()
+        {
             try
             {
-                this.RootFolders.AddRange(DriveInfo.GetDrives().Where(d => d.IsReady).Select(d => new Folder(d.Name)));
+                var drives = DriveInfo.GetDrives().Where(d => d.IsReady).Select(d => new Folder(d.Name));
+                if (!drives.Any())
+                {
+                    return;
+                }
+                this.InitializeRootFolders(drives);
             }
             catch (Exception e) when (e is UnauthorizedAccessException || e is IOException)
             {
                 Debug.WriteLine(e.Message);
             }
-            if (!this.RootFolders.Any()) return;
-            var defaultFolder = this.RootFolders.First();
-            defaultFolder.IsSelected = true;
         }
-
-        private void UpdateDisplayFiles()
+        /// <summary>
+        /// Initialize root folders with <paramref name="rootFolders"/>.
+        /// </summary>
+        /// <param name="rootFolders"></param>
+        public void InitializeRootFolders(IEnumerable<IFolder> rootFolders)
         {
-            if (this.SelectedFolder == null) return;
-            this.displayFiles.Clear();
+            this.rootFolders.Clear();
+            this.rootFolders.AddRange(rootFolders);            
+            this.rootFolders.First().IsSelected = true;
+        }
+        /// <summary>
+        /// Initialize root folders with <paramref name="rootFolder"/>.
+        /// </summary>
+        /// <param name="rootFolder"></param>
+        public void InitializeRootFolders(IFolder rootFolder)
+        {
+            this.rootFolders.Clear();
+            this.rootFolders.Add(rootFolder);
+            this.rootFolders.First().IsSelected = true;
+        }
+        /// <summary>
+        /// Update <see cref="CurrentFileSystems"/>.
+        /// </summary>
+        private void UpdateCurrentFileSystems()
+        {
+            if (this.SelectedFolder == null)
+            {
+                return;
+            }
+            this.currentFileSystems.Clear();
             try
             {
                 IEnumerable<string> paths;
@@ -210,6 +281,7 @@ namespace Prism.CommonDialogPack.ViewModels
                         var files = Directory.EnumerateFiles(this.SelectedFolder.Path);
                         if (this.FileExtensions != null && this.FileExtensions.Any())
                         {
+                            // Filtering files
                             files = files.Where(x => this.FileExtensions.Contains(Path.GetExtension(x)));
                         }
                         paths = paths.Concat(files);
@@ -218,6 +290,7 @@ namespace Prism.CommonDialogPack.ViewModels
                         paths = Directory.EnumerateFiles(this.SelectedFolder.Path);
                         if (this.FileExtensions != null && this.FileExtensions.Any())
                         {
+                            // Filtering files
                             paths = paths.Where(x => this.FileExtensions.Contains(Path.GetExtension(x)));
                         }
                         break;
@@ -227,81 +300,114 @@ namespace Prism.CommonDialogPack.ViewModels
                     default:
                         throw new InvalidEnumArgumentException();
                 }
-                foreach (var path in paths)
-                {
-                    this.displayFiles.Add(new CommonFileSystemInfo(path));
-                }
+                this.currentFileSystems.AddRange(paths.Select(p => new CommonFileSystemInfo(p)));
             }
             catch (Exception e) when (e is UnauthorizedAccessException || e is PathTooLongException)
             {
                 Debug.WriteLine(e.Message);
             }
         }
-
-        private void SelectFolder(string value)
+        /// <summary>
+        /// Select folder.
+        /// </summary>
+        /// <param name="path">target folder path</param>
+        private void SelectFolder(string path)
         {
-            var roots = this.RootFolders.Where(f => Path.GetPathRoot(f.Path).Equals(Path.GetPathRoot(value)));
-            if (!roots.Any()) return;
+            var roots = this.RootFolders.Where(f => Path.GetPathRoot(f.Path).Equals(Path.GetPathRoot(path)));
+            if (!roots.Any())
+            {
+                return;
+            }
             var root = roots.First();
-            if (root.Path.Equals(value))
+            if (root.Path.Equals(path))
             {
                 root.IsSelected = true;
                 return;
             }
-            var div = value.Split(Path.DirectorySeparatorChar);
+            // Expand the folders from root to path
+            var div = path.Split(Path.DirectorySeparatorChar);
             var target = root;
-            var path = div[0];
+            var tmpPath = div[0];
             for (int i = 1; i < div.Length; i++)
             {
-                path = Path.Combine(path, div[i]);
+                tmpPath = Path.Combine(tmpPath, div[i]);
                 target.IsExpanded = true;
-                target = target.Children.First(f => f.Path.Equals(path));
+                target = target.Children.First(f => f.Path.Equals(tmpPath));
             }
             target.IsSelected = true;
         }
-
+        /// <summary>
+        /// Go backward.
+        /// </summary>
         private void GoBackward()
         {
             this.CanEntry = false;
-            this.History.GoBackward();
+            this.History.Undo();
             this.History.Current.IsSelected = true;
             this.CanEntry = true;
         }
-
+        /// <summary>
+        /// Go forward.
+        /// </summary>
         private void GoForward()
         {
             this.CanEntry = false;
-            this.History.GoForward();
+            this.History.Redo();
             this.History.Current.IsSelected = true;
             this.CanEntry = true;
         }
-
+        /// <summary>
+        /// Go upper folder.
+        /// </summary>
         private void GoUpperFolder()
         {
-            this.DisplayFolderPath = Directory.GetParent(this.DisplayFolderPath).FullName;
+            this.CurrentFolderPath = Directory.GetParent(this.CurrentFolderPath).FullName;
         }
-
+        /// <summary>
+        /// Reload current folder.
+        /// </summary>
         private void Reload()
         {
             this.selectedFolder?.Reload();
-            this.UpdateDisplayFiles();
+            this.UpdateCurrentFileSystems();
         }
-
+        /// <summary>
+        /// Runs when the SelectedItemChanged event occurs in the DataGrid displaying a file.
+        /// </summary>
         private void OnSelection()
         {
-            var selectedFiles = this.DisplayFiles.Where(f => f.IsSelected);
+            var selectedFiles = this.CurrentFileSystems.Where(f => f.IsSelected);
             if (this.SelectionTarget != TargetFileType.FileAndFolder)
             {
                 var fileType = this.SelectionTarget == TargetFileType.FileOnly ? FileType.File : FileType.Folder;
                 selectedFiles = selectedFiles.Where(f => f.FileType == fileType);
             }
-            if (!selectedFiles.Any()) return;
+            if (!selectedFiles.Any())
+            {
+                return;
+            }
             var value = new FileSelectionEventValue()
             {
                 Paths = selectedFiles.Select(f => f.Path),
                 TargetFileType = this.SelectionTarget,
             };
             this.eventAggregator.GetEvent<FileSelectionEvent>().Publish(value);
+        }
+        /// <summary>
+        /// Runs when the Keydown event occurs in the DataGrid displaying a file.
+        /// </summary>
+        /// <param name="item"></param>
+        public void OnEnter(object item)
+        {
+            if (!(item is CommonFileSystemInfo file))
+            {
+                return;
+            }
+            if (file.FileType == FileType.Unknown)
+            {
+                return;
+            }
+            this.CurrentFolderPath = file.Path;
         }
     }
 }

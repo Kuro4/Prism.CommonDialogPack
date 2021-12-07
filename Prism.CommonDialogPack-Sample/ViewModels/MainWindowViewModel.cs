@@ -174,9 +174,9 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 var param = new DialogParameters
                 {
                     { DialogParameterNames.Title, "FileSave" },
-                    { DialogParameterNames.InitialSaveFileName, "Sample.txt" },
-                    { DialogParameterNames.FileNameText, "File name:" },
-                    { DialogParameterNames.FileTypeText, "Save as type:" },
+                    { DialogParameterNames.DefaultSaveFileName, "Sample.txt" },
+                    { DialogParameterNames.FileNamePrefixText, "File name:" },
+                    { DialogParameterNames.FileTypePrefixText, "Save as type:" },
                     { DialogParameterNames.SaveButtonText, "Save" },
                     { DialogParameterNames.CancelButtonText, "Cancel" },
                     { DialogParameterNames.TextResource, textResource },

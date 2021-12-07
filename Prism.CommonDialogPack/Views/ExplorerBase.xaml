@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"          
              xmlns:models="clr-namespace:Prism.CommonDialogPack.Models"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:behaviors="clr-namespace:Prism.CommonDialogPack.Behaviors"
              xmlns:Converters="clr-namespace:Prism.CommonDialogPack.Converters"
              prism:ViewModelLocator.AutoWireViewModel="True">
@@ -47,13 +47,13 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="DisplayFolderPathTextBox"
+                <TextBox x:Name="CurrentFolderPathTextBox"
                          VerticalContentAlignment="Center"
-                         Text="{Binding DisplayFolderPath, Mode=TwoWay}"
+                         Text="{Binding CurrentFolderPath, Mode=TwoWay}"
                          Padding="5,0"
-                         KeyDown="DisplayFolderPathTextBox_KeyDown"
-                         GotFocus="DisplayFolderPathTextBox_GotFocus"
-                         PreviewMouseDown="DisplayFolderPathTextBox_PreviewMouseDown"/>
+                         KeyDown="CurrentFolderPathTextBox_KeyDown"
+                         GotFocus="CurrentFolderPathTextBox_GotFocus"
+                         PreviewMouseDown="CurrentFolderPathTextBox_PreviewMouseDown"/>
                 <Button Grid.Column="1"
                         Command="{Binding ReloadCommand}"
                         BorderThickness="0,1,1,1"
@@ -99,9 +99,9 @@
                             <Setter Property="behaviors:BringableTreeViewItemBehavior.IsBringTreeViewItem" Value="True"/>
                         </Style>
                     </TreeView.ItemContainerStyle>
-                    <i:Interaction.Behaviors>
+                    <bh:Interaction.Behaviors>
                         <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedFolder, Mode=TwoWay}"/>
-                    </i:Interaction.Behaviors>
+                    </bh:Interaction.Behaviors>
                 </TreeView>
                 <GridSplitter Grid.Column="1"
                           Width="3"
@@ -109,7 +109,7 @@
                 <DataGrid x:Name="FilesDataGrid"
                           Grid.Column="2"
                           Background="{x:Null}"
-                          ItemsSource="{Binding DisplayFiles}"
+                          ItemsSource="{Binding CurrentFileSystems}"
                           AutoGenerateColumns="False"
                           HeadersVisibility="Column"
                           GridLinesVisibility="None"
@@ -117,11 +117,18 @@
                           VirtualizingPanel.VirtualizationMode="Standard"
                           SelectionMode="{Binding CanMultiSelect, Converter={StaticResource BoolToDataGridSelectionModeConverter}}"
                           SelectionChanged="FilesDataGrid_SelectionChanged">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                    <bh:Interaction.Behaviors>
+                        <behaviors:DataGridBehavior EnterKeyCommand="{Binding EnterCommand}"
+                                                    BackKeyCommand="{Binding GoBackwardCommand}"
+                                                    XButton1Command="{Binding GoBackwardCommand}"
+                                                    XButton2Command="{Binding GoForwardCommand}"
+                                                    DoubleClickCommand="{Binding EnterCommand}"/>
+                    </bh:Interaction.Behaviors>
+                    <bh:Interaction.Triggers>
+                        <bh:EventTrigger EventName="SelectionChanged">
+                            <prism:InvokeCommandAction Command="{Binding SelectedItemChangedCommand}"/>
+                        </bh:EventTrigger>
+                    </bh:Interaction.Triggers>
                     <DataGrid.Columns>
                         <DataGridTemplateColumn SortMemberPath="Name"
                                                 Width="250"
