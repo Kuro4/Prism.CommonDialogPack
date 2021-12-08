@@ -1,11 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Data;
 
 namespace Prism.CommonDialogPack
 {
@@ -15,31 +10,22 @@ namespace Prism.CommonDialogPack
         {
         }
 
-        protected override void ConfigureDialogWindowProperties(IDialogWindow window, FrameworkElement dialogContent, IDialogAware viewModel)
+        protected override void ConfigureDialogWindowContent(string dialogName, IDialogWindow window, IDialogParameters parameters)
         {
-            var windowStyle = Dialog.GetWindowStyle(dialogContent);
-            if (windowStyle != null)
+            base.ConfigureDialogWindowContent(dialogName, window, parameters);
+
+            if (!(window is Window hostWindow) || !(window.DataContext is IStyleableDialogAware styleableVM))
+                return;
+            if (styleableVM.WindowStyle is null)
             {
-                window.Style = windowStyle;
-            }
-            else if (window is Window hostWindow && viewModel is IStyleableDialogAware styleableVM)
-            {
-                styleableVM.WindowStyle ??= new Style(typeof(Window));
+                styleableVM.WindowStyle = new Style(typeof(Window));
                 styleableVM.WindowStyle.Setters.Add(new Setter(Window.ResizeModeProperty, styleableVM.ResizeMode));
                 styleableVM.WindowStyle.Setters.Add(new Setter(Window.SizeToContentProperty, styleableVM.SizeToContent));
-                hostWindow.SetBinding(FrameworkElement.StyleProperty, nameof(IStyleableDialogAware.WindowStyle));
-                hostWindow.WindowStartupLocation = styleableVM.StartupLocation;
-                hostWindow.Width = styleableVM.Width;
-                hostWindow.Height = styleableVM.Height;
+                styleableVM.WindowStyle.Setters.Add(new Setter(Window.WidthProperty, styleableVM.Width));
+                styleableVM.WindowStyle.Setters.Add(new Setter(Window.HeightProperty, styleableVM.Height));
             }
-
-            window.Content = dialogContent;
-            window.DataContext = viewModel;
-
-            if (window.Owner == null)
-            {
-                window.Owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(x => x.IsActive);
-            }
+            hostWindow.SetBinding(FrameworkElement.StyleProperty, nameof(IStyleableDialogAware.WindowStyle));
+            hostWindow.WindowStartupLocation = styleableVM.StartupLocation;
         }
     }
 }

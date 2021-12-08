@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace Prism.CommonDialogPack_Sample.ViewModels
 {
+    // TODO: Enrichment of sample app.
     public class MainWindowViewModel : BindableBase
     {
         private string _title = "Prism.CommonDialogPack-Sample";

@@ -2,7 +2,6 @@
 using Prism.CommonDialogPack.Events;
 using Prism.CommonDialogPack.Extensions;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -299,6 +298,7 @@ namespace Prism.CommonDialogPack.ViewModels
                     this.OverwriteConfirmationMessageFunc?.Invoke(res),
                     this.OverwriteConfirmationTitle,
                     res => confirmed = res.Result == ButtonResult.OK,
+                    true,
                     this.OverwriteConfirmationOKButtonText,
                     this.OverwriteConfirmationCancelButtonText);
                 if (!confirmed)

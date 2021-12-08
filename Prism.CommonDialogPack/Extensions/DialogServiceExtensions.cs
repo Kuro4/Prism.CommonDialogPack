@@ -6,10 +6,26 @@ using System.Text;
 
 namespace Prism.CommonDialogPack.Extensions
 {
+    /// <summary>
+    /// <see cref="IDialogService"/> extensions.
+    /// </summary>
     public static class DialogServiceExtensions
     {
-        // TODO: ダイアログのモーダル非モーダルを切り替えれるようにする
-        public static void ShowNotification(this IDialogService dialogService, string message, string title, Action<IDialogResult> callBack, string buttonText = null)
+        /// <summary>
+        /// Show notification dialog.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="message">Notification message.</param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="callBack">Callback action.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal.</param>
+        /// <param name="buttonText">button text.</param>
+        public static void ShowNotification(this IDialogService dialogService,
+                                            string message,
+                                            string title,
+                                            Action<IDialogResult> callBack,
+                                            bool isModal = true,
+                                            string buttonText = null)
         {
             var param = new DialogParameters()
             {
@@ -18,10 +34,28 @@ namespace Prism.CommonDialogPack.Extensions
             };
             if (!string.IsNullOrWhiteSpace(buttonText))
                 param.Add(DialogParameterNames.ButtonText, buttonText);
-            dialogService.ShowDialog(DialogNames.Notification, param, callBack);
+            if (isModal)
+                dialogService.ShowDialog(DialogNames.Notification, param, callBack);
+            else
+                dialogService.Show(DialogNames.Notification, param, callBack);
         }
-
-        public static void ShowConfirmation(this IDialogService dialogService, string message, string title, Action<IDialogResult> callBack, string okButtonText = null, string cancelButtonText = null)
+        /// <summary>
+        /// Show confirmation dialog.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="message">Confirmation message.</param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="callBack">Callback action.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal.</param>
+        /// <param name="okButtonText">OK button text.</param>
+        /// <param name="cancelButtonText">Cancel button text.</param>
+        public static void ShowConfirmation(this IDialogService dialogService,
+                                            string message,
+                                            string title,
+                                            Action<IDialogResult> callBack,
+                                            bool isModal = true,
+                                            string okButtonText = null,
+                                            string cancelButtonText = null)
         {
             var param = new DialogParameters()
             {
@@ -32,14 +66,30 @@ namespace Prism.CommonDialogPack.Extensions
                 param.Add(DialogParameterNames.OKButtonText, okButtonText);
             if (!string.IsNullOrWhiteSpace(cancelButtonText))
                 param.Add(DialogParameterNames.CancelButtonText, cancelButtonText);
-            dialogService.ShowDialog(DialogNames.Confirmation, param, callBack);
+            if (isModal)
+                dialogService.ShowDialog(DialogNames.Confirmation, param, callBack);
+            else
+                dialogService.Show(DialogNames.Confirmation, param, callBack);
         }
-
+        /// <summary>
+        /// Show folder select dialog.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="canMultiSelect">If true; can multi select.</param>
+        /// <param name="callBack">Callback action.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal.</param>
+        /// <param name="folderNamePrefixText">Folder name prefix text.</param>
+        /// <param name="selectButtonText">Select button text</param>
+        /// <param name="cancelButtonText">Cancel button text</param>
+        /// <param name="textResource">Text resource for explorer.</param>
+        /// <param name="rootFolders">Root folders path.</param>
         public static void ShowFolderSelectDialog(this IDialogService dialogService,
                                                   string title,
                                                   bool canMultiSelect,
                                                   Action<IDialogResult> callBack,
-                                                  string folderNameText = null,
+                                                  bool isModal = true,
+                                                  string folderNamePrefixText = null,
                                                   string selectButtonText = null,
                                                   string cancelButtonText = null,
                                                   ExplorerBaseTextResource textResource = null,
@@ -50,8 +100,8 @@ namespace Prism.CommonDialogPack.Extensions
                 { DialogParameterNames.Title, title },
                 { DialogParameterNames.CanMultiSelect, canMultiSelect },
             };
-            if (!string.IsNullOrEmpty(folderNameText))
-                param.Add(DialogParameterNames.FolderNamePrefixText, folderNameText);
+            if (!string.IsNullOrEmpty(folderNamePrefixText))
+                param.Add(DialogParameterNames.FolderNamePrefixText, folderNamePrefixText);
             if (!string.IsNullOrEmpty(selectButtonText))
                 param.Add(DialogParameterNames.SelectButtonText, selectButtonText);
             if (!string.IsNullOrEmpty(cancelButtonText))
@@ -60,14 +110,31 @@ namespace Prism.CommonDialogPack.Extensions
                 param.Add(DialogParameterNames.TextResource, textResource);
             if (rootFolders != null)
                 param.Add(DialogParameterNames.RootFolders, rootFolders);
-            dialogService.ShowDialog(DialogNames.FolderSelectDialog, param, callBack);
+            if (isModal)
+                dialogService.ShowDialog(DialogNames.FolderSelectDialog, param, callBack);
+            else
+                dialogService.Show(DialogNames.FolderSelectDialog, param, callBack);
         }
-
+        /// <summary>
+        /// Show file select dialog.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="canMultiSelect">If true; can multi select.</param>
+        /// <param name="callBack">Callback action.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal.</param>
+        /// <param name="fileNamePrefixText">File name prefix text.</param>
+        /// <param name="selectButtonText">Select button text.</param>
+        /// <param name="cancelButtonText">Cancel button text.</param>
+        /// <param name="textResource">Text resource for explorer.</param>
+        /// <param name="filters">File filters.</param>
+        /// <param name="rootFolders">Root folders path.</param>
         public static void ShowFileSelectDialog(this IDialogService dialogService,
                                                 string title,
                                                 bool canMultiSelect,
                                                 Action<IDialogResult> callBack,
-                                                string fileNameText = null,
+                                                bool isModal = true,
+                                                string fileNamePrefixText = null,
                                                 string selectButtonText = null,
                                                 string cancelButtonText = null,
                                                 ExplorerBaseTextResource textResource = null,
@@ -79,8 +146,8 @@ namespace Prism.CommonDialogPack.Extensions
                 { DialogParameterNames.Title, title },
                 { DialogParameterNames.CanMultiSelect, canMultiSelect },
             };
-            if (!string.IsNullOrEmpty(fileNameText))
-                param.Add(DialogParameterNames.FileNamePrefixText, fileNameText);
+            if (!string.IsNullOrEmpty(fileNamePrefixText))
+                param.Add(DialogParameterNames.FileNamePrefixText, fileNamePrefixText);
             if (!string.IsNullOrEmpty(selectButtonText))
                 param.Add(DialogParameterNames.SelectButtonText, selectButtonText);
             if (!string.IsNullOrEmpty(cancelButtonText))
@@ -91,14 +158,35 @@ namespace Prism.CommonDialogPack.Extensions
                 param.Add(DialogParameterNames.Filters, filters);
             if (rootFolders != null)
                 param.Add(DialogParameterNames.RootFolders, rootFolders);
-            dialogService.ShowDialog(DialogNames.FileSelectDialog, param, callBack);
+            if (isModal)
+                dialogService.ShowDialog(DialogNames.FileSelectDialog, param, callBack);
+            else
+                dialogService.Show(DialogNames.FileSelectDialog, param, callBack);
         }
-
+        /// <summary>
+        /// Show file save dialog.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="callBack">Callback action.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal.</param>
+        /// <param name="fileNamePrefixText">File name prefix text.</param>
+        /// <param name="fileTypePrefixText">File type prefix text.</param>
+        /// <param name="saveButtonText">Save button text.</param>
+        /// <param name="cancelButtonText">Cancel button text.</param>
+        /// <param name="textResource">Text resource for explorer.</param>
+        /// <param name="filters">File filters.</param>
+        /// <param name="rootFolders">Root folders path.</param>
+        /// <param name="overwriteConfirmationTitle">Dialog title when overwriting files.</param>
+        /// <param name="overwriteConfirmationMessageFunc">Message function when overwriting files.</param>
+        /// <param name="overwriteConfirmationOKButtonText">Dialog OK button text when overwriting files.</param>
+        /// <param name="overwriteConfirmationCancelButtonText">Dialog Cancel button text when overwriting files.</param>
         public static void ShowFileSaveDialog(this IDialogService dialogService,
                                               string title,
                                               Action<IDialogResult> callBack,
-                                              string fileNameText = null,
-                                              string fileTypeText = null,
+                                              bool isModal = true,
+                                              string fileNamePrefixText = null,
+                                              string fileTypePrefixText = null,
                                               string saveButtonText = null,
                                               string cancelButtonText = null,
                                               ExplorerBaseTextResource textResource = null,
@@ -113,10 +201,10 @@ namespace Prism.CommonDialogPack.Extensions
             {
                 { DialogParameterNames.Title, title }
             };
-            if (!string.IsNullOrEmpty(fileNameText))
-                param.Add(DialogParameterNames.FileNamePrefixText, fileNameText);
-            if (!string.IsNullOrEmpty(fileTypeText))
-                param.Add(DialogParameterNames.FileTypePrefixText, fileTypeText);
+            if (!string.IsNullOrEmpty(fileNamePrefixText))
+                param.Add(DialogParameterNames.FileNamePrefixText, fileNamePrefixText);
+            if (!string.IsNullOrEmpty(fileTypePrefixText))
+                param.Add(DialogParameterNames.FileTypePrefixText, fileTypePrefixText);
             if (!string.IsNullOrEmpty(saveButtonText))
                 param.Add(DialogParameterNames.SaveButtonText, saveButtonText);
             if (!string.IsNullOrEmpty(cancelButtonText))
@@ -135,7 +223,10 @@ namespace Prism.CommonDialogPack.Extensions
                 param.Add(DialogParameterNames.OverwriteConfirmationOKButtonText, overwriteConfirmationOKButtonText);
             if (!string.IsNullOrEmpty(overwriteConfirmationCancelButtonText))
                 param.Add(DialogParameterNames.OverwriteConfirmationCancelButtonText, overwriteConfirmationCancelButtonText);
-            dialogService.ShowDialog(DialogNames.FileSaveDialog, param, callBack);
+            if (isModal)
+                dialogService.ShowDialog(DialogNames.FileSaveDialog, param, callBack);
+            else
+                dialogService.Show(DialogNames.FileSaveDialog, param, callBack);
         }
     }
 }

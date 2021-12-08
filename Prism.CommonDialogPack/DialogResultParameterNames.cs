@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Prism.CommonDialogPack
+﻿namespace Prism.CommonDialogPack
 {
     public static class DialogResultParameterNames
     {
