@@ -1,8 +1,6 @@
 ﻿using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Prism.CommonDialogPack.Models
 {
@@ -87,6 +85,10 @@ namespace Prism.CommonDialogPack.Models
         /// </summary>
         protected FileSystemInfo Info { get; }
 
+        /// <summary>
+        /// Initialize a new instance of the <see cref="CommonFileSystemInfo"/> class width the specified path.
+        /// </summary>
+        /// <param name="path">File path.</param>
         public CommonFileSystemInfo(string path)
         {
             this.Path = path;
@@ -114,11 +116,17 @@ namespace Prism.CommonDialogPack.Models
             }
             this.HasError = false;
         }
-
+        /// <summary>
+        /// Initialize a new instance of the <see cref="CommonFileSystemInfo"/> class width the specified <see cref="FileSystemInfo"/>.
+        /// </summary>
+        /// <param name="fileSystemInfo">File system info.</param>
         public CommonFileSystemInfo(FileSystemInfo fileSystemInfo) : this(fileSystemInfo.FullName)
         {
         }
-
+        /// <summary>
+        /// Return the path to this file.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.Path;

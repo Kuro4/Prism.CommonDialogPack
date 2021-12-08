@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Prism.CommonDialogPack
+﻿namespace Prism.CommonDialogPack
 {
     public enum TargetFileType
     {
         /// <summary>
-        /// ファイルとフォルダー
+        /// File and folder.
         /// </summary>
         FileAndFolder,
         /// <summary>
-        /// ファイルのみ
+        /// File only.
         /// </summary>
         FileOnly,
         /// <summary>
-        /// フォルダーのみ
+        /// Folder only.
         /// </summary>
         FolderOnly,
     }

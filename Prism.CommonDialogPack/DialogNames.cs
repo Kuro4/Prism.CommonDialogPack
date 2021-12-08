@@ -1,7 +1,4 @@
 ﻿using Prism.CommonDialogPack.Views;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Prism.CommonDialogPack
 {

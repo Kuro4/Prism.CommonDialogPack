@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using Prism.Services.Dialogs;
-using System.Windows;
 
 namespace Prism.CommonDialogPack.ViewModels
 {

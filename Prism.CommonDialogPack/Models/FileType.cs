@@ -1,13 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Prism.CommonDialogPack.Models
+﻿namespace Prism.CommonDialogPack.Models
 {
+    /// <summary>
+    /// File type.
+    /// </summary>
     public enum FileType
     {
+        /// <summary>
+        /// Unknown.
+        /// </summary>
         Unknown,
+        /// <summary>
+        /// File
+        /// </summary>
         File,
+        /// <summary>
+        /// Folder.
+        /// </summary>
         Folder,
     }
 }
