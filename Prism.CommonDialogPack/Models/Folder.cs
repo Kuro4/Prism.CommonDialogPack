@@ -1,11 +1,9 @@
 ﻿using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Prism.CommonDialogPack.Models
 {
@@ -168,12 +166,18 @@ namespace Prism.CommonDialogPack.Models
                 Debug.WriteLine(e.Message);
             }
         }
-
+        /// <summary>
+        /// Return the path to this folder.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return this.Path;
         }
-
+        /// <summary>
+        /// Create and return a dummy folder.
+        /// </summary>
+        /// <returns></returns>
         public static Folder CreateDammy()
         {
             return new Folder(string.Empty);

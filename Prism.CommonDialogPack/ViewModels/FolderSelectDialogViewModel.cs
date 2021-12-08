@@ -1,11 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.CommonDialogPack.Events;
 using Prism.CommonDialogPack.Extensions;
-using Prism.CommonDialogPack.Models;
 using Prism.Events;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;

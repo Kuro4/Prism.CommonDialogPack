@@ -53,14 +53,30 @@ namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
             });
             this.ShowConfirmationDialog.Subscribe(() =>
             {
-                this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
+                //this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
+                //{
+                //    if (res.Result == ButtonResult.OK)
+                //        this.ResultMessage.Value = "Confirmed OK";
+                //    else if (res.Result == ButtonResult.Cancel)
+                //        this.ResultMessage.Value = "Confirmed Cancel";
+                //    else
+                //        this.ResultMessage.Value = $"Confirmed {res.Result.ToString()}";
+                //});
+                var parame = new DialogParameters()
                 {
-                    if (res.Result == ButtonResult.OK)
-                        this.ResultMessage.Value = "Confirmed OK";
-                    else if (res.Result == ButtonResult.Cancel)
-                        this.ResultMessage.Value = "Confirmed Cancel";
-                    else
-                        this.ResultMessage.Value = $"Confirmed {res.Result.ToString()}";
+                    { DialogParameterNames.Message, "Message" },
+                    { DialogParameterNames.Title, "Hoge" },
+                    //{ DialogParameterNames.ContentWidth, 400 },
+                    //{ DialogParameterNames.ContentHeight, 300 },
+                    { DialogParameterNames.Width, 800 },
+                    { DialogParameterNames.Height, 600 },
+                    { DialogParameterNames.ResizeMode, System.Windows.ResizeMode.CanResize },
+                    { DialogParameterNames.SizeToContent, System.Windows.SizeToContent.Manual },
+                    { DialogParameterNames.StartupLoaction, System.Windows.WindowStartupLocation.CenterOwner},
+                };
+                this.dialogService.ShowDialog(DialogNames.Confirmation, parame, res =>
+                {
+
                 });
             });
             this.ShowSingleFolderSelectDialog.Subscribe(() =>
