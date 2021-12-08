@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
 {
-    // TODO: ※ 注意事項) Dialog の Width, Height は Style で Window 側に設定しているため、 Dialog にする View には Width, Height は設定してはいけない
+    // TODO: Enrichment of sample app.
     public class MainWindowViewModel : BindableBase
     {
         private string _title = "Prism.CommonDialogPack-Sample";
@@ -53,30 +53,14 @@ namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
             });
             this.ShowConfirmationDialog.Subscribe(() =>
             {
-                //this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
-                //{
-                //    if (res.Result == ButtonResult.OK)
-                //        this.ResultMessage.Value = "Confirmed OK";
-                //    else if (res.Result == ButtonResult.Cancel)
-                //        this.ResultMessage.Value = "Confirmed Cancel";
-                //    else
-                //        this.ResultMessage.Value = $"Confirmed {res.Result.ToString()}";
-                //});
-                var parame = new DialogParameters()
+                this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
                 {
-                    { DialogParameterNames.Message, "Message" },
-                    { DialogParameterNames.Title, "Hoge" },
-                    //{ DialogParameterNames.ContentWidth, 400 },
-                    //{ DialogParameterNames.ContentHeight, 300 },
-                    { DialogParameterNames.Width, 800 },
-                    { DialogParameterNames.Height, 600 },
-                    { DialogParameterNames.ResizeMode, System.Windows.ResizeMode.CanResize },
-                    { DialogParameterNames.SizeToContent, System.Windows.SizeToContent.Manual },
-                    { DialogParameterNames.StartupLoaction, System.Windows.WindowStartupLocation.CenterOwner},
-                };
-                this.dialogService.ShowDialog(DialogNames.Confirmation, parame, res =>
-                {
-
+                    if (res.Result == ButtonResult.OK)
+                        this.ResultMessage.Value = "Confirmed OK";
+                    else if (res.Result == ButtonResult.Cancel)
+                        this.ResultMessage.Value = "Confirmed Cancel";
+                    else
+                        this.ResultMessage.Value = $"Confirmed {res.Result.ToString()}";
                 });
             });
             this.ShowSingleFolderSelectDialog.Subscribe(() =>

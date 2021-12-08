@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace Prism.CommonDialogPack_Sample.ViewModels
 {
+    // TODO: Enrichment of sample app.
     public class MainWindowViewModel : BindableBase
     {
         private string _title = "Prism.CommonDialogPack-Sample";
@@ -51,30 +52,14 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
             });
             this.ShowConfirmationDialog.Subscribe(_ =>
             {
-                //this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
-                //{
-                //    if (res.Result == ButtonResult.OK)
-                //        this.ResultMessage.Value = "Confirmed OK";
-                //    else if (res.Result == ButtonResult.Cancel)
-                //        this.ResultMessage.Value = "Confirmed Cancel";
-                //    else
-                //        this.ResultMessage.Value = $"Confirmed {res.Result}";
-                //});
-                var parame = new DialogParameters()
+                this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
                 {
-                    { DialogParameterNames.Message, "Message" },
-                    { DialogParameterNames.Title, "Title" },
-                    //{ DialogParameterNames.ContentWidth, 400 },
-                    //{ DialogParameterNames.ContentHeight, 300 },
-                    { DialogParameterNames.Width, 800 },
-                    { DialogParameterNames.Height, 450 },
-                    { DialogParameterNames.ResizeMode, System.Windows.ResizeMode.CanResize },
-                    { DialogParameterNames.SizeToContent, System.Windows.SizeToContent.Manual },
-                    { DialogParameterNames.StartupLoaction, System.Windows.WindowStartupLocation.CenterOwner},
-                };
-                this.dialogService.ShowDialog(DialogNames.Confirmation, parame, res =>
-                {
-
+                    if (res.Result == ButtonResult.OK)
+                        this.ResultMessage.Value = "Confirmed OK";
+                    else if (res.Result == ButtonResult.Cancel)
+                        this.ResultMessage.Value = "Confirmed Cancel";
+                    else
+                        this.ResultMessage.Value = $"Confirmed {res.Result}";
                 });
             });
             this.ShowSingleFolderSelectDialog.Subscribe(_ =>
