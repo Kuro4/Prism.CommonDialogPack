@@ -1,6 +1,7 @@
 ﻿using Prism.Commands;
 using Prism.CommonDialogPack.Events;
 using Prism.CommonDialogPack.Models;
+using Prism.CommonDialogPack.Resources;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
@@ -221,6 +222,22 @@ namespace Prism.CommonDialogPack.ViewModels
             this.RootFolders = new ReadOnlyObservableCollection<IFolder>(this.rootFolders);
             this.CurrentFileSystems = new ReadOnlyObservableCollection<CommonFileSystemInfo>(this.currentFileSystems);
             this.InitializeRootFolders();
+            // Set current directory from Settings.
+            string path = Settings.Default.CurrentDirectoryPath;
+            if (!string.IsNullOrEmpty(path) && Directory.Exists(path))
+            {
+                this.CurrentFolderPath = path;
+                _ = System.Threading.Tasks.Task.Run(async () =>
+                {
+                    // Wait for SelectedFolder to be set on View side.
+                    while (this.SelectedFolder is null || this.SelectedFolder.Path != path)
+                    {
+                        await System.Threading.Tasks.Task.Delay(100);
+                    }
+                    this.History.Clear();
+                    this.History.Entry(this.SelectedFolder);
+                });
+            }
         }
         /// <summary>
         /// Initialize root folders with available drives.
@@ -318,13 +335,18 @@ namespace Prism.CommonDialogPack.ViewModels
             {
                 return;
             }
+            // Set current directory path to Settings.
+            if (Settings.Default.EnableDirectoryMemoization)
+            {
+                DialogSettings.SetCurrentDirectoryPath(path);
+            }
             var root = roots.First();
             if (root.Path.Equals(path))
             {
                 root.IsSelected = true;
                 return;
             }
-            // Expand the folders from root to path
+            // Expand the folders from root to path.
             var div = path.Split(Path.DirectorySeparatorChar);
             var target = root;
             var tmpPath = div[0];
@@ -345,6 +367,11 @@ namespace Prism.CommonDialogPack.ViewModels
             this.History.Undo();
             this.History.Current.IsSelected = true;
             this.CanEntry = true;
+            // Set current directory path to Settings.
+            if (Settings.Default.EnableDirectoryMemoization)
+            {
+                DialogSettings.SetCurrentDirectoryPath(this.History.Current.Path);
+            }
         }
         /// <summary>
         /// Go forward.
@@ -355,6 +382,11 @@ namespace Prism.CommonDialogPack.ViewModels
             this.History.Redo();
             this.History.Current.IsSelected = true;
             this.CanEntry = true;
+            // Set current directory path to Settings.
+            if (Settings.Default.EnableDirectoryMemoization)
+            {
+                DialogSettings.SetCurrentDirectoryPath(this.History.Current.Path);
+            }
         }
         /// <summary>
         /// Go upper folder.
