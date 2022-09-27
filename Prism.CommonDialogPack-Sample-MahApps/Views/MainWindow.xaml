@@ -15,21 +15,21 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <UniformGrid Columns="2">
-            <Button Command="{Binding ShowNotificationDialog}"
+            <Button Command="{Binding ShowNotificationDialogCommand}"
                     Content="Notification"/>
-            <Button Command="{Binding ShowConfirmationDialog}"
+            <Button Command="{Binding ShowConfirmationDialogCommand}"
                     Content="Confirmation"/>
-            <Button Command="{Binding ShowSingleFolderSelectDialog}"
+            <Button Command="{Binding ShowSingleFolderSelectDialogCommand}"
                     Content="Single FolderSelect"/>
-            <Button Command="{Binding ShowMultiFolderSelectDialog}"
+            <Button Command="{Binding ShowMultiFolderSelectDialogCommand}"
                     Content="Multi FolderSelect"/>
-            <Button Command="{Binding ShowSingleFileSelectDialog}"
+            <Button Command="{Binding ShowSingleFileSelectDialogCommand}"
                     Content="Single FileSelect"/>
-            <Button Command="{Binding ShowMultiFileSelectDialog}"
+            <Button Command="{Binding ShowMultiFileSelectDialogCommand}"
                     Content="Multi FileSelect"/>
-            <Button Command="{Binding ShowFileSaveDialog}"
+            <Button Command="{Binding ShowFileSaveDialogCommand}"
                     Content="FileSave"/>
-            <Button Command="{Binding ShowCustomizedFileSaveDialog}"
+            <Button Command="{Binding ShowCustomizedFileSaveDialogCommand}"
                     Content="FileSave (Customized)"/>
             <Button Command="{Binding ShowProgressDialogCommand}"
                     Content="Progress"/>
