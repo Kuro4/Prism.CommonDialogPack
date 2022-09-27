@@ -31,5 +31,13 @@
         public static readonly string OverwriteConfirmationCancelButtonText = nameof(OverwriteConfirmationCancelButtonText);
         public static readonly string ExplorerIcons = nameof(ExplorerIcons);
         public static readonly string DefaultSaveFileName = nameof(DefaultSaveFileName);
+        public static readonly string IsIndeterminate = nameof(IsIndeterminate);
+        public static readonly string Maximum = nameof(Maximum);
+        public static readonly string Minimum = nameof(Minimum);
+        public static readonly string ProgressTask = nameof(ProgressTask);
+        public static readonly string IsNotifyProgressComplete = nameof(IsNotifyProgressComplete);
+        public static readonly string ProgressCompleteNotificationTitle = nameof(ProgressCompleteNotificationTitle);
+        public static readonly string ProgressCompleteNotificationMessage = nameof(ProgressCompleteNotificationMessage);
+        public static readonly string ProgressCompleteNotificationButtonText = nameof(ProgressCompleteNotificationButtonText);
     }
 }
