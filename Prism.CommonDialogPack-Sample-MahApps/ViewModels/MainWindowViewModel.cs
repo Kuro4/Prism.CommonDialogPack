@@ -1,5 +1,7 @@
 ﻿using Prism.CommonDialogPack;
+using Prism.CommonDialogPack.Events;
 using Prism.CommonDialogPack.Extensions;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using Reactive.Bindings;
@@ -7,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
@@ -31,12 +35,16 @@ namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
         public ReactiveCommand ShowMultiFileSelectDialog { get; } = new ReactiveCommand();
         public ReactiveCommand ShowFileSaveDialog { get; } = new ReactiveCommand();
         public ReactiveCommand ShowCustomizedFileSaveDialog { get; } = new ReactiveCommand();
+        public ReactiveCommand ShowProgressDialogCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ShowIndeterminateProgreesDialogCommand { get; } = new ReactiveCommand();
 
         private readonly IDialogService dialogService;
+        private readonly IEventAggregator eventAggregator;
 
-        public MainWindowViewModel(IDialogService dialogService)
+        public MainWindowViewModel(IDialogService dialogService, IEventAggregator eventAggregator)
         {
             this.dialogService = dialogService;
+            this.eventAggregator = eventAggregator;
             this.ShowNotificationDialog.Subscribe(() =>
             {
                 // Standard
@@ -202,6 +210,176 @@ namespace Prism.CommonDialogPack_Sample_MahApps.ViewModels
                         this.ResultMessage.Value = "Cancel File Save";
                     }
                 });
+            });
+            this.ShowProgressDialogCommand.Subscribe(ShowProgressDialog);
+            this.ShowIndeterminateProgreesDialogCommand.Subscribe(this.ShowIndeterminateProgreesDialog);
+        }
+        /// <summary>
+        /// Task to publish <see cref="ProgressEvent"/>.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task ProgressAsync(int count, CancellationToken cancellationToken)
+        {
+            int step = count / 20;
+            for (int i = 0; i < count; i += step)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+                var eventValue = new ProgressEventValue()
+                {
+                    Text = $"{i} / {count}",
+                    Value = i,
+                };
+                this.eventAggregator.GetEvent<ProgressEvent>().Publish(eventValue);
+                await Task.Delay(100);
+            }
+        }
+        /// <summary>
+        /// Show ProgressDialog.
+        /// </summary>
+        private void ShowProgressDialog()
+        {
+            Random random = new Random();
+            int count = random.Next(0, 5000);
+            var tokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = tokenSource.Token;
+            var task = this.ProgressAsync(count, cancellationToken);
+            var param = new DialogParameters()
+            {
+                { DialogParameterNames.Message, "Progress..." },
+                { DialogParameterNames.Maximum, count },
+                { DialogParameterNames.ProgressTask, task},
+                { DialogParameterNames.IsNotifyProgressComplete, true },
+                { DialogParameterNames.ProgressCompleteNotificationMessage, "Task completed." },
+            };
+            this.dialogService.ShowDialog(DialogNames.ProgressDialog, param, res =>
+            {
+                if (res.Result == ButtonResult.OK)
+                {
+                    this.ResultMessage.Value = "Progress completed.";
+                }
+                else if (res.Result == ButtonResult.Cancel)
+                {
+                    tokenSource.Cancel();
+                    this.ResultMessage.Value = "Progress canceled.";
+                }
+                else
+                {
+                    tokenSource.Cancel();
+                    this.ResultMessage.Value = "Progress quit.";
+                }
+                tokenSource.Dispose();
+            });
+
+            // ProgressCompleteEvent.Publish() can also be used to notify the completion of a task.
+            //bool isCancellationRequested = false;
+            //Action action = async () =>
+            //{
+            //    for (int i = 0; i < count; i += step)
+            //    {
+            //        if (isCancellationRequested)
+            //        {
+            //            break;
+            //        }
+            //        var eventValue = new ProgressEventValue()
+            //        {
+            //            Text = $"{i} / {count}",
+            //            Value = i,
+            //        };
+            //        this.eventAggregator.GetEvent<ProgressEvent>().Publish(eventValue);
+            //        await Task.Delay(100);
+            //    }
+            //    if (!isCancellationRequested)
+            //    {
+            //        this.eventAggregator.GetEvent<ProgressCompleteEvent>().Publish();
+            //    }
+            //};
+            //var param = new DialogParameters()
+            //{
+            //    { DialogParameterNames.Message, "Progress..." },
+            //    { DialogParameterNames.Maximum, count },
+            //};
+            //action.Invoke();
+            //this.dialogService.ShowDialog(DialogNames.ProgressDialog, param, res =>
+            //{
+            //    if (res.Result == ButtonResult.OK)
+            //    {
+            //        this.ResultMessage.Value = "Progress completed.";
+            //    }
+            //    else if (res.Result == ButtonResult.Cancel)
+            //    {
+            //        isCancellationRequested = true;
+            //        this.ResultMessage.Value = "Progress canceled.";
+            //    }
+            //    else
+            //    {
+            //        isCancellationRequested = true;
+            //        this.ResultMessage.Value = "Progress quit.";
+            //    }
+            //});
+        }
+        /// <summary>
+        /// Task to publish <see cref="ProgressEvent"/> with text only.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        private async Task IndeterminateProgressAsync(int count, CancellationToken cancellationToken)
+        {
+            int step = count / 20;
+            for (int i = 0; i < count; i += step)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+                var eventValue = new ProgressEventValue()
+                {
+                    Text = $"{i}",
+                };
+                this.eventAggregator.GetEvent<ProgressEvent>().Publish(eventValue);
+                await Task.Delay(100);
+            }
+        }
+        /// <summary>
+        /// Show indeterminate ProgressDialog.
+        /// </summary>
+        private void ShowIndeterminateProgreesDialog()
+        {
+            Random random = new Random();
+            int count = random.Next(0, 5000);
+            var tokenSource = new CancellationTokenSource();
+            CancellationToken cancellationToken = tokenSource.Token;
+            var task = this.IndeterminateProgressAsync(count, cancellationToken);
+            var param = new DialogParameters()
+            {
+                { DialogParameterNames.Message, "Progress..." },
+                { DialogParameterNames.IsIndeterminate, true },
+                { DialogParameterNames.ProgressTask, task},
+                { DialogParameterNames.IsNotifyProgressComplete, true },
+                { DialogParameterNames.ProgressCompleteNotificationMessage, "Task completed." },
+            };
+            this.dialogService.ShowDialog(DialogNames.ProgressDialog, param, res =>
+            {
+                if (res.Result == ButtonResult.OK)
+                {
+                    this.ResultMessage.Value = "Progress (Indeterminate) completed.";
+                }
+                else if (res.Result == ButtonResult.Cancel)
+                {
+                    tokenSource.Cancel();
+                    this.ResultMessage.Value = "Progress (Indeterminate) canceled.";
+                }
+                else
+                {
+                    tokenSource.Cancel();
+                    this.ResultMessage.Value = "Progress (Indeterminate) quit.";
+                }
+                tokenSource.Dispose();
             });
         }
     }

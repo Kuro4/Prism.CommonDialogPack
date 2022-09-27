@@ -9,44 +9,28 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+        <UniformGrid Columns="2">
             <Button Command="{Binding ShowNotificationDialog}"
                     Content="Notification"/>
-            <Button Grid.Column="1"
-                    Command="{Binding ShowConfirmationDialog}"
+            <Button Command="{Binding ShowConfirmationDialog}"
                     Content="Confirmation"/>
-            <Button Grid.Row="1"
-                    Command="{Binding ShowSingleFolderSelectDialog}"
+            <Button Command="{Binding ShowSingleFolderSelectDialog}"
                     Content="Single FolderSelect"/>
-            <Button Grid.Row="1"
-                    Grid.Column="1"
-                    Command="{Binding ShowMultiFolderSelectDialog}"
+            <Button Command="{Binding ShowMultiFolderSelectDialog}"
                     Content="Multi FolderSelect"/>
-            <Button Grid.Row="2"
-                    Command="{Binding ShowSingleFileSelectDialog}"
+            <Button Command="{Binding ShowSingleFileSelectDialog}"
                     Content="Single FileSelect"/>
-            <Button Grid.Row="2"
-                    Grid.Column="1"
-                    Command="{Binding ShowMultiFileSelectDialog}"
+            <Button Command="{Binding ShowMultiFileSelectDialog}"
                     Content="Multi FileSelect"/>
-            <Button Grid.Row="3"
-                    Command="{Binding ShowFileSaveDialog}"
+            <Button Command="{Binding ShowFileSaveDialog}"
                     Content="FileSave"/>
-            <Button Grid.Row="3"
-                    Grid.Column="1"
-                    Command="{Binding ShowCustomizedFileSaveDialog}"
+            <Button Command="{Binding ShowCustomizedFileSaveDialog}"
                     Content="FileSave (Customized)"/>
-        </Grid>
+            <Button Command="{Binding ShowProgressDialogCommand}"
+                    Content="Progress"/>
+            <Button Command="{Binding ShowIndeterminateProgreesDialogCommand}"
+                    Content="Progress (Indeterminate)"/>
+        </UniformGrid>
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">
             <TextBlock Text="{Binding ResultMessage.Value}"
