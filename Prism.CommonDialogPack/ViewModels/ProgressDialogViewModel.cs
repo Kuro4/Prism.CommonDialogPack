@@ -19,7 +19,7 @@ namespace Prism.CommonDialogPack.ViewModels
 
         private string message = string.Empty;
         /// <summary>
-        /// Progress message.
+        /// Message.
         /// </summary>
         public string Message
         {
