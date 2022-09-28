@@ -36,6 +36,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         public ReactiveCommand ShowCustomizedFileSaveDialogCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ShowProgressDialogCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ShowIndeterminateProgreesDialogCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ShowColorPickerDialogCommand { get; } = new ReactiveCommand();
 
         private readonly IDialogService dialogService;
         private readonly IEventAggregator eventAggregator;
@@ -54,6 +55,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
             this.ShowCustomizedFileSaveDialogCommand.Subscribe(this.ShowCustomizedFileSaveDialog);
             this.ShowProgressDialogCommand.Subscribe(this.ShowProgressDialog);
             this.ShowIndeterminateProgreesDialogCommand.Subscribe(this.ShowIndeterminateProgreesDialog);
+            this.ShowColorPickerDialogCommand.Subscribe(this.ShowColorPickerDialog);
         }
         /// <summary>
         /// Show NotificationDialog.
@@ -413,6 +415,18 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     this.ResultMessage.Value = "Progress (Indeterminate) quit.";
                 }
                 tokenSource.Dispose();
+            });
+        }
+
+        private void ShowColorPickerDialog()
+        {
+            var param = new DialogParameters()
+            {
+
+            };
+            this.dialogService.ShowDialog(DialogNames.ColorPickerDialog, param, res =>
+            {
+
             });
         }
     }

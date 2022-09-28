@@ -56,4 +56,11 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Controls\HSPicker\Themes\Generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

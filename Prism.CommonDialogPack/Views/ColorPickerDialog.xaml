@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="Prism.CommonDialogPack.Views.ColorPickerDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+            <TextBlock Text="Basic"/>
+            <ListView ItemsSource="{Binding Colors}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="8"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Background" Value="{Binding}"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </StackPanel>
+        <Rectangle>
+            <Rectangle.Fill>
+                <LinearGradientBrush StartPoint="0, 0" EndPoint="1, 0">
+                    <GradientStop Offset="0">
+                        <GradientStop.Color>
+                            <Color A="255" R="255" G="0" B="0"/>
+                        </GradientStop.Color>
+                    </GradientStop>
+                    <GradientStop Color="Orange" Offset="0.1"/>
+                    <GradientStop Color="Yellow" Offset="0.2"/>
+                    <GradientStop Color="GreenYellow" Offset="0.3"/>
+                    <GradientStop Color="Green" Offset="0.4"/>
+                    <GradientStop Color="Cyan" Offset="0.5"/>
+                    <GradientStop Color="Blue" Offset="0.6"/>
+                    <GradientStop Color="Purple" Offset="0.7"/>
+                    <GradientStop Color="Magenta" Offset="0.8"/>
+                    <GradientStop Color="Red" Offset="0.9"/>
+                    <!--<GradientStop Color="#ff8080" Offset="0" />
+                    <GradientStop Color="#ffc080" Offset="0.125" />
+                    <GradientStop Color="#ffff80" Offset="0.25" />
+                    <GradientStop Color="#c0ff80" Offset="0.375" />
+                    <GradientStop Color="#80ff80" Offset="0.5" />
+                    <GradientStop Color="#80ffc0" Offset="0.625" />
+                    <GradientStop Color="#80ffff" Offset="0.75" />
+                    <GradientStop Color="#80c0ff" Offset="0.875" />
+                    <GradientStop Color="#8080ff" Offset="1" />-->
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Custom"/>
+            <UniformGrid/>
+        </StackPanel>
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal">
+            <Button Content="OK"/>
+            <Button Content="Cancel"/>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image/>
+            <Slider Grid.Column="1"
+                    Orientation="Vertical"
+                    Width="20"/>
+        </Grid>
+        <Grid Grid.Row="1"
+              Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image/>
+            <StackPanel Grid.Column="1">
+
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock Text="R"/>
+                <TextBlock Text="G"/>
+                <TextBlock Text="B"/>
+            </StackPanel>
+            <Button Grid.Row="2"
+                    Grid.Column="1"
+                    Content="Add"/>
+        </Grid>
+    </Grid>
+</UserControl>
