@@ -53,18 +53,18 @@ namespace Prism.CommonDialogPack.Extensions
         {
             this.Parameters = dialogParameters;
             this.Result = buttonResult;
-            if (!dialogParameters.TryGetValue(DialogResultParameterNames.RGB, out RGB rgb))
+            if (dialogParameters.TryGetValue(DialogResultParameterNames.RGB, out RGB rgb))
             {
+                this.RGB = rgb;
             }
-            if (!dialogParameters.TryGetValue(DialogResultParameterNames.HSV, out HSV hsv))
+            if (dialogParameters.TryGetValue(DialogResultParameterNames.HSV, out HSV hsv))
             {
+                this.HSV = hsv;
             }
-            if (!dialogParameters.TryGetValue(DialogResultParameterNames.ColorCode, out string colorCode))
+            if (dialogParameters.TryGetValue(DialogResultParameterNames.ColorCode, out string colorCode))
             {
+                this.ColorCode = colorCode;
             }
-            this.RGB = rgb;
-            this.HSV = hsv;
-            this.ColorCode = colorCode;
         }
         /// <summary>
         /// Initialize a new instance of the <see cref="ColorPickerDialogResult"/> class.

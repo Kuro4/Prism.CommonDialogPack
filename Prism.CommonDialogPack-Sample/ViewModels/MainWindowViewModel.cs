@@ -76,14 +76,14 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
             //this.dialogService.ShowDialog(DialogNames.Notification, param, res => this.ResultMessage.Value = "Notification");
 
             // Extensions
-            this.dialogService.ShowNotification("Notification", "Notification", res => this.ResultMessage.Value = "Notification");
+            this.dialogService.ShowNotificationDialog("Notification", "Notification", res => this.ResultMessage.Value = "Notification");
         }
         /// <summary>
         /// Show ConfirmationDialog.
         /// </summary>
         private void ShowConfirmationDialog()
         {
-            this.dialogService.ShowConfirmation("Confirmation?", "Confirmation", res =>
+            this.dialogService.ShowConfirmationDialog("Confirmation", "Confirmation?", res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
@@ -104,12 +104,17 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         /// </summary>
         private void ShowSingleFolderSelectDialog()
         {
-            this.dialogService.ShowFolderSelectDialog("SingleFolderSelect", false, res =>
+            var param = new DialogParameters()
+            {
+                { DialogParameterNames.Title, "SingleFolderSelect" },
+            };
+            this.dialogService.ShowFolderSelectDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    var selectedPath = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths).First();
-                    this.ResultMessage.Value = $"Selected Folder: {selectedPath}";
+                    this.ResultMessage.Value = res.SelectedPaths != null && res.SelectedPaths.Any()
+                                             ? $"Selected Folder: {res.SelectedPaths.First()}"
+                                             : "Folder Not Selected";
                 }
                 else
                 {
@@ -122,12 +127,18 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         /// </summary>
         private void ShowMultiFolderSelectDialog()
         {
-            this.dialogService.ShowFolderSelectDialog("MultiFolderSelect", true, res =>
+            var param = new DialogParameters()
+            {
+                { DialogParameterNames.Title, "MultiFolderSelect" },
+                { DialogParameterNames.CanMultiSelect, true },
+            };
+            this.dialogService.ShowFolderSelectDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths);
-                    this.ResultMessage.Value = $"Selected Folders:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", selectedPaths)}";
+                    this.ResultMessage.Value = res.SelectedPaths != null && res.SelectedPaths.Any()
+                                             ? $"Selected Folders:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", res.SelectedPaths)}"
+                                             : "Folder Not Selected";
                 }
                 else
                 {
@@ -140,12 +151,17 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         /// </summary>
         private void ShowSingleFileSelectDialog()
         {
-            this.dialogService.ShowFileSelectDialog("SingleFileSelect", false, res =>
+            var param = new DialogParameters()
+            {
+                {DialogParameterNames.Title, "SingleFileSelect" },
+            };
+            this.dialogService.ShowFileSelectDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths);
-                    this.ResultMessage.Value = selectedPaths != null && selectedPaths.Any() ? $"Selected File: {selectedPaths.First()}" : "File Not Selected";
+                    this.ResultMessage.Value = res.SelectedPaths != null && res.SelectedPaths.Any()
+                                             ? $"Selected File: {res.SelectedPaths.First()}"
+                                             : "File Not Selected";
                 }
                 else
                 {
@@ -158,40 +174,44 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         /// </summary>
         private void ShowMultiFileSelectDialog()
         {
+            // Add File Filters
             var filters = new[]
             {
                 new FileFilter("Text File (*.txt; *.csv)", new[] { ".txt", ".csv" }),
                 new FileFilter("All Files (*.*)"),
                 new FileFilter("Excel File (*.xlsx; *.xlsm; *.xls)", ".xlsx", ".xlsm", ".xls"),
             };
-            this.dialogService.ShowFileSelectDialog("MultiFileSelect", true, res =>
+            var param = new DialogParameters()
+            {
+                { DialogParameterNames.Title, "MultiFileSelect" },
+                { DialogParameterNames.Filters, filters },
+                { DialogParameterNames.CanMultiSelect, true },
+            };
+            this.dialogService.ShowFileSelectDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    var selectedPaths = res.Parameters.GetValue<IEnumerable<string>>(DialogResultParameterNames.SelectedPaths);
-                    this.ResultMessage.Value = selectedPaths != null && selectedPaths.Any()
-                        ? $"Selected Files:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", selectedPaths)}"
-                        : "File Not Selected";
+                    this.ResultMessage.Value = res.SelectedPaths != null && res.SelectedPaths.Any()
+                                             ? $"Selected Files:{Environment.NewLine}    {string.Join($"{Environment.NewLine}    ", res.SelectedPaths)}"
+                                             : "File Not Selected";
                 }
                 else
                 {
                     this.ResultMessage.Value = "Cancel Multi File Select";
                 }
-            },
-            // Add File Filters
-            filters: filters);
+            });
         }
         /// <summary>
         /// Show FileSaveDialog.
         /// </summary>
         private void ShowFileSaveDialog()
         {
-            this.dialogService.ShowFileSaveDialog("FileSave", res =>
+            this.dialogService.ShowFileSaveDialog(res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    var saveFilePath = res.Parameters.GetValue<string>(DialogResultParameterNames.SaveFilePath);
-                    this.ResultMessage.Value = $"Save File Path: {saveFilePath}";
+
+                    this.ResultMessage.Value = $"Save File Path: {res.SaveFilePath}";
                 }
                 else
                 {
@@ -240,12 +260,11 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     { DialogParameterNames.OverwriteConfirmationCancelButtonText, "No" },
                     //{ DialogParameterNames.RootFolders, new [] { @"C:\" } },
                 };
-            this.dialogService.ShowDialog(DialogNames.FileSaveDialog, param, res =>
+            this.dialogService.ShowFileSaveDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    var saveFilePath = res.Parameters.GetValue<string>(DialogResultParameterNames.SaveFilePath);
-                    this.ResultMessage.Value = $"Save File Path: {saveFilePath}";
+                    this.ResultMessage.Value = $"Save File Path: {res.SaveFilePath}";
                 }
                 else
                 {
@@ -295,7 +314,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 { DialogParameterNames.IsNotifyProgressComplete, true },
                 { DialogParameterNames.ProgressCompleteNotificationMessage, "Task completed." },
             };
-            this.dialogService.ShowDialog(DialogNames.ProgressDialog, param, res =>
+            this.dialogService.ShowProgressDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
@@ -402,7 +421,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 { DialogParameterNames.IsNotifyProgressComplete, true },
                 { DialogParameterNames.ProgressCompleteNotificationMessage, "Task completed." },
             };
-            this.dialogService.ShowDialog(DialogNames.ProgressDialog, param, res =>
+            this.dialogService.ShowProgressDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
@@ -430,18 +449,15 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
             {
                 { DialogParameterNames.Title, "ColorPicker" },
             };
-            this.dialogService.ShowDialog(DialogNames.ColorPickerDialog, param, res =>
+            this.dialogService.ShowColorPickerDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
                 {
-                    RGB rgb = res.Parameters.GetValue<RGB>(DialogResultParameterNames.RGB);
-                    HSV hsv = res.Parameters.GetValue<HSV>(DialogResultParameterNames.HSV);
-                    string colorCode = res.Parameters.GetValue<string>(DialogResultParameterNames.ColorCode);
                     StringBuilder stringBuilder = new StringBuilder();
                     stringBuilder.AppendLine("ColorPicker OK");
-                    stringBuilder.AppendLine($"RGB: {rgb}");
-                    stringBuilder.AppendLine($"HSV: {hsv}");
-                    stringBuilder.AppendLine($"ColorCode: {colorCode}");
+                    stringBuilder.AppendLine($"RGB: {res.RGB}");
+                    stringBuilder.AppendLine($"HSV: {res.HSV}");
+                    stringBuilder.AppendLine($"ColorCode: {res.ColorCode}");
                     this.ResultMessage.Value = stringBuilder.ToString();
                 }
                 else if (res.Result == ButtonResult.Cancel)
@@ -460,7 +476,6 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         private void ShowColorPickerDialogWithDisableCustomColorsStorage()
         {
             DialogSettings.DisableCustomColorsStorage();
-            // Use  DialogServiceExtensions.
             this.dialogService.ShowColorPickerDialog(res =>
             {
                 if (res.Result == ButtonResult.OK)
