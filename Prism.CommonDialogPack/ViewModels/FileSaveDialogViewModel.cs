@@ -294,13 +294,17 @@ namespace Prism.CommonDialogPack.ViewModels
             if (File.Exists(res))
             {
                 bool confirmed = false;
-                this.dialogService.ShowConfirmation(
-                    this.OverwriteConfirmationMessageFunc?.Invoke(res),
-                    this.OverwriteConfirmationTitle,
-                    res => confirmed = res.Result == ButtonResult.OK,
-                    true,
-                    this.OverwriteConfirmationOKButtonText,
-                    this.OverwriteConfirmationCancelButtonText);
+                var confirmationParam = new DialogParameters()
+                {
+                    { DialogParameterNames.Title, this.OverwriteConfirmationTitle },
+                    { DialogParameterNames.Message, this.OverwriteConfirmationMessageFunc?.Invoke(res) },
+                    { DialogParameterNames.OKButtonText, this.OverwriteConfirmationOKButtonText },
+                    { DialogParameterNames.CancelButtonText, this.OverwriteConfirmationCancelButtonText },
+                };
+                this.dialogService.ShowConfirmationDialog(confirmationParam, res =>
+                {
+                    confirmed = res.Result == ButtonResult.OK;
+                });
                 if (!confirmed)
                 {
                     return;
