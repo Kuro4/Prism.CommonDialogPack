@@ -4,5 +4,7 @@
     xmlns:local="clr-namespace:Prism.CommonDialogPack">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Prism.CommonDialogPack;component/Controls/HSPicker/Themes/Generic.xaml"/>
+        <ResourceDictionary Source="/Prism.CommonDialogPack;component/Controls/BrightnessSlider/Themes/Generic.xaml" />
+        <ResourceDictionary Source="/Prism.CommonDialogPack;component/Controls/HSVPicker/Themes/Generic.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

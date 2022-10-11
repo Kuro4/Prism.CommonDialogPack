@@ -1,6 +1,7 @@
 ﻿using Prism.CommonDialogPack;
 using Prism.CommonDialogPack.Events;
 using Prism.CommonDialogPack.Extensions;
+using Prism.CommonDialogPack.Models;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -8,6 +9,7 @@ using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
@@ -37,6 +39,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         public ReactiveCommand ShowProgressDialogCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ShowIndeterminateProgreesDialogCommand { get; } = new ReactiveCommand();
         public ReactiveCommand ShowColorPickerDialogCommand { get; } = new ReactiveCommand();
+        public ReactiveCommand ShowColorPickerDialogWithDisableCustomColorsStorageCommand { get; } = new ReactiveCommand();
 
         private readonly IDialogService dialogService;
         private readonly IEventAggregator eventAggregator;
@@ -56,6 +59,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
             this.ShowProgressDialogCommand.Subscribe(this.ShowProgressDialog);
             this.ShowIndeterminateProgreesDialogCommand.Subscribe(this.ShowIndeterminateProgreesDialog);
             this.ShowColorPickerDialogCommand.Subscribe(this.ShowColorPickerDialog);
+            this.ShowColorPickerDialogWithDisableCustomColorsStorageCommand.Subscribe(this.ShowColorPickerDialogWithDisableCustomColorsStorage);
         }
         /// <summary>
         /// Show NotificationDialog.
@@ -417,17 +421,67 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 tokenSource.Dispose();
             });
         }
-
+        /// <summary>
+        /// Show ColorPickerDialog.
+        /// </summary>
         private void ShowColorPickerDialog()
         {
             var param = new DialogParameters()
             {
-
+                { DialogParameterNames.Title, "ColorPicker" },
             };
             this.dialogService.ShowDialog(DialogNames.ColorPickerDialog, param, res =>
             {
-
+                if (res.Result == ButtonResult.OK)
+                {
+                    RGB rgb = res.Parameters.GetValue<RGB>(DialogResultParameterNames.RGB);
+                    HSV hsv = res.Parameters.GetValue<HSV>(DialogResultParameterNames.HSV);
+                    string colorCode = res.Parameters.GetValue<string>(DialogResultParameterNames.ColorCode);
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine("ColorPicker OK");
+                    stringBuilder.AppendLine($"RGB: {rgb}");
+                    stringBuilder.AppendLine($"HSV: {hsv}");
+                    stringBuilder.AppendLine($"ColorCode: {colorCode}");
+                    this.ResultMessage.Value = stringBuilder.ToString();
+                }
+                else if (res.Result == ButtonResult.Cancel)
+                {
+                    this.ResultMessage.Value = $"ColorPicker Cancel";
+                }
+                else
+                {
+                    this.ResultMessage.Value = $"ColorPicker {res.Result}";
+                }
             });
+        }
+        /// <summary>
+        /// Show ColorPickerDialog with DisableCustomColorsStorage.
+        /// </summary>
+        private void ShowColorPickerDialogWithDisableCustomColorsStorage()
+        {
+            DialogSettings.DisableCustomColorsStorage();
+            // Use  DialogServiceExtensions.
+            this.dialogService.ShowColorPickerDialog(res =>
+            {
+                if (res.Result == ButtonResult.OK)
+                {
+                    StringBuilder stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine("ColorPicker OK");
+                    stringBuilder.AppendLine($"RGB: {res.RGB}");
+                    stringBuilder.AppendLine($"HSV: {res.HSV}");
+                    stringBuilder.AppendLine($"ColorCode: {res.ColorCode}");
+                    this.ResultMessage.Value = stringBuilder.ToString();
+                }
+                else if (res.Result == ButtonResult.Cancel)
+                {
+                    this.ResultMessage.Value = $"ColorPicker Cancel";
+                }
+                else
+                {
+                    this.ResultMessage.Value = $"ColorPicker {res.Result}";
+                }
+            });
+            DialogSettings.EnableCustomColorsStorage();
         }
     }
 }

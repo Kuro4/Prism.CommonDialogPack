@@ -9,6 +9,23 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="PART_BaseGrid"
+                              Focusable="True">
+                            <Image x:Name="PART_ColorMapImage"
+                                   Source="/Prism.CommonDialogPack;component/Resources/HueSaturationColorMap.png"
+                                   Stretch="Fill"/>
+                            <Canvas Background="Transparent">
+                                <Grid x:Name="PART_Pointer"
+                                      Canvas.Left="{Binding PointerX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:HSPicker}}}"
+                                      Canvas.Top="{Binding PointerY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:HSPicker}}}">
+                                    <Ellipse Fill="Transparent" Stroke="White" StrokeThickness="2" Width="12" Height="12" />
+                                    <Ellipse Fill="Transparent" Stroke="Black" StrokeThickness="2" Width="14" Height="14" />
+                                    <Grid.RenderTransform>
+                                        <TranslateTransform X="-7" Y="-7" />
+                                    </Grid.RenderTransform>
+                                </Grid>
+                            </Canvas>
+                        </Grid>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

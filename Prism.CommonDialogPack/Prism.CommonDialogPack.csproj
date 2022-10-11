@@ -20,10 +20,15 @@
     <None Remove="Resources\Document_16x.png" />
     <None Remove="Resources\FolderClosed_16x.png" />
     <None Remove="Resources\FolderOpened_16x.png" />
+    <None Remove="Resources\HueSaturationColorMap.png" />
     <None Remove="Resources\Next_grey_16x.png" />
     <None Remove="Resources\Previous_grey_16x.png" />
     <None Remove="Resources\Refresh_grey_16x.png" />
     <None Remove="Resources\Upload_gray_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\HueSaturationColorMap.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,9 +62,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Controls\BrightnessSlider\Themes\Generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Controls\HSPicker\Themes\Generic.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\HSVPicker\Themes\Generic.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
 

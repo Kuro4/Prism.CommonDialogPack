@@ -12,7 +12,7 @@ namespace Prism.CommonDialogPack.Resources {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -56,6 +56,210 @@ namespace Prism.CommonDialogPack.Resources {
             }
             set {
                 this["EnableDirectoryMemoization"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor01 {
+            get {
+                return ((string)(this["CustomColor01"]));
+            }
+            set {
+                this["CustomColor01"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor02 {
+            get {
+                return ((string)(this["CustomColor02"]));
+            }
+            set {
+                this["CustomColor02"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor03 {
+            get {
+                return ((string)(this["CustomColor03"]));
+            }
+            set {
+                this["CustomColor03"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor04 {
+            get {
+                return ((string)(this["CustomColor04"]));
+            }
+            set {
+                this["CustomColor04"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor05 {
+            get {
+                return ((string)(this["CustomColor05"]));
+            }
+            set {
+                this["CustomColor05"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor06 {
+            get {
+                return ((string)(this["CustomColor06"]));
+            }
+            set {
+                this["CustomColor06"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor07 {
+            get {
+                return ((string)(this["CustomColor07"]));
+            }
+            set {
+                this["CustomColor07"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor08 {
+            get {
+                return ((string)(this["CustomColor08"]));
+            }
+            set {
+                this["CustomColor08"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor09 {
+            get {
+                return ((string)(this["CustomColor09"]));
+            }
+            set {
+                this["CustomColor09"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor10 {
+            get {
+                return ((string)(this["CustomColor10"]));
+            }
+            set {
+                this["CustomColor10"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor11 {
+            get {
+                return ((string)(this["CustomColor11"]));
+            }
+            set {
+                this["CustomColor11"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor12 {
+            get {
+                return ((string)(this["CustomColor12"]));
+            }
+            set {
+                this["CustomColor12"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor13 {
+            get {
+                return ((string)(this["CustomColor13"]));
+            }
+            set {
+                this["CustomColor13"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor14 {
+            get {
+                return ((string)(this["CustomColor14"]));
+            }
+            set {
+                this["CustomColor14"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor15 {
+            get {
+                return ((string)(this["CustomColor15"]));
+            }
+            set {
+                this["CustomColor15"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFF")]
+        public string CustomColor16 {
+            get {
+                return ((string)(this["CustomColor16"]));
+            }
+            set {
+                this["CustomColor16"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableCustomColorsStorage {
+            get {
+                return ((bool)(this["EnableCustomColorsStorage"]));
+            }
+            set {
+                this["EnableCustomColorsStorage"] = value;
             }
         }
     }

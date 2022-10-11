@@ -32,6 +32,8 @@
                     Content="Progress (Indeterminate)"/>
             <Button Command="{Binding ShowColorPickerDialogCommand}"
                     Content="ColorPicker"/>
+            <Button Command="{Binding ShowColorPickerDialogWithDisableCustomColorsStorageCommand}"
+                    Content="ColorPicker(DisableCustomColorsStorage)"/>
         </UniformGrid>
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Auto">

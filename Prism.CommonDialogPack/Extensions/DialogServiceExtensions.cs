@@ -228,5 +228,36 @@ namespace Prism.CommonDialogPack.Extensions
             else
                 dialogService.Show(DialogNames.FileSaveDialog, param, callBack);
         }
+        /// <summary>
+        /// Show color picker dialog.
+        /// </summary>
+        /// <param name="dialogService"></param>
+        /// <param name="callBack">Callback action.</param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="isModal">If true; dialog is shown as a modal.</param>
+        public static void ShowColorPickerDialog(this IDialogService dialogService, Action<ColorPickerDialogResult> callBack, string title = "", bool isModal = true)
+        {
+            var param = new DialogParameters();
+            if (!string.IsNullOrEmpty(title))
+            {
+                param.Add(DialogParameterNames.Title, title);
+            }
+            if (isModal)
+            {
+                dialogService.ShowDialog(DialogNames.ColorPickerDialog, param, res =>
+                {
+                    var colorPickerDialogResult = new ColorPickerDialogResult(res);
+                    callBack?.Invoke(colorPickerDialogResult);
+                });
+            }
+            else
+            {
+                dialogService.Show(DialogNames.ColorPickerDialog, param, res =>
+                {
+                    var colorPickerDialogResult = new ColorPickerDialogResult(res);
+                    callBack?.Invoke(colorPickerDialogResult);
+                });
+            }
+        }
     }
 }

@@ -1,136 +1,104 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Prism.CommonDialogPack.Converters;
 
 namespace Prism.CommonDialogPack.Models
 {
     public struct HSV
     {
         /// <summary>
-        /// Hue(色相) 0°～360°
+        /// Hue(色相) 0～360
         /// </summary>
         public float H { get; set; }
         /// <summary>
-        /// Saturation(彩度) 0 ～ 100%
+        /// Saturation(彩度) 0 ～ 1
         /// </summary>
         public float S { get; set; }
         /// <summary>
-        /// Value(明度) 0 ～ 100%
+        /// Brightness(明度) 0 ～ 1
         /// </summary>
         public float V { get; set; }
-
+        /// <summary>
+        /// Initialize a new instance of the <see cref="HSV"/> class with the specified Hue, Saturation and Brightness(Value).
+        /// </summary>
+        /// <param name="h">Hue</param>
+        /// <param name="s">Saturation</param>
+        /// <param name="v">Brightness(Value)</param>
         public HSV(float h, float s, float v)
         {
             H = h;
             S = s;
             V = v;
         }
-
+        /// <summary>
+        /// Convert to <see cref="RGB"/>.
+        /// </summary>
+        /// <returns></returns>
+        public RGB ToRGB()
+        {
+            return ColorConverter.HSVToRGB(this);
+        }
+        /// <summary>
+        /// Convert to <see cref="System.Drawing.Color"/>.
+        /// </summary>
+        /// <returns></returns>
+        public System.Drawing.Color ToDrawingColor()
+        {
+            RGB rgb = this.ToRGB();
+            return rgb.ToDrawingColor();
+        }
+        /// <summary>
+        /// Convert to <see cref="System.Windows.Media.Color"/>.
+        /// </summary>
+        /// <returns></returns>
+        public System.Windows.Media.Color ToMediaColor()
+        {
+            RGB rgb = this.ToRGB();
+            return rgb.ToMediaColor();
+        }
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"H: {this.H}, S: {this.S}, V: {this.V}";
+        }
+        /// <summary>
+        /// Initialize a new instance of the <see cref="HSV"/> class from <see cref="RGB"/>.
+        /// </summary>
+        /// <param name="rgb"></param>
+        /// <returns></returns>
+        public static HSV FromRGB(RGB rgb)
+        {
+            return ColorConverter.RGBToHSV(rgb);
+        }
+        /// <summary>
+        /// Initialize a new instance of the <see cref="HSV"/> class from RGB.
+        /// </summary>
+        /// <param name="r">Red</param>
+        /// <param name="g">Green</param>
+        /// <param name="b">Blue</param>
+        /// <returns></returns>
         public static HSV FromRGB(byte r, byte g, byte b)
         {
-            // RGB値を0 ～ 1.0 の値に変換
-            float fr = r / 255f;
-            float fg = g / 255f;
-            float fb = b / 255f;
-
-            float min = Math.Min(fr, Math.Min(fg, fb));
-            float max = Math.Max(fr, Math.Max(fg, fb));
-
-            float value = max;
-            float hue;
-            float saturation;
-            if (max == min)
-            {
-                // Undefined
-                hue = 0f;
-                saturation = 0f;
-                return new HSV(hue, saturation, value);
-            }
-            else
-            {
-                float c = max - min;
-                if (max == r)
-                {
-                    hue = (fg - fb) / c;
-                }
-                else if (max == g)
-                {
-                    hue = (fb - fr) / c + 2f;
-                }
-                else
-                {
-                    hue = (fr - fg) / c + 4f;
-                }
-                hue *= 60f;
-                if (hue < 0f)
-                {
-                    hue += 360f;
-                }
-                saturation = c / max;
-            }
-
-
-
-            // wiki
-            float h = max - min;
-            if (0.0f < h)
-            {
-                if (max == fr)
-                {
-                    h = (fg - fb) / h;
-                    if (h < 0.0f)
-                    {
-                        h += 6.0f;
-                    }
-                    else if (max == g)
-                    {
-                        h = 2.0f + (fb - fr) / h;
-                    }
-                    else
-                    {
-                        h = 4.0f + (fr - fg) / h;
-                    }
-                }
-            }
-            h /= 6.0f;
-            saturation = max - min;
-            if (max != 0.0f)
-            {
-                saturation /= max;
-            }
-            value = max;
-
-
-            //var min = Math.Min(Math.Min(r, g), b);
-            //var max = Math.Max(Math.Max(r, g), b);
-            //float h = max - min;
-            //if (0 < h)
-            //{
-            //    if ( max == r)
-            //    {
-            //        h = (g - b) / h;
-            //        if (h < 0)
-            //        {
-            //            h += 6;
-            //        }
-            //    }
-            //    else if (max == g)
-            //    {
-            //        h = 2 + (b - r) / h;
-            //    }
-            //    else
-            //    {
-            //        h = 4 + (r - g) / h;
-            //    }
-            //}
-            //h /= 6;
-            //var s = (max - min);
-            //if (0 < max)
-            //{
-            //    s /= max;
-            //}
-            //var v = max;
-            return new HSV();
+            return ColorConverter.RGBToHSV(r, g, b);
+        }
+        /// <summary>
+        /// Initialize a new instance of the <see cref="HSV"/> class from <see cref="System.Drawing.Color"/>
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static HSV FromDrawingColor(System.Drawing.Color color)
+        {
+            return ColorConverter.RGBToHSV(color.R, color.G, color.B);
+        }
+        /// <summary>
+        /// Initialize a new instance of the <see cref="HSV"/> class from <see cref="System.Windows.Media.Color"/>
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static HSV FromMediaColor(System.Windows.Media.Color color)
+        {
+            return ColorConverter.RGBToHSV(color.R, color.B, color.B);
         }
     }
 }
