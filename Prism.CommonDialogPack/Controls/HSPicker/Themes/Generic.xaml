@@ -1,0 +1,34 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Prism.CommonDialogPack.Controls">
+    <Style TargetType="{x:Type local:HSPicker}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:HSPicker}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="PART_BaseGrid"
+                              Focusable="True">
+                            <Image x:Name="PART_ColorMapImage"
+                                   Source="/Prism.CommonDialogPack;component/Resources/HueSaturationColorMap.png"
+                                   Stretch="Fill"/>
+                            <Canvas Background="Transparent">
+                                <Grid x:Name="PART_Pointer"
+                                      Canvas.Left="{Binding PointerX, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:HSPicker}}}"
+                                      Canvas.Top="{Binding PointerY, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:HSPicker}}}">
+                                    <Ellipse Fill="Transparent" Stroke="White" StrokeThickness="2" Width="12" Height="12" />
+                                    <Ellipse Fill="Transparent" Stroke="Black" StrokeThickness="2" Width="14" Height="14" />
+                                    <Grid.RenderTransform>
+                                        <TranslateTransform X="-7" Y="-7" />
+                                    </Grid.RenderTransform>
+                                </Grid>
+                            </Canvas>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

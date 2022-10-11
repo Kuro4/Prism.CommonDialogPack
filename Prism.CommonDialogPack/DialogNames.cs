@@ -10,5 +10,6 @@ namespace Prism.CommonDialogPack
         public static readonly string FileSelectDialog = nameof(Views.FileSelectDialog);
         public static readonly string FileSaveDialog = nameof(Views.FileSaveDialog);
         public static readonly string ProgressDialog = nameof(Views.ProgressDialog);
+        public static readonly string ColorPickerDialog = nameof(Views.ColorPickerDialog);
     }
 }

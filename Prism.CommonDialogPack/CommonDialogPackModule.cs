@@ -28,6 +28,7 @@ namespace Prism.CommonDialogPack
             containerRegistry.RegisterDialog<FileSelectDialog, FileSelectDialogViewModel>();
             containerRegistry.RegisterDialog<FileSaveDialog, FileSaveDialogViewModel>();
             containerRegistry.RegisterDialog<ProgressDialog, ProgressDialogViewModel>();
+            containerRegistry.RegisterDialog<ColorPickerDialog, ColorPickerDialogViewModel>();
         }
     }
 }

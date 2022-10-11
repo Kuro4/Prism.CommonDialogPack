@@ -220,7 +220,13 @@ namespace Prism.CommonDialogPack.ViewModels
         {
             if (this.IsNotifyProgressComplete)
             {
-                this.dialogService.ShowNotification(this.ProgressCompleteNotificationMessage, this.ProgressCompleteNotificationTitle, null, true, this.ProgressCompleteNotificationButtonText);
+                var param = new DialogParameters()
+                {
+                    { DialogParameterNames.Title, this.ProgressCompleteNotificationTitle },
+                    { DialogParameterNames.Message, this.ProgressCompleteNotificationMessage },
+                    { DialogParameterNames.OKButtonText, this.ProgressCompleteNotificationButtonText },  
+                };
+                this.dialogService.ShowNotificationDialog(param, null);
             }
             this.RaiseRequestClose(new DialogResult(ButtonResult.OK));
         }
