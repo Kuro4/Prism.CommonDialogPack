@@ -4,8 +4,12 @@ Prism の IDialogService を利用した、汎用的なダイアログを提供�
 さらに、呼び出し側では Window の Style も指定することができ、指定した Style が Dialog の Window に Binding される `StyleableDialogService` を提供しています。</br>
 `StyleableDialogService` を使用することで、[MahApps.Metro](https://github.com/MahApps/MahApps.Metro)などの通常とは異なる Window を使用する際でも正しく Style が反映されます。
 
-# [Install](https://www.nuget.org/packages/PrismCommonDialogPack/)
+## [Install](https://www.nuget.org/packages/PrismCommonDialogPack/)
 nuget パッケージマネージャーコンソールで `Install-Package PrismCommonDialogPack` と入力します。
+
+## Documentation
+* [Quick Start](https://github.com/Kuro4/Prism.CommonDialogPack/wiki/Quick-Start)
+* [wiki](https://github.com/Kuro4/Prism.CommonDialogPack/wiki)
 
 # 機能
 
@@ -52,7 +56,3 @@ Multi select.
 ## DialogWindow のカスタマイズ
 
 ![MahApps.png](Images/MahApps.png)
-
-# 使い方
-
-詳しくは[ココ](https://qiita.com/kuro4/items/fdfbc130b3b10ea64b38)
