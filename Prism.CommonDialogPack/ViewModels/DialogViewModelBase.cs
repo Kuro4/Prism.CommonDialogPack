@@ -97,6 +97,14 @@ namespace Prism.CommonDialogPack.ViewModels
             {
                 this.WindowStyle = windwoStyle;
             }
+            else if (parameters.TryGetValue(DialogParameterNames.WindowStyle, out string resourceKey))
+            {
+                object result = Application.Current.TryFindResource(resourceKey);
+                if (result != null && result is Style windowStyle)
+                {
+                    this.WindowStyle = windowStyle;
+                }
+            }
             if (parameters.TryGetValue(DialogParameterNames.Width, out double width))
             {
                 this.Width = width;

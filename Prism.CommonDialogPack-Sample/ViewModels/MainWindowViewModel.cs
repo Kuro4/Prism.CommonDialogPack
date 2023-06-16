@@ -67,16 +67,19 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
         private void ShowNotificationDialog()
         {
             // Standard
-            //var param = new DialogParameters
-            //{
-            //    { DialogParameterNames.Message, "Notification" },
-            //    { DialogParameterNames.Title, "Notification" },
-            //    { DialogParameterNames.WindowStyle, (System.Windows.Style)App.Current.FindResource("dialogStyle") },
-            //};
-            //this.dialogService.ShowDialog(DialogNames.Notification, param, res => this.ResultMessage.Value = "Notification");
+            var param = new DialogParameters
+            {
+                { DialogParameterNames.Message, "Notification" },
+                { DialogParameterNames.Title, "Notification" },
+                // When specifying a WindowStyle StyleKey as a string.
+                { DialogParameterNames.WindowStyle, "dialogStyle" },
+                // When specifying WindowStyle directly.
+                //{ DialogParameterNames.WindowStyle, (System.Windows.Style)App.Current.FindResource("dialogStyle") },
+            };
+            this.dialogService.ShowDialog(DialogNames.Notification, param, res => this.ResultMessage.Value = "Notification");
 
             // Extensions
-            this.dialogService.ShowNotificationDialog("Notification", "Notification", res => this.ResultMessage.Value = "Notification");
+            //this.dialogService.ShowNotificationDialog("Notification", "Notification", res => this.ResultMessage.Value = "Notification");
         }
         /// <summary>
         /// Show ConfirmationDialog.
