@@ -12,6 +12,7 @@
         </Grid.RowDefinitions>
         <TextBlock HorizontalAlignment="Stretch"
                    VerticalAlignment="Stretch"
+                   TextWrapping="Wrap"
                    Text="{Binding Message}"/>
         <Button x:Name="OKButton"
                 Command="{Binding CloseDialogCommand}"

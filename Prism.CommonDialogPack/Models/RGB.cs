@@ -1,9 +1,10 @@
 ﻿using Prism.CommonDialogPack.Converters;
+using System;
 using System.Resources;
 
 namespace Prism.CommonDialogPack.Models
 {
-    public struct RGB
+    public struct RGB : IEquatable<RGB>
     {
         /// <summary>
         /// Red
@@ -123,6 +124,33 @@ namespace Prism.CommonDialogPack.Models
         public static RGB FromString(string colorCode)
         {
             return ColorConverter.StringToRGB(colorCode);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is RGB rGB && Equals(rGB);
+        }
+
+        public bool Equals(RGB other)
+        {
+            return R == other.R &&
+                   G == other.G &&
+                   B == other.B;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(R, G, B);
+        }
+
+        public static bool operator ==(RGB left, RGB right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(RGB left, RGB right)
+        {
+            return !(left == right);
         }
     }
 }
