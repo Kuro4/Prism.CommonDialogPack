@@ -67,6 +67,13 @@ namespace Prism.CommonDialogPack.ViewModels
             private set { SetProperty(ref customColors, value); }
         }
 
+        private HSV defaultHSV;
+        public HSV DefaultHSV
+        {
+            get { return defaultHSV; }
+            set { SetProperty(ref defaultHSV, value); }
+        }
+
         private RGB selectedBasicColor;
         /// <summary>
         /// Selected RGB in BasicColors.
@@ -444,6 +451,78 @@ namespace Prism.CommonDialogPack.ViewModels
             if (parameters.TryGetValue(DialogParameterNames.AddCustomColorButtonText, out string addCustomColorButtonText))
             {
                 this.AddCustomColorButtonText = addCustomColorButtonText;
+            }
+            if (parameters.TryGetValue(DialogParameterNames.DefaultColor, out RGB defaultRGB))
+            {
+                HSV hsv = defaultRGB.ToHSV();
+                this.DefaultHSV = hsv;
+                if (BasicColors.RGB.Any(x => x == defaultRGB))
+                {
+                    RGB target = BasicColors.RGB.First(x => x == defaultRGB);
+                    this.SelectedBasicColor = target;
+                }
+                if (this.CustomColors.Any(x => x.RGB == defaultRGB))
+                {
+                    RGBWithIndexViewModel target = this.CustomColors.First(x => x.RGB == defaultRGB);
+                    this.SelectedCutomColor = target;
+                }
+                this.DisplayRed = defaultRGB.R.ToString();
+                this.DisplayGreen = defaultRGB.G.ToString();
+                this.DisplayBlue = defaultRGB.B.ToString();
+                this.DisplayHue = Math.Round(hsv.H).ToString();
+                this.DisplaySaturation = Math.Round(hsv.S * 100).ToString();
+                this.DisplayBrightness = Math.Round(hsv.V * 100).ToString();
+                this.DisplayColorCode = defaultRGB.ToColorCode();
+                this.CurrentRGB = defaultRGB;
+                this.currentHSV = hsv;
+            }
+            else if (parameters.TryGetValue(DialogParameterNames.DefaultColor, out HSV defaultHSV))
+            {
+                RGB rgb = defaultHSV.ToRGB();
+                this.DefaultHSV = defaultHSV;
+                if (BasicColors.RGB.Any(x => x == rgb))
+                {
+                    RGB target = BasicColors.RGB.First(x => x == rgb);
+                    this.SelectedBasicColor = target;
+                }
+                if (this.CustomColors.Any(x => x.RGB == rgb))
+                {
+                    RGBWithIndexViewModel target = this.CustomColors.First(x => x.RGB == rgb);
+                    this.SelectedCutomColor = target;
+                }
+                this.DisplayRed = rgb.R.ToString();
+                this.DisplayGreen = rgb.G.ToString();
+                this.DisplayBlue = rgb.B.ToString();
+                this.DisplayHue = Math.Round(defaultHSV.H).ToString();
+                this.DisplaySaturation = Math.Round(defaultHSV.S * 100).ToString();
+                this.DisplayBrightness = Math.Round(defaultHSV.V * 100).ToString();
+                this.DisplayColorCode = rgb.ToColorCode();
+                this.CurrentRGB = rgb;
+                this.currentHSV = defaultHSV;
+            }
+            else if (parameters.TryGetValue(DialogParameterNames.DefaultColor, out string colorCode) && Converters.ColorConverter.TryStringToRGB(colorCode, out RGB rgb))
+            {
+                HSV hsv = rgb.ToHSV();
+                this.DefaultHSV = hsv;
+                if (BasicColors.RGB.Any(x => x == rgb))
+                {
+                    RGB target = BasicColors.RGB.First(x => x == rgb);
+                    this.SelectedBasicColor = target;
+                }
+                if (this.CustomColors.Any(x => x.RGB == rgb))
+                {
+                    RGBWithIndexViewModel target = this.CustomColors.First(x => x.RGB == rgb);
+                    this.SelectedCutomColor = target;
+                }
+                this.DisplayRed = rgb.R.ToString();
+                this.DisplayGreen = rgb.G.ToString();
+                this.DisplayBlue = rgb.B.ToString();
+                this.DisplayHue = Math.Round(hsv.H).ToString();
+                this.DisplaySaturation = Math.Round(hsv.S * 100).ToString();
+                this.DisplayBrightness = Math.Round(hsv.V * 100).ToString();
+                this.DisplayColorCode = colorCode;
+                this.CurrentRGB = rgb;
+                this.currentHSV = hsv;
             }
         }
         /// <summary>

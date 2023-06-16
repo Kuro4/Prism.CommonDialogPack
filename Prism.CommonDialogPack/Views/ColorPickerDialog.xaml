@@ -151,7 +151,8 @@
         </UniformGrid>
         <Grid Grid.Column="1" Margin="10">
             <controls:HSVPicker HSV="{Binding InputHSV}"
-                                SelectedHSV="{Binding SelectedHSV, Mode=OneWayToSource}">
+                                SelectedHSV="{Binding SelectedHSV, Mode=OneWayToSource}"
+                                DefaultHSV="{Binding DefaultHSV}">
                 <controls:HSVPicker.Resources>
                     <Style TargetType="{x:Type controls:HSPicker}">
                         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"/>

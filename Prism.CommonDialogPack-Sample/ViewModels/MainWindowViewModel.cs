@@ -443,6 +443,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                 tokenSource.Dispose();
             });
         }
+        private RGB? selectedColor;
         /// <summary>
         /// Show ColorPickerDialog.
         /// </summary>
@@ -451,7 +452,15 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
             var param = new DialogParameters()
             {
                 { DialogParameterNames.Title, "ColorPicker" },
+                // Can specify default color in RGB, HSV, and ColorCode.
+                //{ DialogParameterNames.DefaultColor, new RGB(255, 255, 0) },
+                //{ DialogParameterNames.DefaultColor, new HSV(60, 1, 1) },
+                //{ DialogParameterNames.DefaultColor, "#FFFF00" },
             };
+            if (this.selectedColor.HasValue)
+            {
+                param.Add(DialogParameterNames.DefaultColor, this.selectedColor.Value);
+            }
             this.dialogService.ShowColorPickerDialog(param, res =>
             {
                 if (res.Result == ButtonResult.OK)
@@ -462,6 +471,7 @@ namespace Prism.CommonDialogPack_Sample.ViewModels
                     stringBuilder.AppendLine($"HSV: {res.HSV}");
                     stringBuilder.AppendLine($"ColorCode: {res.ColorCode}");
                     this.ResultMessage.Value = stringBuilder.ToString();
+                    selectedColor = res.RGB;
                 }
                 else if (res.Result == ButtonResult.Cancel)
                 {

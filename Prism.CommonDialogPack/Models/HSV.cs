@@ -1,8 +1,9 @@
 ﻿using Prism.CommonDialogPack.Converters;
+using System;
 
 namespace Prism.CommonDialogPack.Models
 {
-    public struct HSV
+    public struct HSV : IEquatable<HSV>
     {
         /// <summary>
         /// Hue(色相) 0～360
@@ -99,6 +100,33 @@ namespace Prism.CommonDialogPack.Models
         public static HSV FromMediaColor(System.Windows.Media.Color color)
         {
             return ColorConverter.RGBToHSV(color.R, color.B, color.B);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is HSV hSV && Equals(hSV);
+        }
+
+        public bool Equals(HSV other)
+        {
+            return H == other.H &&
+                   S == other.S &&
+                   V == other.V;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(H, S, V);
+        }
+
+        public static bool operator ==(HSV left, HSV right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(HSV left, HSV right)
+        {
+            return !(left == right);
         }
     }
 }

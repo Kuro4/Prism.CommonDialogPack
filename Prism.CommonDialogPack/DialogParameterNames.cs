@@ -40,5 +40,6 @@
         public static readonly string ProgressCompleteNotificationTitle = nameof(ProgressCompleteNotificationTitle);
         public static readonly string ProgressCompleteNotificationMessage = nameof(ProgressCompleteNotificationMessage);
         public static readonly string ProgressCompleteNotificationButtonText = nameof(ProgressCompleteNotificationButtonText);
+        public static readonly string DefaultColor = nameof(DefaultColor);
     }
 }
