@@ -27,6 +27,36 @@ namespace Prism.CommonDialogPack.ViewModels
         /// </summary>
         public DelegateCommand AddCustomColorCommand => this.addCustomColorCommand ??= new DelegateCommand(this.AddCustomColor, this.CanAddCustomColor);
 
+        public string okButtonText = "OK";
+        /// <summary>
+        /// OK button text.
+        /// </summary>
+        public string OKButtonText
+        {
+            get { return this.okButtonText; }
+            set { SetProperty(ref this.okButtonText, value); }
+        }
+
+        public string cancelButtonText = "キャンセル";
+        /// <summary>
+        /// Cancel button text.
+        /// </summary>
+        public string CancelButtonText
+        {
+            get { return this.cancelButtonText; }
+            set { SetProperty(ref this.cancelButtonText, value); }
+        }
+
+        public string addCustomColorButtonText = "カスタムカラーへ追加";
+        /// <summary>
+        /// AddCustomColor button text.
+        /// </summary>
+        public string AddCustomColorButtonText
+        {
+            get { return this.addCustomColorButtonText; }
+            set { SetProperty(ref this.addCustomColorButtonText, value); }
+        }
+
         private RGBWithIndexViewModel[] customColors;
         /// <summary>
         /// CustomColors.
@@ -402,6 +432,18 @@ namespace Prism.CommonDialogPack.ViewModels
             else
             {
                 this.CustomColors = Enumerable.Range(0, 16).Select(i => new RGBWithIndexViewModel(new RGB(255, 255, 255), i)).ToArray();
+            }
+            if (parameters.TryGetValue(DialogParameterNames.OKButtonText, out string okButtonText))
+            {
+                this.OKButtonText = okButtonText;
+            }
+            if (parameters.TryGetValue(DialogParameterNames.CancelButtonText, out string cancelButtonText))
+            {
+                this.CancelButtonText = cancelButtonText;
+            }
+            if (parameters.TryGetValue(DialogParameterNames.AddCustomColorButtonText, out string addCustomColorButtonText))
+            {
+                this.AddCustomColorButtonText = addCustomColorButtonText;
             }
         }
         /// <summary>
