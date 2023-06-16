@@ -15,44 +15,44 @@ nuget パッケージマネージャーコンソールで `Install-Package Prism
 
 ## Notification Dialog
 
-![Norification.png](Images/Norification.png)
+![Norification.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/Norification.png)
 
 ## Confirmation Dialog
 
-![Confirmation.png](Images/Confirmation.png)
+![Confirmation.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/Confirmation.png)
 
 ## FileSelect Dialog
 Single select.
 
-![SingleFileSelect.png](Images/SingleFileSelect.png)
+![SingleFileSelect.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/SingleFileSelect.png)
 
 Multi select.
 
-![MultiFileSelect.png](Images/MultiFileSelect.png)
+![MultiFileSelect.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/MultiFileSelect.png)
 
 ## FolderSelect Dialog
 Single select.
 
-![SingleFolderSelect.png](Images/SingleFolderSelect.png)
+![SingleFolderSelect.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/SingleFolderSelect.png)
 
 Multi select.
 
-![MultiFolderSelect.png](Images/MultiFolderSelect.png)
+![MultiFolderSelect.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/MultiFolderSelect.png)
 
 ## FileSave Dialog
 
-![FileSave.png](Images/FileSave.png)
+![FileSave.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/FileSave.png)
 
 ## アイコンなどのカスタマイズ
 
-![Customize.png](Images/Customize.png)
+![Customize.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/Customize.png)
 
 ## Progress Dialog
-![ProgressDemo.gif](Images/ProgressDemo.gif)
+![ProgressDemo.gif](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/ProgressDemo.gif)
 
 ## ColorPicker Dialog
-![ColorPicker.jpeg](Images/ColorPicker.jpeg)
+![ColorPicker.jpeg](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/ColorPicker.jpeg)
 
 ## DialogWindow のカスタマイズ
 
-![MahApps.png](Images/MahApps.png)
+![MahApps.png](https://github.com/Kuro4/Prism.CommonDialogPack/blob/master/Images/MahApps.png)
