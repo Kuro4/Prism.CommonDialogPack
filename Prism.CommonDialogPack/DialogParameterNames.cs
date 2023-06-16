@@ -17,6 +17,7 @@
         public static readonly string CancelButtonText = nameof(CancelButtonText);
         public static readonly string SelectButtonText = nameof(SelectButtonText);
         public static readonly string SaveButtonText = nameof(SaveButtonText);
+        public static readonly string AddCustomColorButtonText = nameof(AddCustomColorButtonText);
         public static readonly string FolderNamePrefixText = nameof(FolderNamePrefixText);
         public static readonly string FileNamePrefixText = nameof(FileNamePrefixText);
         public static readonly string FileTypePrefixText = nameof(FileTypePrefixText);
@@ -39,5 +40,6 @@
         public static readonly string ProgressCompleteNotificationTitle = nameof(ProgressCompleteNotificationTitle);
         public static readonly string ProgressCompleteNotificationMessage = nameof(ProgressCompleteNotificationMessage);
         public static readonly string ProgressCompleteNotificationButtonText = nameof(ProgressCompleteNotificationButtonText);
+        public static readonly string DefaultColor = nameof(DefaultColor);
     }
 }

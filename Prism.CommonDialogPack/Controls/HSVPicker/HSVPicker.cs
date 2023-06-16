@@ -66,6 +66,16 @@ namespace Prism.CommonDialogPack.Controls
         public static readonly DependencyProperty SelectedHSVProperty =
             DependencyProperty.Register("SelectedHSV", typeof(HSV), typeof(HSVPicker), new PropertyMetadata(new HSV(0, 0, 1)));
 
+        [Description("DefaultHSV"), Category("共通")]
+        public HSV DefaultHSV
+        {
+            get { return (HSV)GetValue(DefaultHSVProperty); }
+            set { SetValue(DefaultHSVProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for DefaultHSV.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DefaultHSVProperty =
+            DependencyProperty.Register("DefaultHSV", typeof(HSV), typeof(HSVPicker), new PropertyMetadata(new HSV(0, 0, 1)));
+
         HSPicker hsPicker;
         BrightnessSlider brightnessSlider;
 
@@ -82,6 +92,11 @@ namespace Prism.CommonDialogPack.Controls
         static HSVPicker()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(HSVPicker), new FrameworkPropertyMetadata(typeof(HSVPicker)));
+        }
+
+        public HSVPicker()
+        {
+            this.Loaded += HSVPicker_Loaded;
         }
 
         public override void OnApplyTemplate()
@@ -108,6 +123,15 @@ namespace Prism.CommonDialogPack.Controls
             {
                 this.brightnessSlider.BrightnessChangedEvent += OnBrightnessChanged;
             }
+        }
+
+        private void HSVPicker_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.hsPicker.DefaultHue = this.DefaultHSV.H;
+            this.hsPicker.DefaultSaturation = this.DefaultHSV.S;
+            this.hsPicker.Hue = this.DefaultHSV.H;
+            this.hsPicker.Saturation = this.DefaultHSV.S;
+            this.brightnessSlider.DefaultBrightness = this.DefaultHSV.V;
         }
         /// <summary>
         /// It is called when "HSChanged" from HSPicker.
